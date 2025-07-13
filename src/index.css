@@ -1,0 +1,33 @@
+/* index.css or App.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+* {
+  font-family: 'Poppins', sans-serif;
+}
+
+@font-face {
+  font-family: 'Consistance';
+  src: url('./assets/fonts/consistance.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+:root {
+  --white: white;
+  --black: black;
+  --black-op: rgba(0, 0, 0, 0.557);
+  --border-white: hsla(0, 4%, 45%, 0.241);
+
+}
+
+body{
+  margin: 0;
+  background-color: #e4dcdc;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  backdrop-filter: blur(50rem);
+}
+
+
