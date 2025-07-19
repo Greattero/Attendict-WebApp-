@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import 'boxicons/css/boxicons.min.css';
+import CountdownTimer from "./CountdownTimer.jsx";
 
 const HomePage = styled.div`
 
@@ -122,7 +123,7 @@ const IconWrapper = styled.div`
 
 `
 
-function Home({onButtonClick}){
+function Home({onButtonClick, disabled}){
 
     return(
         <HomePage>
@@ -134,7 +135,7 @@ function Home({onButtonClick}){
                     <h2>Host</h2> 
                 </Host>
 
-                <CheckIn onClick={()=>onButtonClick("checkin")}>
+                <CheckIn onClick={!disabled ? () => onButtonClick("checkin") : () => alert("Can't checkin when Host is in session")}>
                     <IconWrapper>
                     <i className='bx bxs-user-check'></i>
                     </IconWrapper>

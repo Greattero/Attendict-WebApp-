@@ -8,8 +8,22 @@ const Timer = styled.label`
   font-size: 25px;
 `;
 
-const CountdownTimer = ({ hostTime }) => {
+const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,programme}) => {
   const [timeLeft, setTimeLeft] = useState(0);
+  const [students, setStudents] = useState([]);
+
+
+  const getAllNames = async () =>{
+    try{
+      const response = await fetch(`http://localhost:5000/api/student-list?programme=${programme}`);
+      console.log(programme);
+      const students = await response.json();
+      return students;
+    }
+    catch(err){
+      console.log(`Couldn't get names: ${err}`)
+    }
+  }
 
   useEffect(() => {
     let endTime = localStorage.getItem("endTime");
@@ -19,6 +33,9 @@ const CountdownTimer = ({ hostTime }) => {
       if (!isNaN(hostSeconds)) {
         endTime = Date.now() + hostSeconds * 60 * 1000;
         localStorage.setItem("endTime", endTime);
+
+        // Reset hostTime to 0 so selecting the same value later re-triggers the effect
+        setHostTime(0);
       }
     }
 
@@ -26,10 +43,21 @@ const CountdownTimer = ({ hostTime }) => {
       const savedEndTime = Number(localStorage.getItem("endTime"));
       const remaining = Math.floor((savedEndTime - Date.now()) / 1000);
       if (remaining > 0) {
+        lockCheckin();
         setTimeLeft(remaining);
       } else {
         setTimeLeft(0);
-        console.log("Done");
+        unLockCheckin();
+        getAllNames().then(students => {
+            if(students && students.length > 0){
+            setStudents([]); // <- CLEAR HERE
+            console.log("Done");
+            console.log(programme);
+            console.log(students);
+            setStudents([]); // <- CLEAR HERE
+            }
+          });
+        
         localStorage.removeItem("endTime");
         clearInterval(interval);
       }

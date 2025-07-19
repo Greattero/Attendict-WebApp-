@@ -100,11 +100,24 @@ function CheckInForm({onClose}) {
   
   const popupRef = useRef(null);  // Create ref for the popup container
   const [location, setLocation] = useState({lat:null,lon:null});
+
+
+  const [ip, setIP] = useState("");
+
+  useEffect(()=>{
+    fetch("https://api.ipify.org?format=json")
+      .then((res) => res.json())
+      .then((data) => setIP(data.ip))
+      .catch((err) => console.log(err))
+  },[]);
+
+
   const [formData, setFormData] = useState({
     name:"",
     index_no:"",
     programme:"",
     level:"",
+    myip:"",
   })
   const [distance, setDistance] = useState(null);
 
@@ -125,12 +138,13 @@ function CheckInForm({onClose}) {
   useEffect(() => {
     const fetchHostCoords = async () => {
       try {
-        const response = await fetch(` https://d4507f0f0c55.ngrok-free.app/api/host-location?programme=${formData.programme}`);
+        const response = await fetch(`http://localhost:5000/api/host-location?programme=${formData.programme}`);
         const data = await response.json();
         console.log("Here issssss");
         setHostCoords({ lat: data.location.lat, lon: data.location.lon });
       } catch (err) {
         console.log(err);
+        console.log("Errrrrrrrorrrrrrrrrr");
       }
     };
 
@@ -168,8 +182,9 @@ function CheckInForm({onClose}) {
         lat: location.lat,
         lon: location.lon,
       },
+      myip: ip,
     }));
-  }, [location]);
+  }, [location,ip]);
 
   const { lat: checkinLat, lon: checkinLon } = location;
 
@@ -251,7 +266,7 @@ const handleSubmit = async (e) => {
   console.log("Sending data:", formData);
 
   try {
-    const response = await fetch(" https://d4507f0f0c55.ngrok-free.app/api/checkin-details", {
+    const response = await fetch("http://localhost:5000/api/checkin-details", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -260,6 +275,13 @@ const handleSubmit = async (e) => {
     });
 
     const data = await response.json();
+
+    if(data.available){
+      alert("Wait for countdown to finish");
+      setLoading(false); // Stop loading
+      onClose();
+      return;
+    }
 
     if (!response.ok) {
       console.error("Server error:", data);
@@ -278,20 +300,6 @@ const handleSubmit = async (e) => {
 
   }
 };
-
-
-  const getAllNames = async () =>{
-    try{
-      const response = await fetch(" https://d4507f0f0c55.ngrok-free.app/api/student-list");
-      const students = await response.json();
-      return students;
-    }
-    catch(err){
-      console.log(`Couldn't get names: ${err}`)
-    }
-  }
-
-
 
 
 
