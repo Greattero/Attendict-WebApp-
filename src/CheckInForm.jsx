@@ -134,7 +134,12 @@ function CheckInForm({onClose}) {
   }, [onClose]);  // Re-run if `onClose` changes
 
   const [hostCoords, setHostCoords] = useState({lat:null, lon: null})
-  
+
+  useEffect(() => {
+    // Clear any previously valid coordinates when programme changes
+    setHostCoords({ lat: null, lon: null });
+  }, [formData.programme]);
+
   // Main polling logic
   useEffect(() => {
     const fetchHostCoords = async () => {
