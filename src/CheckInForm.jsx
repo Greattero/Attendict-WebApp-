@@ -135,7 +135,7 @@ function CheckInForm({onClose}) {
 
   const [hostCoords, setHostCoords] = useState({lat:null, lon: null})
   
-// Main polling logic
+  // Main polling logic
   useEffect(() => {
     const fetchHostCoords = async () => {
       try {
@@ -144,9 +144,14 @@ function CheckInForm({onClose}) {
 
         if (data?.location?.lat && data?.location?.lon) {
           setHostCoords({ lat: data.location.lat, lon: data.location.lon });
+        } else {
+          // ❌ Invalid or empty data received – clear old coordinates
+          setHostCoords({ lat: null, lon: null });
         }
       } catch (err) {
-        console.log(err);
+        console.log("❌ Error fetching host location:", err);
+        // 🧹 Clear previous coordinates if error occurs
+        setHostCoords({ lat: null, lon: null });
       }
     };
 
@@ -157,13 +162,9 @@ function CheckInForm({onClose}) {
     return () => clearInterval(intervalId);
   }, [formData.programme]);
 
-
   // ✅ NEW: useEffect to track updated hostCoords
   useEffect(() => {
-    if (
-      hostCoords.lat !== null &&
-      hostCoords.lon !== null
-    ) {
+    if (hostCoords.lat !== null && hostCoords.lon !== null) {
       console.log(`✅ Updated Host lat: ${hostCoords.lat}, lon: ${hostCoords.lon}`);
     }
   }, [hostCoords]);
