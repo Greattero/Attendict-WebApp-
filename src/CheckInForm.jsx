@@ -149,9 +149,11 @@ function CheckInForm({onClose}) {
       }
     };
 
-    if (hostCoords.lat !== null && hostCoords.lon !== null) return;
+    if (hostCoords.lat !== null && hostCoords.lon !== null && (hostCoords.lat !== 0 || hostCoords.lon !== 0)) return;
 
     fetchHostCoords();
+
+    console.log(`Look at: ${formData.programme}`)
 
     // Poll every 5 seconds (5000ms)
     const intervalId = setInterval(fetchHostCoords, 1000);
