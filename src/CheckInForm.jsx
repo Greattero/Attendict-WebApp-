@@ -232,7 +232,7 @@ useEffect(() => {
     )
   }
 
-  const range = 0.014;
+  const range = 0.27;
 
 
 const handleSubmit = async (e) => {
