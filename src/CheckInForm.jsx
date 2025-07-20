@@ -149,9 +149,8 @@ function CheckInForm({onClose}) {
       }
     };
 
-    if (formData.programme) {
       fetchHostCoords();
-    }
+    
   }, [formData.programme]);
 
 
