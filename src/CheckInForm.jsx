@@ -273,7 +273,7 @@ const handleSubmit = async (e) => {
   setLoading(true); // Start loading
 
   // Check location distance range
-  if (distance === null) {
+  if (distance === null && !formData.location.lat) {
     alert("Location is turned off. Please allow and try again.")
     console.log("Location is turned off. Please allow and try again.");
     console.log(distance);
