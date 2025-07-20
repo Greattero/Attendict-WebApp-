@@ -1,0 +1,181 @@
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import dotenv from 'dotenv';
+
+
+const app = express();
+dotenv.config();
+
+// const corsOptions = {
+//   origin: 'http://localhost:5173/',
+//   methods: ['GET', 'POST', 'OPTIONS'],
+//   allowedHeaders: ['Content-Type'],
+//   credentials: true,
+// };
+
+// app.use(cors(corsOptions));
+app.use(cors());
+app.use(express.json());
+
+mongoose.connect(process.env.MONGODB_URI , { 
+    useNewUrlParser: true, 
+    useUnifiedTopology: true 
+});
+
+const studentSchema = new mongoose.Schema({
+    name: String,
+    index_no: String,
+    programme: String,
+    level: String,
+    myip: String, // ✅ add this line
+    username: String,
+    password: String,
+    location: {
+        lat: Number,
+        lon: Number,
+    },
+});
+
+// // Define the model once at the top level
+// const Student = mongoose.model("Student", studentSchema);
+
+// app.post('/api/host-details', async (req, res) => {
+//     try {
+//         const programName = req.body.programme;  // Fixed variable name (was using undeclared 'programme')
+//         // Create dynamic model if needed
+//         const ProgramModel = mongoose.model("Programme", studentSchema, programName);
+        
+//         // Save the data
+//         await ProgramModel.create(req.body);
+//         console.log(programName)
+//         res.json({ success: true });
+//     } catch (err) {
+//         res.status(400).json({ error: err.message });
+//     }
+// });
+
+app.post("/api/host-details", async (req, res) => {
+    try {
+        const {name, index_no, programme, level, myip, location} = req.body;
+
+        // Create dynamic model if needed
+        const Student = mongoose.model("Programme", studentSchema, `${programme}`);
+        
+        // Save the data
+        const newStudent = await Student.create({
+            name,
+            index_no,
+            programme,
+            level,
+            myip,
+            location,
+        });
+        res.status(201).json(newStudent);
+
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+});
+
+
+app.post("/api/checkin-details", async (req, res) => {
+    try{
+        const{name, index_no, programme,level,myip} = req.body;
+
+       
+
+                // Create dynamic model if needed
+        const Student = mongoose.model("Programme", studentSchema, `${programme}`);
+
+
+
+        const user =  await Student.findOne({ $or: [{index_no}, {myip}] });
+
+        if(user){
+            return res.json({available:true});
+        }
+
+        // Save the data
+        const newStudent = await Student.create({
+            name,
+            index_no,
+            programme,
+            level,
+            myip,
+        });
+        res.status(201).json(newStudent);
+
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+
+
+});
+
+
+app.get("/api/host-location", async (req, res) => {
+    try {
+        const { programme } = req.query;
+
+
+        if (!programme) {
+            return res.status(400).json({ error: "Programme is required" });
+        }
+
+        const Student = mongoose.model("Programme", studentSchema, programme);
+        const host = await Student.findOne();
+
+        if (!host || !host.location) {
+            return res.status(404).json({ error: "Host not found" });
+        }
+
+        res.json({ location: host.location });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.get("/api/student-list", async (req,res) =>{
+
+    try{
+    const { programme } = req.query;
+    const Student = mongoose.model("Programme", studentSchema, programme);
+    const studentList = await Student.find({},{name: 1, index_no: 1, _id: 0});
+    console.log(programme);
+
+    res.json(studentList);
+    }
+    catch(err){
+        console.log(`Getting names error: ${err}`)
+    }
+}
+
+)
+
+app.post("/api/login-details", async (req, res)=>{
+    
+
+    const LoginModel = mongoose.models.Login || mongoose.model("Login", studentSchema, "Logins");
+
+    const { username, password } = req.body;
+    const user = await LoginModel.findOne({ username, password });
+
+    if (user){
+        console.log("Workingggg");
+        return res.json({success: true});
+        
+    }
+    else{
+        console.log("nooooooooooooooooooo");
+        return res.json({success: false});
+
+    }
+}
+
+
+)
+
+
+app.listen(5000, () => console.log("Server running on port 5000"));

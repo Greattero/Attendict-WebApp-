@@ -100,11 +100,24 @@ function CheckInForm({onClose}) {
   
   const popupRef = useRef(null);  // Create ref for the popup container
   const [location, setLocation] = useState({lat:null,lon:null});
+
+
+  const [ip, setIP] = useState("");
+
+  useEffect(()=>{
+    fetch("https://api.ipify.org?format=json")
+      .then((res) => res.json())
+      .then((data) => setIP(data.ip))
+      .catch((err) => console.log(err))
+  },[]);
+
+
   const [formData, setFormData] = useState({
     name:"",
     index_no:"",
     programme:"",
     level:"",
+    myip:"",
   })
   const [distance, setDistance] = useState(null);
 
@@ -125,12 +138,13 @@ function CheckInForm({onClose}) {
   useEffect(() => {
     const fetchHostCoords = async () => {
       try {
-        const response = await fetch(` https://d4507f0f0c55.ngrok-free.app/api/host-location?programme=${formData.programme}`);
+        const response = await fetch(`http://localhost:5000/api/host-location?programme=${formData.programme}`);
         const data = await response.json();
         console.log("Here issssss");
         setHostCoords({ lat: data.location.lat, lon: data.location.lon });
       } catch (err) {
         console.log(err);
+        console.log("Errrrrrrrorrrrrrrrrr");
       }
     };
 
@@ -168,8 +182,9 @@ function CheckInForm({onClose}) {
         lat: location.lat,
         lon: location.lon,
       },
+      myip: ip,
     }));
-  }, [location]);
+  }, [location,ip]);
 
   const { lat: checkinLat, lon: checkinLon } = location;
 
@@ -205,8 +220,9 @@ useEffect(() => {
   }
 
   const handleProgramme = (e) => {
+    const val = e.target.value.replace(/[.\s]/g,"").toUpperCase();
     setFormData(
-      (prev) => ({...prev, programme: e.target.value})
+      (prev) => ({...prev, programme: val})
     )
   }
 
@@ -251,7 +267,7 @@ const handleSubmit = async (e) => {
   console.log("Sending data:", formData);
 
   try {
-    const response = await fetch(" https://d4507f0f0c55.ngrok-free.app/api/checkin-details", {
+    const response = await fetch("http://localhost:5000/api/checkin-details", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -261,9 +277,18 @@ const handleSubmit = async (e) => {
 
     const data = await response.json();
 
+    if(data.available){
+      alert("Wait for countdown to finish");
+      setLoading(false); // Stop loading
+      onClose();
+      return;
+    }
+
     if (!response.ok) {
       console.error("Server error:", data);
+      alert("Unstable internet connection. Try again")
       setLoading(false); // Stop loading
+      
 
     } else {
       console.log("Check-in successful:", data);
@@ -280,40 +305,31 @@ const handleSubmit = async (e) => {
 };
 
 
-  const getAllNames = async () =>{
-    try{
-      const response = await fetch(" https://d4507f0f0c55.ngrok-free.app/api/student-list");
-      const students = await response.json();
-      return students;
-    }
-    catch(err){
-      console.log(`Couldn't get names: ${err}`)
-    }
-  }
-
-
-
-
 
   return (
     <Checkin ref= {popupRef}>
         <Header>Check-In </Header>
         <Label>Full name </Label>
-        <Input type="text" 
+        <Input type="text"
+        value={formData.name}
         onChange={(e)=>handleName(e)}
-        placeholder="Enter something" />
+        placeholder="Ex: Jessica Sedinam" />
 
         <Label>Index Number </Label>
-        <Input type="text" 
+        <Input type="text"
+        value={formData.index_no}
         onChange={(e)=>handleIndexNo(e)}
-        placeholder="Enter something" />
+        placeholder="Ex. SRI.XX.XXX.XXX.XX" />
 
         <Label>Progamme Initials & Course Code</Label>
-        <Input type="text" 
+        <Input type="text"
+        value={formData.programme}
         onChange={(e)=>handleProgramme(e)}
-        placeholder="Enter something" />
+        placeholder="Ex: CE123" />
+
         <Select1 value={formData.level} 
         onChange={(e)=>handleLevel(e)}>
+            <option value="" disabled>Select level</option>
             <option value="Level 100">Level 100</option>
             <option value="Level 200">Level 200</option>
             <option value="Level 300">Level 300</option>

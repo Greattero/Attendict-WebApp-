@@ -21,6 +21,8 @@ const Overlay = ({isVisible}) => (
     zIndex:"1000",
     display: "block",
     position: "fixed",
+    width: "100%",
+    height: "100vh",
   }}/>
 
 )
@@ -33,6 +35,17 @@ function App() {
   const [form, setForm] = useState("");
 
   const [hostTime, setHostTime] = useState("");
+
+  const [disable, setDisable] = useState(false);
+
+  const [programme, setProgramme] = useState("");
+
+  const handleLock = () => {
+    setDisable(true);
+  }
+  const handleUnlock = () => {
+    setDisable(false);
+  }
 
   const handleButtonClick = (type) => {
     setShowPop(true);
@@ -72,10 +85,10 @@ function App() {
         alignItems: "center",
         paddingBottom: "250px",
       }}>
-        <Home onButtonClick={(type)=>handleButtonClick(type)}/> {/* Remove all styles from Home */}
+        <Home onButtonClick={(type)=>handleButtonClick(type)} disabled={disable}/> {/* Remove all styles from Home */}
         {showPop && (<>
           <Overlay isVisible={showPop}/>
-          {form === "host" && <HostForm onClose={()=>closeForm()} setHostTime={setHostTime}/>}
+          {form === "host" && <HostForm onClose={()=>closeForm()} setHostTime={setHostTime} setProgramme={setProgramme}/>}
           {form === "checkin" && <CheckInForm onClose={()=>closeForm()}/>}
           </>)
           }
@@ -98,7 +111,14 @@ function App() {
       }}
       
       >
-      <CountdownTimer hostTime={hostTime}/>
+        <CountdownTimer 
+        key={hostTime} 
+        hostTime={hostTime} 
+        setHostTime={setHostTime} 
+        lockCheckin={()=>handleLock()}
+        unLockCheckin={()=>handleUnlock()}
+        programme={programme}
+        />
       </div>
 
     </div> 

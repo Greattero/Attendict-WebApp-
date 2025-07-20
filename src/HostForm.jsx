@@ -102,7 +102,7 @@ const Label = styled.label`
 
 `
 
-function HostForm({onClose, setHostTime}) {
+function HostForm({onClose, setHostTime, setProgramme}) {
 
 
   const [loading, setLoading] = useState(false);
@@ -124,12 +124,23 @@ function HostForm({onClose, setHostTime}) {
 
 
   const [location, setLocation] = useState({lon:null,lat:null});
+
+  const [ip, setIP] = useState("");
+
+  useEffect(()=>{
+    fetch("https://api.ipify.org?format=json")
+      .then((res) => res.json())
+      .then((data) => setIP(data.ip))
+      .catch((err) => console.log(err))
+  },[]);
   
   const [formData,setFormData] = useState({
     name:"",
     index_no:"",
     programme:"",
     level:"",
+    duration: "",
+    myip: "",
     location:{
       lat:location.lat,
       lon: location.lon,
@@ -160,8 +171,9 @@ function HostForm({onClose, setHostTime}) {
       lat: location.lat,
       lon: location.lon,
     },
+    myip: ip,
   }));
-}, [location]);
+}, [location,ip]);
 
   const handleName = (e) => {
     setFormData((prev) => ({...prev, name: e.target.value}))
@@ -174,7 +186,10 @@ function HostForm({onClose, setHostTime}) {
   };
 
   const handleProgramme = (e) => {
-    setFormData((prev) => ({...prev, programme: e.target.value}))
+    const val = e.target.value.replace(/[.\s]/g, "").toUpperCase();
+    setFormData(
+      (prev) => ({...prev, programme: val})
+    )
   };
 
   const handleLevel = (e) => {
@@ -187,7 +202,7 @@ function HostForm({onClose, setHostTime}) {
 
     console.log(`lat:${formData.location.lat} and long: ${formData.location.lon}`);
     
-    if (!formData.name || !formData.index_no || !formData.programme || !formData.level) {
+    if (!formData.name || !formData.index_no || !formData.programme || !formData.level || !formData.duration) {
       alert("Please fill all required fields.");
       return;
     }
@@ -195,6 +210,7 @@ function HostForm({onClose, setHostTime}) {
     setLoading(true); // Start loading
 
     console.log(`lat:${formData.location.lat} and long: ${formData.location.lon}`);
+    console.log(`Your IP is ${ip}`);
     console.log("Sending data:", formData);
 
     try {
@@ -210,18 +226,31 @@ function HostForm({onClose, setHostTime}) {
 
       if (!response.ok) {
         console.error("Server error:", data);
+        alert("Unstable internet connection. Try Again");
+        setLoading(false);
+        onClose();
       } else {
         console.log("Successfully submitted:", data);
-        const time = document.getElementById("duration").value;
-        setHostTime(time);
         setLoading(false); // Stop loading
-        onClose(); // close the form so the countdown shows
+
+        setHostTime(null);
+        setTimeout(() => {
+        setHostTime(formData.duration);
+        setProgramme(formData.programme);
+        }, 0);
+
+        onClose();
       }
     } catch (error) {
       console.error("Fetch error:", error);
+      alert("Unstable connection. Try Again");
+      setLoading(false);
+      onClose();
     }
   };
-  
+
+
+
 
   return (
     <Hosting ref= {popupRef}>
@@ -229,26 +258,39 @@ function HostForm({onClose, setHostTime}) {
         <Label>Full name </Label>
         <Input 
         type="text"
+        value={formData.name}
         onChange={(e)=>handleName(e)}
-        placeholder="Enter something" />
+        placeholder="Ex. Jessica Sedinam" />
+
         <Label>Index Number </Label>
         <Input type="text" 
+        value={formData.index_no}
         onChange={(e)=>handleIndexNo(e)}
-        placeholder="Enter something" />
+        placeholder="Ex. SRI.XX.XXX.XXX.XX" />
+
         <Label>Progamme Initials & Course Code</Label>
         <Input type="text" 
+        value={formData.programme}
         onChange = {(e)=>handleProgramme(e)}
-        placeholder="Enter something" />
-        <Select1 value = {formData.level} 
+        placeholder="Ex. CE123" />
+
+        <Select1 value = {formData.level}
         onChange={(e)=> handleLevel(e)}>
+            <option value="" disabled>Select level</option>
             <option value = "Level 100">Level 100</option>
             <option value = "Level 200">Level 200</option>
             <option value = "Level 300">Level 300</option>
             <option value = "Level 400">Level 400</option>
         </Select1>
-        <Select2 id="duration">
-            <option value="5">5  min</option>
-            <option value="10">10 min</option>
+        <Select2
+          value={formData.duration}
+          onChange={(e) =>
+            setFormData((prev) => ({ ...prev, duration: e.target.value }))
+          }
+        >
+          <option value="" disabled>Select duration</option> {/* this one is key */}
+          <option value="0.1">5 min</option>
+          <option value="0.5">10 min</option>
         </Select2>
 
         <Button onClick={(e) => handleSubmit(e)} disabled={loading}>
