@@ -290,8 +290,8 @@ function HostForm({onClose, setHostTime, setProgramme}) {
           }
         >
           <option value="" disabled>Select duration</option> {/* this one is key */}
-          <option value="0.1">5 min</option>
-          <option value="0.5">10 min</option>
+          <option value="1">5 min</option>
+          <option value="2">10 min</option>
         </Select2>
 
         <Button onClick={(e) => handleSubmit(e)} disabled={loading}>
