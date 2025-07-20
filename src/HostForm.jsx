@@ -231,6 +231,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
         onClose();
       } else {
         console.log("Successfully submitted:", data);
+        alert("Submitted Successfully🎉")
         setLoading(false); // Stop loading
 
         setHostTime(null);

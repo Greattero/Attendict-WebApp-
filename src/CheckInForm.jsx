@@ -292,6 +292,7 @@ const handleSubmit = async (e) => {
 
     } else {
       console.log("Check-in successful:", data);
+      alert("Submitted Successfully🎉")
       console.log(distance);
       setLoading(false); // Stop loading
       onClose(); // close the form so the countdown shows
