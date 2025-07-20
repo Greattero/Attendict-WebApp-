@@ -246,7 +246,7 @@ function Login({onLoginSuccess}){
           setLoading(true); // Start loading
 
         try{
-        const res = await fetch("http://localhost:5000/api/login-details",{
+        const res = await fetch("https://attendict.onrender.com/api/login-details",{
             method: "POST",
             headers:{
             "Content-Type": "application/json"

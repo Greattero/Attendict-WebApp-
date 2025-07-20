@@ -15,7 +15,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 
   const getAllNames = async () =>{
     try{
-      const response = await fetch(`http://localhost:5000/api/student-list?programme=${programme}`);
+      const response = await fetch(`https://attendict.onrender.com/api/student-list?programme=${programme}`);
       console.log(programme);
       const students = await response.json();
       return students;

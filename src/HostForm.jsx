@@ -214,7 +214,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
     console.log("Sending data:", formData);
 
     try {
-      const response = await fetch("http://localhost:5000/api/host-details", {
+      const response = await fetch("https://attendict.onrender.com/api/host-details", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

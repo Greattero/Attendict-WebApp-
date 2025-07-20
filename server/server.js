@@ -7,15 +7,15 @@ import dotenv from 'dotenv';
 const app = express();
 dotenv.config();
 
-// const corsOptions = {
-//   origin: 'http://localhost:5173/',
-//   methods: ['GET', 'POST', 'OPTIONS'],
-//   allowedHeaders: ['Content-Type'],
-//   credentials: true,
-// };
+const corsOptions = {
+  origin: 'https://attendict.vercel.app',
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type'],
+  credentials: true,
+};
 
-// app.use(cors(corsOptions));
-app.use(cors());
+app.use(cors(corsOptions));
+// app.use(cors());
 app.use(express.json());
 
 mongoose.connect(process.env.MONGODB_URI , { 
@@ -178,4 +178,5 @@ app.post("/api/login-details", async (req, res)=>{
 )
 
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

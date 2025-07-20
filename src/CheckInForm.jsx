@@ -138,7 +138,7 @@ function CheckInForm({onClose}) {
   useEffect(() => {
     const fetchHostCoords = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/host-location?programme=${formData.programme}`);
+        const response = await fetch(`https://attendict.onrender.com/api/host-location?programme=${formData.programme}`);
         const data = await response.json();
         console.log("Here issssss");
         setHostCoords({ lat: data.location.lat, lon: data.location.lon });
@@ -267,7 +267,7 @@ const handleSubmit = async (e) => {
   console.log("Sending data:", formData);
 
   try {
-    const response = await fetch("http://localhost:5000/api/checkin-details", {
+    const response = await fetch("https://attendict.onrender.com/api/checkin-details", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
