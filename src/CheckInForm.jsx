@@ -149,7 +149,16 @@ function CheckInForm({onClose}) {
       }
     };
 
-      fetchHostCoords();
+    if (hostCoords.lat !== null && hostCoords.lon !== null) return;
+
+    fetchHostCoords();
+
+    // Poll every 5 seconds (5000ms)
+    const intervalId = setInterval(fetchHostCoords, 1000);
+
+    // Cleanup when component unmounts
+    return () => clearInterval(intervalId);
+
     
   }, [formData.programme]);
 
