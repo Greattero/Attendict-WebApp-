@@ -135,34 +135,47 @@ function CheckInForm({onClose}) {
 
   const [hostCoords, setHostCoords] = useState({lat:null, lon: null})
   
-  useEffect(() => {
-    const fetchHostCoords = async () => {
-      try {
-        const response = await fetch(`https://attendict.onrender.com/api/host-location?programme=${formData.programme}`);
-        const data = await response.json();
-        console.log("Here issssss");
-        setHostCoords({ lat: data.location.lat, lon: data.location.lon });
-        console.log(`Host lat: ${hostCoords.lat} and lon: ${hostCoords.lon}`);
-      } catch (err) {
-        console.log(err);
-        console.log("Errrrrrrrorrrrrrrrrr");
-      }
-    };
+// Main polling logic
+useEffect(() => {
+  const fetchHostCoords = async () => {
+    try {
+      const response = await fetch(`https://attendict.onrender.com/api/host-location?programme=${formData.programme}`);
+      const data = await response.json();
+      console.log("Here issssss");
+      setHostCoords({ lat: data.location.lat, lon: data.location.lon });
+      // ❌ Don't log hostCoords here — it's still old
+    } catch (err) {
+      console.log(err);
+      console.log("Errrrrrrrorrrrrrrrrr");
+    }
+  };
 
-    if (hostCoords.lat !== null && hostCoords.lon !== null && (hostCoords.lat !== 0 || hostCoords.lon !== 0)) return;
+  // Don't fetch if coords are already set to something meaningful
+  if (
+    hostCoords.lat !== null &&
+    hostCoords.lon !== null &&
+    (hostCoords.lat !== 0 || hostCoords.lon !== 0)
+  ) return;
 
-    fetchHostCoords();
+  fetchHostCoords(); // fetch immediately
 
-    console.log(`Look at: ${formData.programme}`)
+  console.log(`Look at: ${formData.programme}`);
 
-    // Poll every 5 seconds (5000ms)
-    const intervalId = setInterval(fetchHostCoords, 1000);
+  const intervalId = setInterval(fetchHostCoords, 1000); // poll every 1s
 
-    // Cleanup when component unmounts
-    return () => clearInterval(intervalId);
+  return () => clearInterval(intervalId); // clean up on unmount
+}, [formData.programme]);
 
-    
-  }, [formData.programme]);
+// ✅ NEW: useEffect to track updated hostCoords
+useEffect(() => {
+  if (
+    hostCoords.lat !== null &&
+    hostCoords.lon !== null
+  ) {
+    console.log(`✅ Updated Host lat: ${hostCoords.lat}, lon: ${hostCoords.lon}`);
+  }
+}, [hostCoords]);
+
 
 
   const { lat: hostLat, lon: hostLon } = hostCoords;
