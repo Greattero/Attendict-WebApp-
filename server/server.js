@@ -80,38 +80,40 @@ app.post("/api/host-details", async (req, res) => {
 
 
 app.post("/api/checkin-details", async (req, res) => {
-    try{
-        const{name, index_no, programme,level,myip} = req.body;
+  try {
+    const { name, index_no, programme, level, myip } = req.body;
 
-       
-
-                // Create dynamic model if needed
-        const Student = mongoose.model("Programme", studentSchema, `${programme}`);
-
-
-
-        const user =  await Student.findOne({ $or: [{index_no}, {myip}] });
-
-        if(user){
-            return res.json({available:true});
-        }
-
-        // Save the data
-        const newStudent = await Student.create({
-            name,
-            index_no,
-            programme,
-            level,
-            myip,
-        });
-        res.status(201).json(newStudent);
-
-    } catch (err) {
-        res.status(400).json({ error: err.message });
+    // Check if collection exists first
+    const collections = await mongoose.connection.db.listCollections({ name: programme }).toArray();
+    if (collections.length === 0) {
+      return res.json({ dbAvailable: false });
     }
 
+    // Now safely define the model
+    const Student = mongoose.model("Programme", studentSchema, programme);
 
+    // Check if student already exists
+    const user = await Student.findOne({ $or: [{ index_no }, { myip }] });
+
+    if (user) {
+      return res.json({ available: true });
+    }
+
+    // Save the new student
+    const newStudent = await Student.create({
+      name,
+      index_no,
+      programme,
+      level,
+      myip,
+    });
+
+    res.status(201).json(newStudent);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 });
+
 
 
 app.get("/api/host-location", async (req, res) => {
