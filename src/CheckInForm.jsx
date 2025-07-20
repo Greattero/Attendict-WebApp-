@@ -142,6 +142,7 @@ function CheckInForm({onClose}) {
         const data = await response.json();
         console.log("Here issssss");
         setHostCoords({ lat: data.location.lat, lon: data.location.lon });
+        console.log(`Host lat: ${hostCoords.lat} and lon: ${hostCoords.lon}`);
       } catch (err) {
         console.log(err);
         console.log("Errrrrrrrorrrrrrrrrr");
