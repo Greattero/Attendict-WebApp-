@@ -301,6 +301,13 @@ const handleSubmit = async (e) => {
 
     const data = await response.json();
 
+    if(data.dbAvailable){
+      alert("Session doesn't exist");
+      setLoading(false); // Stop loading
+      onClose();
+      return;
+    }
+
     if(data.available){
       alert("Wait for countdown to finish");
       setLoading(false); // Stop loading
