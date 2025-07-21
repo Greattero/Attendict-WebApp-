@@ -151,6 +151,12 @@ function CheckInForm({onClose}) {
       const currentProg = formData.programme;
       let attempts = attemptsMapRef.current.get(currentProg) || 0;
 
+      // Prevent extra calls after 5 attempts
+      if (attempts >= 5) {
+        clearInterval(intervalId);
+        return;
+      }
+
       try {
         const response = await fetch(`https://attendict.onrender.com/api/host-location?programme=${currentProg}`);
         const data = await response.json();
