@@ -50,15 +50,17 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
       if (!isNaN(hostSeconds)) {
         endTime = Date.now() + hostSeconds * 60 * 1000;
         localStorage.setItem("endTime", endTime);
-
-        // Reset hostTime to 0 so selecting the same value later re-triggers the effect
         setHostTime(0);
       }
     }
 
+    // ❌ Don’t run timer if endTime is missing
+    if (!endTime) return;
+
     const interval = setInterval(() => {
       const savedEndTime = Number(localStorage.getItem("endTime"));
       const remaining = Math.floor((savedEndTime - Date.now()) / 1000);
+
       if (remaining > 0) {
         lockCheckin();
         setTimeLeft(remaining);
@@ -66,14 +68,13 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
         setTimeLeft(0);
         unLockCheckin();
         getAllNames().then(students => {
-            setStudents([]); // <- CLEAR HERE
-            console.log("Done");
-            console.log(programme);
-            console.log(students);
-            deleteCollection(programme);
-            setStudents([]); // <- CLEAR HERE
-          });
-        
+          setStudents([]);
+          console.log("Done");
+          console.log(programme);
+          console.log(students);
+          deleteCollection(programme);
+          setStudents([]);
+        });
         localStorage.removeItem("endTime");
         clearInterval(interval);
       }
@@ -81,6 +82,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 
     return () => clearInterval(interval);
   }, [hostTime]);
+
 
   const formatTime = (seconds) => {
     const m = String(Math.floor(seconds / 60)).padStart(2, "0");
