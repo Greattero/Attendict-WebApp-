@@ -302,6 +302,7 @@ const handleSubmit = async (e) => {
     if (!data.dbAvailable) {
       alert("Session doesn't exist");
       setLoading(false);
+      console.log(`Was it: ${data.dbAvailable}`);
       onClose();
       return;
     }
