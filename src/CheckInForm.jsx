@@ -141,15 +141,18 @@ function CheckInForm({onClose}) {
   }, [formData.programme]);
 
   // Main polling logic
-const triedProgrammesRef = useRef(new Set());
+  const triedProgrammesRef = useRef(new Set());
+  const attemptsMapRef = useRef(new Map()); // 💡 Track attempts per programme
 
   useEffect(() => {
-    let attempts = 0;
     let intervalId;
 
     const fetchHostCoords = async () => {
+      const currentProg = formData.programme;
+      let attempts = attemptsMapRef.current.get(currentProg) || 0;
+
       try {
-        const response = await fetch(`https://attendict.onrender.com/api/host-location?programme=${formData.programme}`);
+        const response = await fetch(`https://attendict.onrender.com/api/host-location?programme=${currentProg}`);
         const data = await response.json();
 
         if (data?.location?.lat && data?.location?.lon) {
@@ -157,31 +160,38 @@ const triedProgrammesRef = useRef(new Set());
           clearInterval(intervalId);
         } else {
           attempts += 1;
+          attemptsMapRef.current.set(currentProg, attempts); // 🔁 Track attempts
+
           if (attempts >= 5) {
             clearInterval(intervalId);
-            triedProgrammesRef.current.add(formData.programme); // ❌ Track failed programme
+            triedProgrammesRef.current.add(currentProg);
             console.log("❌ Host location not found after 5 attempts.");
           }
         }
       } catch (err) {
         console.log("❌ Error fetching host location:", err);
         attempts += 1;
+        attemptsMapRef.current.set(currentProg, attempts);
+
         if (attempts >= 5) {
           clearInterval(intervalId);
-          triedProgrammesRef.current.add(formData.programme);
+          triedProgrammesRef.current.add(currentProg);
         }
       }
     };
 
+    const currentProg = formData.programme;
+
     if (
-      formData.programme.length === 5 &&
-      !triedProgrammesRef.current.has(formData.programme)
+      currentProg.length === 5 &&
+      !triedProgrammesRef.current.has(currentProg)
     ) {
       intervalId = setInterval(fetchHostCoords, 0);
     }
 
     return () => clearInterval(intervalId);
   }, [formData.programme]);
+
 
 
 
