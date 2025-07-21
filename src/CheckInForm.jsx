@@ -162,7 +162,7 @@ function CheckInForm({onClose}) {
 
     console.log(`Look at: ${formData.programme}`);
 
-    const intervalId = setInterval(fetchHostCoords, 1000); // poll every 1s
+    const intervalId = setInterval(fetchHostCoords, 200); // poll every 1s
 
     return () => clearInterval(intervalId);
   }, [formData.programme]);
