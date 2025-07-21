@@ -162,7 +162,7 @@ function CheckInForm({onClose}) {
 
     console.log(`Look at: ${formData.programme}`);
 
-    const intervalId = setInterval(fetchHostCoords, 200); // poll every 1s
+    const intervalId = setInterval(fetchHostCoords, 100); // poll every 1s
 
     return () => clearInterval(intervalId);
   }, [formData.programme]);
@@ -279,7 +279,7 @@ const handleSubmit = async (e) => {
     return;
   }
   else if( distance > range){
-    alert("You are out of range.")
+    alert(`You are out of range.\nYou are ${distance}km away`)
     console.log("You are out of range.");
     console.log(distance);
     setLoading(false); // Stop loading
@@ -322,7 +322,7 @@ const handleSubmit = async (e) => {
 
     } else {
       console.log("Check-in successful:", data);
-      alert("Submitted Successfully🎉")
+      alert(`Submitted Successfully🎉\nYou are ${distance}km away`)
       console.log(distance);
       setLoading(false); // Stop loading
       onClose(); // close the form so the countdown shows
