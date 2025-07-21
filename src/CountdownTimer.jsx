@@ -31,7 +31,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
       const delResponse = await fetch("https://attendict.onrender.com/api/delete-collection",{
         method:"DELETE",
         headers: {"Content-Type":"application/json"},
-        body: json.stringify({collection_name: programme}),
+        body: JSON.stringify({collection_name: programme}),
       });
 
       const result = await delResponse.json();
@@ -45,7 +45,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
   useEffect(() => {
     let endTime = localStorage.getItem("endTime");
 
-    if (!endTime && hostTime) {
+    if (!endTime && hostTime > 0) {
       const hostSeconds = Number(hostTime);
       if (!isNaN(hostSeconds)) {
         endTime = Date.now() + hostSeconds * 60 * 1000;
@@ -66,15 +66,12 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
         setTimeLeft(0);
         unLockCheckin();
         getAllNames().then(students => {
-            if(students && students.length > 0){
             setStudents([]); // <- CLEAR HERE
             console.log("Done");
             console.log(programme);
             console.log(students);
             deleteCollection(programme);
-            
             setStudents([]); // <- CLEAR HERE
-            }
           });
         
         localStorage.removeItem("endTime");
