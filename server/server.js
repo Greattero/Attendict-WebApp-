@@ -191,7 +191,7 @@ app.delete("/api/delete-collection",async(req,res)=> {
     try{
         const db =  await mongoose.connection.collection(collection_name);
         await db.drop();
-        res.status(200).json(`Document saved successfully`);
+        res.status(200).json({message:`Document saved successfully`});
     }
     catch(error){
         if(error.code == 26){
