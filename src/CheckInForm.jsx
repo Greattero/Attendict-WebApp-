@@ -299,7 +299,7 @@ const handleSubmit = async (e) => {
 
     const data = await response.json();
 
-    if (!data.dbAvailable) {
+    if (data.dbAvailable) {
       alert("Session doesn't exist");
       setLoading(false);
       console.log(`Was it: ${data.dbAvailable}`);
