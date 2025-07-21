@@ -142,6 +142,9 @@ function CheckInForm({onClose}) {
 
   // Main polling logic
   useEffect(() => {
+    let attempts = 0;
+    let intervalId;
+
     const fetchHostCoords = async () => {
       try {
         const response = await fetch(`https://attendict.onrender.com/api/host-location?programme=${formData.programme}`);
@@ -149,30 +152,31 @@ function CheckInForm({onClose}) {
 
         if (data?.location?.lat && data?.location?.lon) {
           setHostCoords({ lat: data.location.lat, lon: data.location.lon });
+          clearInterval(intervalId); // ✅ Stop polling immediately if found
         } else {
-          // ❌ Invalid or empty data received – clear old coordinates
-          setHostCoords({ lat: null, lon: null });
+          attempts += 1;
+          if (attempts >= 5) {
+            clearInterval(intervalId); // ❌ Stop after 5 tries if not found
+            console.log("❌ Host location not found after 5 attempts.");
+          }
         }
       } catch (err) {
         console.log("❌ Error fetching host location:", err);
-        // 🧹 Clear previous coordinates if error occurs
-        setHostCoords({ lat: null, lon: null });
+        attempts += 1;
+        if (attempts >= 5) {
+          clearInterval(intervalId);
+        }
       }
     };
 
-    console.log(`Look at: ${formData.programme}`);
+    // ✅ Only trigger if programme has exactly 5 characters
+    if (formData.programme.length === 5) {
+      intervalId = setInterval(fetchHostCoords, 0); // 🔁 5 fast attempts
+    }
 
-    const intervalId = setInterval(fetchHostCoords, 100); // poll every 1s
-
-    return () => clearInterval(intervalId);
+    return () => clearInterval(intervalId); // Cleanup on unmount or programme change
   }, [formData.programme]);
 
-  // ✅ NEW: useEffect to track updated hostCoords
-  useEffect(() => {
-    if (hostCoords.lat !== null && hostCoords.lon !== null) {
-      console.log(`✅ Updated Host lat: ${hostCoords.lat}, lon: ${hostCoords.lon}`);
-    }
-  }, [hostCoords]);
 
 
 
@@ -271,9 +275,9 @@ const handleSubmit = async (e) => {
   setLoading(true); // Start loading
 
   // Check location distance range
-  if (distance === null && !formData.location.lat) {
-    alert("Location is turned off. Please allow and try again.")
-    console.log("Location is turned off. Please allow and try again.");
+  if (distance === null && !hostCoords.lat) {
+    alert("Couldn't get Host location. Try again")
+    console.log("Couldn't get Host location. Try again");
     console.log(distance);
     setLoading(false); // Stop loading
     return;
