@@ -192,7 +192,7 @@ function CheckInForm({onClose}) {
       currentProg.length === 5 &&
       !triedProgrammesRef.current.has(currentProg)
     ) {
-      intervalId = setInterval(fetchHostCoords, 0);
+      intervalId = setInterval(fetchHostCoords, 500);
     }
 
     return () => clearInterval(intervalId);
