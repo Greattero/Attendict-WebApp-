@@ -9,7 +9,7 @@ dotenv.config();
 
 const corsOptions = {
   origin: 'https://attendict.vercel.app',
-  methods: ['GET', 'POST', 'OPTIONS'],
+  methods: ['GET', 'POST', 'DELETE','OPTIONS'],
   allowedHeaders: ['Content-Type'],
   credentials: true,
 };
@@ -172,6 +172,32 @@ app.post("/api/login-details", async (req, res)=>{
     else{
         console.log("nooooooooooooooooooo");
         return res.json({success: false});
+
+    }
+}
+
+)
+
+app.delete("/api/delete-collection",async(req,res)=> {
+
+    const {collection_name} = req.body;
+
+    if(!collection_name){
+        return res.json("No collection found");
+    }
+
+    try{
+        const db =  await mongoose.connection.collection(collection_name);
+        await db.drop();
+        res.status(200).json(`Document saved successfully`);
+    }
+    catch(error){
+        if(error.code == 26){
+            return res.status(404).json({message: `Document does not exist`});
+        }
+        else{
+            return res.status(500).json({message: `Error saving document`});
+        }
 
     }
 }
