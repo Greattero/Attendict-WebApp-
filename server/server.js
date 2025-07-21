@@ -85,8 +85,8 @@ app.post("/api/checkin-details", async (req, res) => {
 
     // Check if collection exists first
     const collections = await mongoose.connection.db.listCollections({ name: programme }).toArray();
-    if (collections.length > 0) {
-      return res.json({ dbAvailable: true });
+    if (collections.length === 0) {
+      return res.json({ dbAvailable: false });
     }
 
     // Now safely define the model
