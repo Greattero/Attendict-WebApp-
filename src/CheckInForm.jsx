@@ -141,6 +141,8 @@ function CheckInForm({onClose}) {
   }, [formData.programme]);
 
   // Main polling logic
+const triedProgrammesRef = useRef(new Set());
+
   useEffect(() => {
     let attempts = 0;
     let intervalId;
@@ -152,11 +154,12 @@ function CheckInForm({onClose}) {
 
         if (data?.location?.lat && data?.location?.lon) {
           setHostCoords({ lat: data.location.lat, lon: data.location.lon });
-          clearInterval(intervalId); // ✅ Stop polling immediately if found
+          clearInterval(intervalId);
         } else {
           attempts += 1;
           if (attempts >= 5) {
-            clearInterval(intervalId); // ❌ Stop after 5 tries if not found
+            clearInterval(intervalId);
+            triedProgrammesRef.current.add(formData.programme); // ❌ Track failed programme
             console.log("❌ Host location not found after 5 attempts.");
           }
         }
@@ -165,17 +168,29 @@ function CheckInForm({onClose}) {
         attempts += 1;
         if (attempts >= 5) {
           clearInterval(intervalId);
+          triedProgrammesRef.current.add(formData.programme);
         }
       }
     };
 
-    // ✅ Only trigger if programme has exactly 5 characters
-    if (formData.programme.length === 5) {
-      intervalId = setInterval(fetchHostCoords, 0); // 🔁 5 fast attempts
+    if (
+      formData.programme.length === 5 &&
+      !triedProgrammesRef.current.has(formData.programme)
+    ) {
+      intervalId = setInterval(fetchHostCoords, 0);
     }
 
-    return () => clearInterval(intervalId); // Cleanup on unmount or programme change
+    return () => clearInterval(intervalId);
   }, [formData.programme]);
+
+
+
+  // ✅ NEW: useEffect to track updated hostCoords
+  useEffect(() => {
+    if (hostCoords.lat !== null && hostCoords.lon !== null) {
+      console.log(`✅ Updated Host lat: ${hostCoords.lat}, lon: ${hostCoords.lon}`);
+    }
+  }, [hostCoords]);
 
 
 
