@@ -101,7 +101,7 @@ const LabelHint = styled.label`
 `;
 
 
-function CheckInForm({onClose}) {
+function CheckInForm({onClose,disableLogout}) {
 
   const [loading, setLoading] = useState(false);
   
@@ -321,7 +321,7 @@ const handleSubmit = async (e) => {
     return;
   }
   else if( distance > range){
-    alert(`You are out of range 😭.\nYou are ${distance} km away`)
+    alert(`You are out of range 😭.\nYou are ${distance.toFixed(3)} km away`)
     console.log("You are out of range.");
     console.log(distance);
     setLoading(false); // Stop loading
@@ -364,10 +364,18 @@ const handleSubmit = async (e) => {
 
     } else {
       console.log("Check-in successful:", data);
-      alert(`Submitted Successfully🎉\nYou are ${distance}km away`)
+      alert(`Submitted Successfully🎉\nYou are ${distance.toFixed(3)}km away`);
       console.log(distance);
       setLoading(false); // Stop loading
       onClose(); // close the form so the countdown shows
+
+      disableLogout(true);
+      localStorage.setItem("logoutDisabledUntil", Date.now() + 3 * 60 * 1000);
+
+      setTimeout(() => {
+        disableLogout(false);
+        localStorage.removeItem("logoutDisabledUntil");
+      }, 3 * 60 * 1000);
     }
 
   } catch (err) {

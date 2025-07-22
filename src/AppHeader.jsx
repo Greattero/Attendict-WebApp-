@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import CheckInForm from "./CheckInForm.jsx";
 
 const Heading = styled.div`
   background-color: rgb(241, 239, 239);;
@@ -44,13 +45,13 @@ const Heading = styled.div`
 `;
 
 
-function AppHeader({onLogout, disableLogout}){
+function AppHeader({onLogout,disableLogout}){
 
     return(
 
         <Heading>
             <h1>Attendict</h1>
-            <button onClick={!disableLogout ? ()=>onLogout : alert("Can't logout after checkin😏😏")}>
+            <button onClick={() => !disableLogout ? onLogout() : alert("Can't logout after check-in 😏")}>
               <i className='bx bx-power-off'></i>
             </button>
 
