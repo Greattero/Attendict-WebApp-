@@ -1,3 +1,4 @@
+import jsPDF from 'jspdf';
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 
@@ -68,7 +69,17 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
         setTimeLeft(0);
         unLockCheckin();
         getAllNames().then(students => {
-          setStudents([]);
+          const date = new Date();
+          const doc = new jsPDF();
+          doc.setFont("Arial");
+          doc.setFontSize(14);
+          doc.text(`${programme} Attendance Sheet`, 10, 10);
+          students.forEach((students,index)=>{
+            doc.text(`${index + 1}. ${students.name} - ${students.index_no}`, 10, 20 + index * 10);
+          });
+
+          doc.save(`${programme}_${date.toLocaleDateString()}`);
+
           console.log("Done");
           console.log(programme);
           console.log(students);
