@@ -124,16 +124,23 @@ const IconWrapper = styled.div`
 `;
 
 const Notice = styled.label`
-    text-align: center;
-    font-size: 18px;
-    border: 2px solid #ffe4bd;
-    border-radius: 15px;
-    background-color: #f0d1ae;
-    padding: 15px;
-    margin-top: 20px;
-    color: black;
-    width: 60rem;
+  text-align: center;
+  font-size: 18px;
+  border: 2px solid #ffe4bd;
+  border-radius: 15px;
+  background-color: #f0d1ae;
+  padding: 15px;
+  margin-top: 3rem;
+  color: black;
+  width: 56rem; /* Matches total width of Host + CheckIn + gap */
+
+  @media screen and (max-width: 650px) {
+    width: 90%;
+    margin-top: 1rem;
+    order: -1; /* Moves above buttons if inside a flex container */
+  }
 `;
+
 
 function Home({onButtonClick, disabled}){
 
