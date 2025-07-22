@@ -234,7 +234,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
       if (!response.ok) {
         console.error("Server error:", data);
-        alert("Unstable internet connection. Try Again");
+        alert("Unstable internet connection. Try Again😬");
         setLoading(false);
         onClose();
       } else {

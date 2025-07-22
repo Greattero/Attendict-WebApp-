@@ -256,11 +256,11 @@ function Login({onLoginSuccess}){
 
         const data = await res.json();
         if (data.success){
-            alert("Login Successful");
+            alert("Login Successful🎉");
             onLoginSuccess();
         }
         else{
-            alert("Invalid Username or password");
+            alert("Invalid Username or password🥲");
             setLoading(false); // Stop loading
 
         }
@@ -280,7 +280,7 @@ function Login({onLoginSuccess}){
                     <h1>Login</h1>
                     <Input className="input-box">
                         <input type="text" 
-                        placeholder="Enter something"
+                        placeholder="Enter Index Number"
                         value={loginData.username}
                         onChange={(e)=>handleUsername(e)}
                         required/>
@@ -288,7 +288,7 @@ function Login({onLoginSuccess}){
                     </Input>
                     <Input className="input-box">
                         <input type="password" 
-                        placeholder="Enter something"
+                        placeholder="Enter password"
                         value={loginData.password}
                         onChange={(e)=>handlePassword(e)}
                         required/>

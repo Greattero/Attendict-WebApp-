@@ -314,14 +314,14 @@ const handleSubmit = async (e) => {
 
   // Check location distance range
   if (distance === null && !hostCoords.lat) {
-    alert("Couldn't get Host location. Try again")
+    alert("Couldn't get Host location. Try again😬")
     console.log("Couldn't get Host location. Try again");
     console.log(distance);
     setLoading(false); // Stop loading
     return;
   }
   else if( distance > range){
-    alert(`You are out of range.\nYou are ${distance}km away`)
+    alert(`You are out of range 😭.\nYou are ${distance} km away`)
     console.log("You are out of range.");
     console.log(distance);
     setLoading(false); // Stop loading
@@ -350,7 +350,7 @@ const handleSubmit = async (e) => {
     }
 
     if(data.available){
-      alert("Wait for countdown to finish");
+      alert("Wait for countdown to finish🤨");
       setLoading(false); // Stop loading
       onClose();
       return;
@@ -358,7 +358,7 @@ const handleSubmit = async (e) => {
 
     if (!response.ok) {
       console.error("Server error:", data);
-      alert("Unstable internet connection. Try again")
+      alert("Unstable internet connection. Try again😬")
       setLoading(false); // Stop loading
       
 

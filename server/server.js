@@ -95,7 +95,7 @@ app.post("/api/checkin-details", async (req, res) => {
     const Student = mongoose.model("Programme", studentSchema, programme);
 
     // Check if student already exists
-    const user = await Student.findOne({ $or: [{ index_no }, { myip }] });
+    const user = await Student.findOne({ index_no});
 
     if (user) {
       return res.json({ available: true });

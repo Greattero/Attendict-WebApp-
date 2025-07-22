@@ -44,13 +44,13 @@ const Heading = styled.div`
 `;
 
 
-function AppHeader({onLogout}){
+function AppHeader({onLogout, disableLogout}){
 
     return(
 
         <Heading>
             <h1>Attendict</h1>
-            <button onClick={()=>onLogout()}>
+            <button onClick={!disableLogout ? ()=>onLogout : alert("Can't logout after checkin😏😏")}>
               <i className='bx bx-power-off'></i>
             </button>
 

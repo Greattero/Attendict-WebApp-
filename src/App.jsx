@@ -98,7 +98,7 @@ function App() {
         width: "100%",
         top: 0,
       }}>
-            <AppHeader onLogout={()=>handleLogoutSuccess()}/>
+            <AppHeader onLogout={()=>handleLogoutSuccess()} disableLogout={disable}/>
       </div>
 
       <div style= {{
