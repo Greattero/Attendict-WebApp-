@@ -275,7 +275,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
         <Label>Index Number </Label>
         <Input type="text" 
-        value={formData.index_no}
+        value={localStorage.getItem("username") || ""}
         onChange={()=>handleIndexNo()}
         disabled  />
 

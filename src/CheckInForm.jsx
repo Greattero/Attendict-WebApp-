@@ -400,8 +400,8 @@ const handleSubmit = async (e) => {
 
         <Label>Index Number </Label>
         <Input type="text"
-        value={formData.index_no}
-        onChange={()=>handleIndexNo(e)}
+        value={localStorage.getItem("username") || ""}
+        onChange={()=>handleIndexNo()}
         disabled/>
 
         <Label>Progamme Initials & Course Code</Label>
