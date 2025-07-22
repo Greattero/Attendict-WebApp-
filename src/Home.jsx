@@ -121,7 +121,18 @@ const IconWrapper = styled.div`
   align-items: center;
   justify-content: center;
 
-`
+`;
+
+const Notice = styled.label`
+    text-align: center;
+    font-size: 18px;
+    border: 2px solid #ffe4bd;
+    border-radius: 15px;
+    background-color: #f0d1ae;
+    padding: 5px;
+    margin-top: 5px;
+    color: black;
+`;
 
 function Home({onButtonClick, disabled}){
 
@@ -141,6 +152,7 @@ function Home({onButtonClick, disabled}){
                     </IconWrapper>
                     <h2>CheckIn</h2>
                 </CheckIn>
+              <Notice>⚠️Do not connect to public networks or hotspots.</Notice>
             </Buttons>
         </HomePage>
     )
