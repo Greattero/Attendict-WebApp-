@@ -57,6 +57,12 @@ const studentSchema = new mongoose.Schema({
 app.post("/api/host-details", async (req, res) => {
     try {
         const {name, index_no, programme, level, myip, location} = req.body;
+    
+        // Check if collection exists first
+        const collections = await mongoose.connection.db.listCollections({ name: programme }).toArray();
+        if (collections.length > 0) {
+        return res.json({ dbAvailable: true });
+        }
 
         // Create dynamic model if needed
         const Student = mongoose.model("Programme", studentSchema, `${programme}`);
