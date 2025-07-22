@@ -75,7 +75,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
           }
           const date = new Date();
           const doc = new jsPDF();
-          doc.setFont("Arial");
+          doc.setFont("helvetica");
           doc.setFontSize(14);
           doc.text(`${programme} Attendance Sheet`, 10, 10);
           students.forEach((student,index)=>{
