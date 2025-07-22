@@ -3,22 +3,19 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
-
 const app = express();
 dotenv.config();
 
 const corsOptions = {
   origin: 'https://attendict.vercel.app',
-  methods: ['GET', 'POST', 'DELETE','OPTIONS'],
+  methods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type'],
   credentials: true,
 };
 
-app.use(cors(corsOptions));
-app.options("*", cors(corsOptions)); // Preflight handler
+app.use(cors(corsOptions));      // ✅ Needed
+app.use(express.json());         // ✅ Needed
 
-// app.use(cors());
-app.use(express.json());
 
 mongoose.connect(process.env.MONGODB_URI , { 
     useNewUrlParser: true, 
