@@ -64,7 +64,6 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 
       if (remaining > 0) {
         lockCheckin();
-        getAllNames()
         setTimeLeft(remaining);
       } else {
         setTimeLeft(0);
@@ -75,8 +74,8 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
           doc.setFont("Arial");
           doc.setFontSize(14);
           doc.text(`${programme} Attendance Sheet`, 10, 10);
-          students.forEach((students,index)=>{
-            doc.text(`${index + 1}. ${students.name} - ${students.index_no}`, 10, 20 + index * 10);
+          students.forEach((student,index)=>{
+            doc.text(`${index + 1}. ${student.name} - ${student.index_no}`, 10, 20 + index * 10);
           });
 
           doc.save(`${programme}_${date.toLocaleDateString()}`);
@@ -90,9 +89,17 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
         localStorage.removeItem("endTime");
         clearInterval(interval);
       }
-    }, 5000);
+    }, 1000);
 
-    return () => clearInterval(interval);
+    const fetchNames = setInterval(()=>{
+      getAllNames()
+    },5000)
+
+    return () =>{ 
+      clearInterval(interval);
+      clearInterval(fetchNames);
+      
+    };
   }, [hostTime]);
 
 
