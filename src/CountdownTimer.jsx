@@ -69,6 +69,10 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
         setTimeLeft(0);
         unLockCheckin();
         getAllNames().then(students => {
+          if(students === undefined || students === null){
+            deleteCollection(programme);
+            return alert("Document coudn't be saved. Check internet connection\nand try again");
+          }
           const date = new Date();
           const doc = new jsPDF();
           doc.setFont("Arial");
