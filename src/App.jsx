@@ -10,22 +10,23 @@ import './index.css';
 
 
 
-const Overlay = ({isVisible}) => (
-  <div style ={{
-    margin: "0",
-    top: "0",
-    left: "0",
-    right: "0",
-    bottom: "0",
-    backgroundColor: "var(--black-op)",
-    zIndex:"1000",
-    display: "block",
-    position: "fixed",
-    width: "100%",
-    height: "100vh",
-  }}/>
+const Overlay = ({ isVisible }) => (
+  isVisible ? (
+    <div style={{
+      margin: "0",
+      top: "0",
+      left: "0",
+      right: "0",
+      bottom: "0",
+      backgroundColor: "var(--black-op)",
+      zIndex: "1000",
+      position: "fixed",
+      width: "100%",
+      height: "100vh",
+    }} />
+  ) : null
+);
 
-)
 
 function App() {
   const [login, setLogin] = useState(() => {
@@ -39,6 +40,8 @@ function App() {
   const [disable, setDisable] = useState(false);
 
   const [programme, setProgramme] = useState("");
+
+  const [logoutDisable, setLogoutDisable] = useState(false);
 
   const handleLock = () => {
     setDisable(true);
@@ -89,7 +92,7 @@ function App() {
         {showPop && (<>
           <Overlay isVisible={showPop}/>
           {form === "host" && <HostForm onClose={()=>closeForm()} setHostTime={setHostTime} setProgramme={setProgramme}/>}
-          {form === "checkin" && <CheckInForm onClose={()=>closeForm()}/>}
+          {form === "checkin" && <CheckInForm onClose={()=>closeForm()} disableLogout={setLogoutDisable}/>}
           </>)
           }
       </div>
@@ -98,7 +101,7 @@ function App() {
         width: "100%",
         top: 0,
       }}>
-            <AppHeader onLogout={()=>handleLogoutSuccess()}/>
+            <AppHeader onLogout={()=>handleLogoutSuccess()} disableLogout={disable}/>
       </div>
 
       <div style= {{
