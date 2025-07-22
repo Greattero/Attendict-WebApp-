@@ -139,7 +139,7 @@ const Notice = styled.label`
     width: 75%;
     margin-top: 5.5rem;
     text-align: center;
-    margin-left: -11rem;
+    margin-left: -10rem;
   }
 `;
 
