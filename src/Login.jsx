@@ -266,8 +266,9 @@ function Login({onLoginSuccess}){
 
         }
     }
-    catch{
+    catch(err){
         alert("No records found");
+        console.log(err);
         setLoading(false);
     }
     }
