@@ -187,11 +187,12 @@ function HostForm({onClose, setHostTime, setProgramme}) {
     setFormData((prev) => ({...prev, name: e.target.value}))
   };
 
-  const handleIndexNo = (e) => {
-    setFormData((prev) => ({
-      ...prev, index_no: e.target.value.toUpperCase()
-    }))
-  };
+  const handleIndexNo = () => {
+    const username = localStorage.getItem("username");
+    setFormData(
+      (prev) => ({...prev, index_no: username})
+    )
+  }
 
   const handleProgramme = (e) => {
     const val = e.target.value.replace(/[.\s]/g, "").toUpperCase();
@@ -275,8 +276,8 @@ function HostForm({onClose, setHostTime, setProgramme}) {
         <Label>Index Number </Label>
         <Input type="text" 
         value={formData.index_no}
-        onChange={(e)=>handleIndexNo(e)}
-        placeholder="Ex. SRI.XX.XXX.XXX.XX" />
+        onChange={()=>handleIndexNo()}
+        disabled  />
 
         <Label>Progamme Initials & Course Code</Label>
         <Input type="text" 

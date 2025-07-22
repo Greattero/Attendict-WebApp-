@@ -277,9 +277,10 @@ useEffect(() => {
     )
   }
 
-  const handleIndexNo = (e) => {
+  const handleIndexNo = () => {
+    const username = localStorage.getItem("username");
     setFormData(
-      (prev) => ({...prev, index_no: e.target.value.toUpperCase()})
+      (prev) => ({...prev, index_no: username})
     )
   }
 
@@ -400,8 +401,8 @@ const handleSubmit = async (e) => {
         <Label>Index Number </Label>
         <Input type="text"
         value={formData.index_no}
-        onChange={(e)=>handleIndexNo(e)}
-        placeholder="Ex. SRI.XX.XXX.XXX.XX" />
+        onChange={()=>handleIndexNo(e)}
+        disabled/>
 
         <Label>Progamme Initials & Course Code</Label>
         <Input type="text"

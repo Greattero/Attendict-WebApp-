@@ -51,8 +51,9 @@ function AppHeader({onLogout,disableLogout}){
 
         <Heading>
             <h1>Attendict</h1>
-            <button onClick={() => !disableLogout ? onLogout() : alert("Can't logout after check-in 😏")}>
+            <button onClick={() => !disableLogout ? (localStorage.removeItem("username"), onLogout()) : alert("Can't logout after check-in 😏")}>
               <i className='bx bx-power-off'></i>
+
             </button>
 
         </Heading>

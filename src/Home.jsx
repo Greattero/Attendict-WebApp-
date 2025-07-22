@@ -142,6 +142,7 @@ function Home({onButtonClick, disabled}){
                     <h2>CheckIn</h2>
                 </CheckIn>
             </Buttons>
+            <Notice>Do not connect to a wifi or hotspo</Notice>
         </HomePage>
     )
 

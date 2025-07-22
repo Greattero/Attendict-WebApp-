@@ -256,6 +256,7 @@ function Login({onLoginSuccess}){
 
         const data = await res.json();
         if (data.success){
+            localStorage.setItem("username",loginData.username);
             alert("Login Successful🎉");
             onLoginSuccess();
         }
