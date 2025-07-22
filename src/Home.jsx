@@ -124,6 +124,7 @@ const IconWrapper = styled.div`
 `;
 
 const Notice = styled.label`
+  position: absolute;
   text-align: center;
   font-size: 18px;
   border: 2px solid #ffe4bd;
