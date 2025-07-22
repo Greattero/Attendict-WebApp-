@@ -129,9 +129,10 @@ const Notice = styled.label`
     border: 2px solid #ffe4bd;
     border-radius: 15px;
     background-color: #f0d1ae;
-    padding: 5px;
-    margin-top: 5px;
+    padding: 15px;
+    margin-top: 20px;
     color: black;
+    width: 60rem;
 `;
 
 function Home({onButtonClick, disabled}){
