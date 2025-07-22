@@ -136,9 +136,10 @@ const Notice = styled.label`
   width: 54rem; /* Matches total width of Host + CheckIn + gap */
 
   @media screen and (max-width: 650px) {
-    width: 90%;
-    margin-top: 1rem;
-    order: -1; /* Moves above buttons if inside a flex container */
+    width: 75%;
+    margin-top: 5.5rem;
+    text-align: center;
+    margin-left: -10.7rem;
   }
 `;
 
