@@ -234,6 +234,14 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
       const data = await response.json();
 
+      if (data.dbAvailable) {
+        alert("Session already exists.");
+        setLoading(false);
+        console.log(`Was it: ${data.dbAvailable}`);
+        onClose();
+        return;
+      }
+
       if (!response.ok) {
         console.error("Server error:", data);
         alert("Unstable internet connection. Try Again😬");
@@ -301,8 +309,8 @@ function HostForm({onClose, setHostTime, setProgramme}) {
           }
         >
           <option value="" disabled>Select duration</option> {/* this one is key */}
-          <option value="2">2 min</option>
-          <option value="3">3 min</option>
+          <option value="0.1">5 min</option>
+          <option value="0.5">10 min</option>
         </Select2>
 
         <Button onClick={(e) => handleSubmit(e)} disabled={loading}>
