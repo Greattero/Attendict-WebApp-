@@ -91,7 +91,14 @@ const Label = styled.label`
   @media screen and (max-width: 650px) {
   margin-top: -6px;
     }
-`
+`;
+
+const LabelHint = styled.label`
+  text-align: center;
+  color: gray;
+  font-size: 12px;
+  font-style: italic;
+`;
 
 
 function CheckInForm({onClose}) {
@@ -272,7 +279,7 @@ useEffect(() => {
 
   const handleIndexNo = (e) => {
     setFormData(
-      (prev) => ({...prev, index_no: e.target.value})
+      (prev) => ({...prev, index_no: e.target.value.toUpperCase()})
     )
   }
 
@@ -375,6 +382,7 @@ const handleSubmit = async (e) => {
   return (
     <Checkin ref= {popupRef}>
         <Header>Check-In </Header>
+        <LabelHint>(for class members)</LabelHint>
         <Label>Full name </Label>
         <Input type="text"
         value={formData.name}

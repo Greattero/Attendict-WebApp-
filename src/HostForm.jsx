@@ -100,7 +100,15 @@ const Label = styled.label`
   margin-top: -6px;
     }
 
-`
+`;
+
+const LabelHint = styled.label`
+  text-align: center;
+  color: gray;
+  font-size: 12px;
+  font-style: italic;
+`;
+
 
 function HostForm({onClose, setHostTime, setProgramme}) {
 
@@ -181,7 +189,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
   const handleIndexNo = (e) => {
     setFormData((prev) => ({
-      ...prev, index_no: e.target.value
+      ...prev, index_no: e.target.value.toUpperCase()
     }))
   };
 
@@ -231,7 +239,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
         onClose();
       } else {
         console.log("Successfully submitted:", data);
-        alert("Submitted Successfully🎉")
+        alert("Submitted Successfully🎉");
         setLoading(false); // Stop loading
 
         setHostTime(null);
@@ -256,6 +264,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
   return (
     <Hosting ref= {popupRef}>
         <Header>HOST </Header>
+        <LabelHint>(for Lecturers/class reps only)</LabelHint>
         <Label>Full name </Label>
         <Input 
         type="text"
@@ -290,8 +299,8 @@ function HostForm({onClose, setHostTime, setProgramme}) {
           }
         >
           <option value="" disabled>Select duration</option> {/* this one is key */}
-          <option value="1">5 min</option>
-          <option value="2">10 min</option>
+          <option value="0.1">5 min</option>
+          <option value="0.5">10 min</option>
         </Select2>
 
         <Button onClick={(e) => handleSubmit(e)} disabled={loading}>

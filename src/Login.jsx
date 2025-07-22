@@ -230,13 +230,13 @@ function Login({onLoginSuccess}){
 
     const handleUsername = (e) => {
         setLoginData(
-            (prev) => ({...prev, username:e.target.value})
+            (prev) => ({...prev, username:e.target.value.toUpperCase()})
         )
     }
 
     const handlePassword = (e) => {
         setLoginData(
-            (prev) => ({...prev, password: e.target.value})
+            (prev) => ({...prev, password: e.target.value.toUpperCase()})
         )
     }
 

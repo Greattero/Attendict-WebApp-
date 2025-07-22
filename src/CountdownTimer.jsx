@@ -64,6 +64,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 
       if (remaining > 0) {
         lockCheckin();
+        getAllNames()
         setTimeLeft(remaining);
       } else {
         setTimeLeft(0);
@@ -89,7 +90,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
         localStorage.removeItem("endTime");
         clearInterval(interval);
       }
-    }, 1000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [hostTime]);
