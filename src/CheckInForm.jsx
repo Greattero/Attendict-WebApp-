@@ -240,6 +240,7 @@ function CheckInForm({onClose,disableLogout}) {
   },[])
 
   useEffect(() => {
+    const username = localStorage.getItem("username");
     setFormData((prev) => ({
       ...prev,
       location: {
@@ -247,6 +248,7 @@ function CheckInForm({onClose,disableLogout}) {
         lon: location.lon,
       },
       myip: ip,
+      index_no: username,
     }));
   }, [location,ip]);
 
@@ -306,7 +308,7 @@ const handleSubmit = async (e) => {
   console.log(`lat:${formData.location.lat} and long: ${formData.location.lon}`);
 
   // Validate form fields
-  if (!formData.name || !formData.index_no || !formData.programme || !formData.level) {
+  if (!formData.name || !formData.programme || !formData.level) {
     alert("Please fill all required fields.");
     return;
   }
@@ -400,7 +402,7 @@ const handleSubmit = async (e) => {
 
         <Label>Index Number </Label>
         <Input type="text"
-        value={localStorage.getItem("username") || ""}
+        value={formData.index_no}
         onChange={()=>handleIndexNo()}
         disabled/>
 

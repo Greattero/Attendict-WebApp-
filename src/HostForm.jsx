@@ -173,6 +173,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
 
   useEffect(() => {
+  const username = localStorage.getItem("username");
   setFormData((prev) => ({
     ...prev,
     location: {
@@ -180,6 +181,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
       lon: location.lon,
     },
     myip: ip,
+    index_no: username,
   }));
 }, [location,ip]);
 
@@ -188,7 +190,6 @@ function HostForm({onClose, setHostTime, setProgramme}) {
   };
 
   const handleIndexNo = () => {
-    const username = localStorage.getItem("username");
     setFormData(
       (prev) => ({...prev, index_no: username})
     )
@@ -211,7 +212,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
     console.log(`lat:${formData.location.lat} and long: ${formData.location.lon}`);
     
-    if (!formData.name || !formData.index_no || !formData.programme || !formData.level || !formData.duration) {
+    if (!formData.name || !formData.programme || !formData.level || !formData.duration) {
       alert("Please fill all required fields.");
       return;
     }
@@ -275,7 +276,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
         <Label>Index Number </Label>
         <Input type="text" 
-        value={localStorage.getItem("username") || ""}
+        value={formData.index_no}
         onChange={()=>handleIndexNo()}
         disabled  />
 
