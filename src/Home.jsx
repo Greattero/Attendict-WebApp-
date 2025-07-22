@@ -133,7 +133,7 @@ const Notice = styled.label`
   padding: 15px;
   margin-top: 2rem;
   color: black;
-  width: 56rem; /* Matches total width of Host + CheckIn + gap */
+  width: 53rem; /* Matches total width of Host + CheckIn + gap */
 
   @media screen and (max-width: 650px) {
     width: 90%;
