@@ -152,8 +152,8 @@ function Home({onButtonClick, disabled}){
                     </IconWrapper>
                     <h2>CheckIn</h2>
                 </CheckIn>
-              <Notice>⚠️Do not connect to public networks or hotspots.</Notice>
             </Buttons>
+            <Notice>⚠️Do not connect to public networks or hotspots.</Notice>
         </HomePage>
     )
 
