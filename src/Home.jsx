@@ -131,9 +131,9 @@ const Notice = styled.label`
   border-radius: 15px;
   background-color: #f0d1ae;
   padding: 15px;
-  margin-top: 20rem;
+  margin-top: 2rem;
   color: black;
-  width: 104rem; /* Matches total width of Host + CheckIn + gap */
+  width: 50rem; /* Matches total width of Host + CheckIn + gap */
 
   @media screen and (max-width: 650px) {
     width: 90%;
