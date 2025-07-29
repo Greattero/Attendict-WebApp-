@@ -172,9 +172,9 @@ app.post("/api/login-details", async (req, res)=>{
     const schoolCode = usernameChecker.substring(0,5);
     const departmentalCode = usernameChecker.substring(5,8);
     const schoolYear = usernameChecker.slice(-2);
-    const departmentalCodesArray = ["002","003","005","006","008","010","024","028"];
+    const departmentalCodesArray = ["002","003","005","007","006","008","010","024","028"];
 
-    if(schoolCode !== "SRI41" || !departmentalCodesArray.includes(departmentalCode) || schoolYear.length !== 2){
+    if(schoolCode !== "SRI41" || !departmentalCodesArray.includes(departmentalCode) || usernameChecker.length !== 13){
         console.log("nooooooooooooooooooo");
         return res.json({success: false});
     }
