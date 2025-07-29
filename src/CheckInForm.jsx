@@ -358,7 +358,7 @@ const handleSubmit = async (e) => {
     }
 
     if(data.available){
-      alert("Wait for countdown to finish🤨");
+      alert("Wait for 3 minutes after checkin🤨");
       setLoading(false); // Stop loading
       onClose();
       return;
