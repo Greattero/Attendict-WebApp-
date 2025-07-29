@@ -168,10 +168,10 @@ app.post("/api/login-details", async (req, res)=>{
 
     const { username, password } = req.body;
     const usernameChecker = username.replace(/[.\s]/g,"");
-    const schoolCode = usernameChecker.subtring(0,4);
-    const departmentalCode = usernameChecker.substring(5,7);
+    const schoolCode = usernameChecker.substring(0,5);
+    const departmentalCode = usernameChecker.substring(5,8);
     const schoolYear = usernameChecker.slice(-2);
-    const departmentalCodesArray = ["002","003","005","006","010","024","028"];
+    const departmentalCodesArray = ["002","003","005","006","008","010","024","028"];
 
     if(schoolCode !== "SRI41" && !departmentalCodesArray.includes(departmentalCode)){
         return res.json({success:"Wrong username"});
