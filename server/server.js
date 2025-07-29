@@ -226,3 +226,30 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+// Auto delete collections older than 4 minutes
+setInterval(async () => {
+  try {
+    const collections = await mongoose.connection.db.listCollections().toArray();
+
+    const threshold = new Date(Date.now() - 4 * 60 * 1000); // 4 minutes ago
+    const thresholdObjId = ObjectId.createFromTime(Math.floor(threshold.getTime() / 1000));
+
+    for (const coll of collections) {
+      const name = coll.name;
+
+      // Skip system collections like 'system.indexes'
+      if (name.startsWith('system.')) continue;
+
+      const db = mongoose.connection.collection(name);
+
+      const oldDocs = await db.find({ _id: { $lt: thresholdObjId } }).limit(1).toArray();
+      if (oldDocs.length > 0) {
+        await db.drop();
+        console.log(`Dropped collection: ${name}`);
+      }
+    }
+  } catch (err) {
+    console.error("Auto-cleanup error:", err);
+  }
+}, 1 * 60 * 1000); // Runs every 4 minutes
