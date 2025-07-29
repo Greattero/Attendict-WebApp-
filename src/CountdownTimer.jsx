@@ -87,6 +87,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
           console.log("Done");
           console.log(programme);
           console.log(students);
+          alert("Document saved successfully");
           deleteCollection(programme);
           setStudents([]);
         });
