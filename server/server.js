@@ -164,24 +164,34 @@ app.get("/api/student-list", async (req,res) =>{
 app.post("/api/login-details", async (req, res)=>{
     
 
-    const LoginModel = mongoose.models.Login || mongoose.model("Login", studentSchema, "Logins");
+    // const LoginModel = mongoose.models.Login || mongoose.model("Login", studentSchema, "Logins");
 
     const { username, password } = req.body;
-    const user = await LoginModel.findOne({ username, password });
+    const usernameChecker = username.replace(/[.\s]/g,"");
+    const schoolCode = usernameChecker.subtring(0,4);
+    const departmentalCode = usernameChecker.substring(5,7);
+    const schoolYear = usernameChecker.slice(-2);
+    const departmentalCodesArray = ["002","003","005","006","010","024","028"];
 
-    if (user){
+    if(schoolCode !== "SRI41" && !departmentalCodesArray.includes(departmentalCode)){
+        return res.json({success:"Wrong username"});
+    }
+
+    // const user = await LoginModel.findOne({ username, password });
+
+    else{
         console.log("Workingggg");
         return res.json({success: true});
-        
     }
-    else{
-        console.log("nooooooooooooooooooo");
-        return res.json({success: false});
+    // else{
+    //     console.log("nooooooooooooooooooo");
+    //     return res.json({success: false});
 
-    }
+    // }
 }
 
 )
+
 
 app.delete("/api/delete-collection",async(req,res)=> {
 
