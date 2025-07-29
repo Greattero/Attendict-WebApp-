@@ -219,6 +219,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
     if(formData.programme.length !== 4){
       alert("Programme code must be 4 characters");
+      return;
     }
 
     setLoading(true); // Start loading
