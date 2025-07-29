@@ -173,8 +173,9 @@ app.post("/api/login-details", async (req, res)=>{
     const schoolYear = usernameChecker.slice(-2);
     const departmentalCodesArray = ["002","003","005","006","008","010","024","028"];
 
-    if(schoolCode !== "SRI41" && !departmentalCodesArray.includes(departmentalCode)){
-        return res.json({success:"Wrong username"});
+    if(schoolCode !== "SRI41" || !departmentalCodesArray.includes(departmentalCode)){
+        console.log("nooooooooooooooooooo");
+        return res.json({success: false});
     }
 
     // const user = await LoginModel.findOne({ username, password });
