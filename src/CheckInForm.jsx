@@ -313,8 +313,8 @@ const handleSubmit = async (e) => {
     return;
   }
 
-  if(formData.programme.length !== 4){
-      alert("Programme code must be 4 characters");
+  if(formData.programme.length !== 5){
+      alert("Programme code must be 5 characters");
       return;
   }
 
