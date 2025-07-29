@@ -174,7 +174,7 @@ app.post("/api/login-details", async (req, res)=>{
     const schoolYear = usernameChecker.slice(-2);
     const departmentalCodesArray = ["002","003","005","006","008","010","024","028"];
 
-    if(schoolCode !== "SRI41" || !departmentalCodesArray.includes(departmentalCode)){
+    if(schoolCode !== "SRI41" || !departmentalCodesArray.includes(departmentalCode) || schoolYear.length !== 2){
         console.log("nooooooooooooooooooo");
         return res.json({success: false});
     }
