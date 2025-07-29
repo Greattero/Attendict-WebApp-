@@ -71,7 +71,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
         getAllNames().then(students => {
           if(students === undefined || students === null){
             deleteCollection(programme);
-            return alert("Document coudn't be saved. Check internet connection\nand try again");
+            return alert("Document coudn't be saved. Check internet connection and try again");
           }
           const date = new Date();
           const doc = new jsPDF();
