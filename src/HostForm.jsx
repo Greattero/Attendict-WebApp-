@@ -222,6 +222,11 @@ function HostForm({onClose, setHostTime, setProgramme}) {
       return;
     }
 
+    if(formData.location.lat === null || formData.location.lon === null){
+      alert("Location not found 😬. Check if location is on and try again.");
+      return;
+    }
+
     setLoading(true); // Start loading
 
     console.log(`lat:${formData.location.lat} and long: ${formData.location.lon}`);
