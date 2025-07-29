@@ -223,7 +223,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
     }
 
     if(formData.location.lat === null || formData.location.lon === null){
-      alert("Location not found 😬. Check if location is on and try again.");
+      alert("Location not found 😬. Check if location is on. Refresh and try again.");
       return;
     }
 
