@@ -313,6 +313,11 @@ const handleSubmit = async (e) => {
     return;
   }
 
+  if(formData.programme.length !== 4){
+      alert("Programme code must be 4 characters");
+      return;
+  }
+
   setLoading(true); // Start loading
 
   // Check location distance range
