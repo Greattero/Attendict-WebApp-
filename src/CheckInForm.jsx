@@ -322,7 +322,7 @@ const handleSubmit = async (e) => {
 
   // Check location distance range
   if (distance === null && !hostCoords.lat) {
-    alert("Host location not found 😬. Check course code or turn on location and try again.");
+    alert("Host location not found 😬. Check course code or turn on location. Then refresh and try again.");
     console.log("Couldn't get Host location. Try again");
     console.log(distance);
     setLoading(false); // Stop loading
