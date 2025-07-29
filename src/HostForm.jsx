@@ -217,6 +217,10 @@ function HostForm({onClose, setHostTime, setProgramme}) {
       return;
     }
 
+    if(formData.programme.length !== 4){
+      alert("Programme code must be 4 characters");
+    }
+
     setLoading(true); // Start loading
 
     console.log(`lat:${formData.location.lat} and long: ${formData.location.lon}`);
