@@ -299,7 +299,7 @@ useEffect(() => {
     )
   }
 
-  const range = 0.27;
+  const range = 0.32;
 
 
 const handleSubmit = async (e) => {
@@ -329,7 +329,7 @@ const handleSubmit = async (e) => {
     return;
   }
   else if( distance > range){
-    alert(`You are out of range 😭.\nYou are ${distance.toFixed(3)} km away`)
+    alert(`You are out of range 😭.\nRefresh and try again`);
     console.log("You are out of range.");
     console.log(distance);
     setLoading(false); // Stop loading
@@ -439,3 +439,4 @@ const handleSubmit = async (e) => {
 }
 
 export default CheckInForm;
+
