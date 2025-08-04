@@ -31,6 +31,7 @@ const studentSchema = new mongoose.Schema({
     myip: String, // ✅ add this line
     username: String,
     password: String,
+    doubtChecker: String,
     location: {
         lat: Number,
         lon: Number,
@@ -99,22 +100,24 @@ app.post("/api/checkin-details", async (req, res) => {
     const Student = mongoose.model("Programme", studentSchema, programme);
 
     // Check if student already exists
-    const user = await Student.findOne({ $or: [{ myip }, { index_no }] });
+    const ipLimit = await Student.countDocuments({myip});
 
-    if (user) {
+    if (ipLimit > 5) {
       return res.json({ available: true });
     }
 
-    // Save the new student
-    const newStudent = await Student.create({
+    const studentData = {
       name,
       index_no,
       programme,
       level,
       myip,
-    });
+      doubtChecker: ipLimit > 0 ? "1" : "0",
+    };
 
-    res.status(201).json(newStudent);
+    const newStudent = await Student.create(studentData);
+
+   res.status(201).json(newStudent);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
