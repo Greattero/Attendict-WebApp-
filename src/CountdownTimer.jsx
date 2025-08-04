@@ -85,7 +85,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
             {
               doc.setFillColor(255, 255, 0);
               doc.rect(10, y - 7, 190, 10, 'F'); // x, y, width, height, fill
-              line += "  Check if in class👀";
+              line += "    Check if in class👀";
             }
 
               // Check if next line will overflow
@@ -139,3 +139,4 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
