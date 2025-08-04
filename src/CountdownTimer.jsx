@@ -97,9 +97,8 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 
             doc.text(line, 10, y);
             y+=10; // move to the next line
+            console.log("DEBUG:", student.name, student.doubtChecker, typeof student.doubtChecker);
           });
-
-          console.log("DEBUG:", student.name, student.doubtChecker);
 
           doc.save(`${programme}_${date.toLocaleDateString()}`);
 
@@ -141,6 +140,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
 
 
