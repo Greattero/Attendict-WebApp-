@@ -75,7 +75,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
           }
           const date = new Date();
           const doc = new jsPDF();
-          doc.setFont("helvetica");
+          doc.setFont("times");
           doc.setFontSize(14);
           doc.text(`${programme} Attendance Sheet`, 10, 10);
           let y = 20;
@@ -85,7 +85,8 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
             {
               doc.setFillColor(255, 255, 0);
               doc.rect(10, y - 7, 190, 10, 'F'); // x, y, width, height, fill
-              line += "    Check if in class👀";
+              doc.setFont("times", "bolditalic");
+              line += "    Check if in class";
             }
 
               // Check if next line will overflow
@@ -97,14 +98,13 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 
             doc.text(line, 10, y);
             y+=10; // move to the next line
-            console.log("DEBUG:", student);
           });
 
           doc.save(`${programme}_${date.toLocaleDateString()}`);
 
-          console.log("Done");
-          console.log(programme);
-          console.log(students);
+          //console.log("Done");
+          //console.log(programme);
+          //console.log(students);
           alert("Document saved successfully");
           deleteCollection(programme);
           setStudents([]);
@@ -140,6 +140,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
 
 
