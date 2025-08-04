@@ -245,7 +245,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
       const data = await response.json();
 
       if (data.dbAvailable) {
-        alert("Session already exists.");
+        alert("Session already exists. Please try again in a few minutes.");
         setLoading(false);
         console.log(`Was it: ${data.dbAvailable}`);
         onClose();
@@ -336,3 +336,4 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 }
 
 export default HostForm;
+
