@@ -241,7 +241,7 @@ setInterval(async () => {
   try {
     const collections = await mongoose.connection.db.listCollections().toArray();
 
-    const threshold = new Date(Date.now() - 4 * 60 * 1000); // 4 minutes ago
+    const threshold = new Date(Date.now() - 5 * 60 * 1000); // 5 minutes ago
     const thresholdObjId = ObjectId.createFromTime(Math.floor(threshold.getTime() / 1000));
 
     for (const coll of collections) {
@@ -262,4 +262,5 @@ setInterval(async () => {
     console.error("Auto-cleanup error:", err);
   }
 }, 1 * 60 * 1000); // Runs every 4 minutes
+
 
