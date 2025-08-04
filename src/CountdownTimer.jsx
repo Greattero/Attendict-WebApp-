@@ -78,8 +78,25 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
           doc.setFont("helvetica");
           doc.setFontSize(14);
           doc.text(`${programme} Attendance Sheet`, 10, 10);
+          let y = 20;
           students.forEach((student,index)=>{
-            doc.text(`${index + 1}. ${student.name} - ${student.index_no}`, 10, 20 + index * 10);
+            let line = `${index + 1}. ${student.name} - ${student.index_no}`;
+            if(student.doubtChecker === "1")
+            {
+              doc.setFillColor(255, 255, 0);
+              doc.rect(10, y - 7, 190, 10, 'F'); // x, y, width, height, fill
+              line += "  Check if in class👀";
+            }
+
+              // Check if next line will overflow
+            if (y >= 820) {
+              doc.addPage();
+              y = 20; // reset Y for new page
+            }
+
+
+            doc.text(line, 10, y);
+            y+=10; // move to the next line
           });
 
           doc.save(`${programme}_${date.toLocaleDateString()}`);
