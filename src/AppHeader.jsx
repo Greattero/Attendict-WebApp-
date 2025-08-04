@@ -56,7 +56,7 @@ function AppHeader({onLogout,disableLogout}){
                   localStorage.removeItem("username");
                   onLogout();
                 } else {
-                  alert("Can't logout after check-in 😏");
+                  alert("📸 Chakam! Nice try 😂 Logout drops in 3 mins—cheaters no dey win!");
                 }
               }}>
                           <i className='bx bx-power-off'></i>
