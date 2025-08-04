@@ -358,7 +358,7 @@ const handleSubmit = async (e) => {
     }
 
     if(data.available){
-      alert("Wait for 3 minutes after checkin🤨");
+      alert("😕 Oops! Too many check-ins on this network. Switch to another connection 🌐");
       setLoading(false); // Stop loading
       onClose();
       return;
