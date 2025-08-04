@@ -143,7 +143,7 @@ app.get("/api/host-location", async (req, res) => {
 
         res.json({ location: host.location });
     } catch (err) {
-        console.error(err);
+        //console.error(err);
         res.status(500).json({ error: err.message });
     }
 });
@@ -159,12 +159,12 @@ app.get("/api/student-list", async (req,res) =>{
       doubtChecker: 1,
       _id: 0
     });
-    console.log(programme);
+    //console.log(programme);
 
     res.json(studentList);
     }
     catch(err){
-        console.log(`Getting names error: ${err}`)
+        //console.log(`Getting names error: ${err}`)
     }
 }
 
@@ -183,14 +183,14 @@ app.post("/api/login-details", async (req, res)=>{
     const departmentalCodesArray = ["002","003","005","007","006","008","010","024","028"];
 
     if(schoolCode !== "SRI41" || !departmentalCodesArray.includes(departmentalCode) || usernameChecker.length !== 13){
-        console.log("nooooooooooooooooooo");
+        //console.log("nooooooooooooooooooo");
         return res.json({success: false});
     }
 
     // const user = await LoginModel.findOne({ username, password });
 
     else{
-        console.log("Workingggg");
+        //console.log("Workingggg");
         return res.json({success: true});
     }
     // else{
@@ -255,12 +255,13 @@ setInterval(async () => {
       const oldDocs = await db.find({ _id: { $lt: thresholdObjId } }).limit(1).toArray();
       if (oldDocs.length > 0) {
         await db.drop();
-        console.log(`Dropped collection: ${name}`);
+        //console.log(`Dropped collection: ${name}`);
       }
     }
   } catch (err) {
-    console.error("Auto-cleanup error:", err);
+    //console.error("Auto-cleanup error:", err);
   }
 }, 1 * 60 * 1000); // Runs every 4 minutes
+
 
 
