@@ -155,7 +155,7 @@ app.get("/api/student-list", async (req,res) =>{
     try{
     const { programme } = req.query;
     const Student = mongoose.model("Programme", studentSchema, programme);
-    const studentList = await Student.find({},{name: 1, index_no: 1, _id: 0});
+    const studentList = await Student.find({},{name: 1, index_no: 1, doubtChecker: 1, _id: 0});
     console.log(programme);
 
     res.json(studentList);
@@ -259,3 +259,4 @@ setInterval(async () => {
     console.error("Auto-cleanup error:", err);
   }
 }, 1 * 60 * 1000); // Runs every 4 minutes
+
