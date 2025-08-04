@@ -31,6 +31,7 @@ const studentSchema = new mongoose.Schema({
     myip: String, // ✅ add this line
     username: String,
     password: String,
+    doubtChecker: String,
     location: {
         lat: Number,
         lon: Number,
@@ -76,6 +77,7 @@ app.post("/api/host-details", async (req, res) => {
             level,
             myip,
             location,
+            doubtChecker: "0",
         });
         res.status(201).json(newStudent);
 
@@ -101,7 +103,9 @@ app.post("/api/checkin-details", async (req, res) => {
     // Check if student already exists
     const user = await Student.findOne({ $or: [{ myip }, { index_no }] });
 
-    if (user) {
+    const ipCounter = await Student.countDocuments({myip});
+
+    if (ipCounter > 4) {
       return res.json({ available: true });
     }
 
@@ -112,6 +116,7 @@ app.post("/api/checkin-details", async (req, res) => {
       programme,
       level,
       myip,
+      doubtChecker: ipCounter > 0 ? "1" : "0",
     });
 
     res.status(201).json(newStudent);
