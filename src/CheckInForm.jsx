@@ -244,8 +244,8 @@ function CheckInForm({onClose,disableLogout}) {
     setFormData((prev) => ({
       ...prev,
       location: {
-        lat: Number(location.lat.toFixed(6)),
-        lon: Number(location.lon.toFixed(6)),
+        lat: location.lat != null ? Number(location.lat.toFixed(6)) : null,
+        lon: location.lon != null ? Number(location.lon.toFixed(6)) : null,
       },
       myip: ip,
       index_no: username,
@@ -439,6 +439,7 @@ const handleSubmit = async (e) => {
 }
 
 export default CheckInForm;
+
 
 
 
