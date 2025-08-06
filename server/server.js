@@ -103,7 +103,7 @@ app.post("/api/checkin-details", async (req, res) => {
     // Check if student already exists
     const user = await Student.findOne({index_no});
 
-    //const ipCounter = await Student.countDocuments({myip});
+    const ipCounter = await Student.countDocuments({myip});
 
     if (user) {
       return res.json({ available: true });
@@ -259,6 +259,7 @@ setInterval(async () => {
     console.error("Auto-cleanup error:", err);
   }
 }, 1 * 60 * 1000); // Runs every 4 minutes
+
 
 
 
