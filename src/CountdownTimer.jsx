@@ -89,11 +89,11 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
               line += "      Check if in class";
             }
             else{
-              doc.setFont("times");
+              doc.setFont("times", "normal");
             }
 
               // Check if next line will overflow
-            if (index % 27 === 0) {
+            if (index !== 0 && index % 27 === 0) {
               doc.addPage();
               y = 20; // reset Y for new page
             }
@@ -143,6 +143,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
 
 
