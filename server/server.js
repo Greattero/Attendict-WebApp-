@@ -101,11 +101,11 @@ app.post("/api/checkin-details", async (req, res) => {
     const Student = mongoose.model("Programme", studentSchema, programme);
 
     // Check if student already exists
-    const user = await Student.findOne({ $or: [{ myip }, { index_no }] });
+    const user = await Student.findOne({index_no});
 
     const ipCounter = await Student.countDocuments({myip});
 
-    if (ipCounter > 4) {
+    if (ipCounter > 4 || user) {
       return res.json({ available: true });
     }
 
@@ -259,4 +259,5 @@ setInterval(async () => {
     console.error("Auto-cleanup error:", err);
   }
 }, 1 * 60 * 1000); // Runs every 4 minutes
+
 
