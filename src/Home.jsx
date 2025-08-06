@@ -163,11 +163,12 @@ function Home({onButtonClick, disabled}){
                     <h2>CheckIn</h2>
                 </CheckIn>
             </Buttons>
-            <Notice>⚠️Only 5 users connected to a hotspot/wifi can check in.</Notice>
+            <Notice>⚠️Please allow location — mandatory for host and check-in</Notice>
         </HomePage>
     )
 
 }
 
 export default Home;
+
 
