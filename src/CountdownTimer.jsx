@@ -6,8 +6,8 @@ const Timer = styled.label`
   font-family: 'Roboto Mono', monospace;
   color: black;
   padding-top: 45px;
-  font-size: 25px;`
-;
+  font-size: 25px;
+`;
 
 const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,programme}) => {
   const [timeLeft, setTimeLeft] = useState(0);
@@ -22,7 +22,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
       return students;
     }
     catch(err){
-      console.log(`Couldn't get names: ${err}`);
+      console.log(`Couldn't get names: ${err}`)
     }
   }
 
@@ -89,10 +89,12 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
               line += "      Check if in class";
             }
             else{
+              doc.setFont("times");
               doc.setFont("times", "normal");
             }
 
               // Check if next line will overflow
+            if (index % 27 === 0) {
             if (index !== 0 && index % 27 === 0) {
               doc.addPage();
               y = 20; // reset Y for new page
@@ -117,16 +119,14 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
       }
     }, 1000);
 
-    const fetchNames = setInterval(() => {
-      getAllNames().then(data => {
-        if (Array.isArray(data)) setStudents(data);
-      });
-    }, 5000);
+    const fetchNames = setInterval(()=>{
+      getAllNames()
+    },5000)
 
     return () =>{ 
       clearInterval(interval);
       clearInterval(fetchNames);
-      
+
     };
   }, [hostTime]);
 
@@ -145,6 +145,3 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
-
-
-
