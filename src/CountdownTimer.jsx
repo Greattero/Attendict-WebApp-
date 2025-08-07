@@ -68,9 +68,9 @@ useEffect(() => {
       setTimeLeft(0);
       unLockCheckin();
 
-      if (!Array.isArray(students) || students.length === 0) {
+      if(students === undefined || students === null){
         deleteCollection(programme);
-        return alert("Document couldn't be saved. No attendance data found.");
+        return alert("Document coudn't be saved. Check internet connection and try again");
       }
 
       const date = new Date();
@@ -136,6 +136,7 @@ useEffect(() => {
 };
 
 export default CountdownTimer;
+
 
 
 
