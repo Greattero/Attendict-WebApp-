@@ -43,90 +43,83 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
     }
   }
 
-  useEffect(() => {
-    let endTime = localStorage.getItem("endTime");
+useEffect(() => {
+  let endTime = localStorage.getItem("endTime");
 
-    if (!endTime && hostTime > 0) {
-      const hostSeconds = Number(hostTime);
-      if (!isNaN(hostSeconds)) {
-        endTime = Date.now() + hostSeconds * 60 * 1000;
-        localStorage.setItem("endTime", endTime);
-        setHostTime(0);
-      }
+  if (!endTime && hostTime > 0) {
+    const hostSeconds = Number(hostTime);
+    if (!isNaN(hostSeconds)) {
+      endTime = Date.now() + hostSeconds * 60 * 1000;
+      localStorage.setItem("endTime", endTime);
+      setHostTime(0);
     }
+  }
 
-    // ❌ Don’t run timer if endTime is missing
-    if (!endTime) return;
+  if (!endTime) return;
 
-    const interval = setInterval(() => {
-      const savedEndTime = Number(localStorage.getItem("endTime"));
-      const remaining = Math.floor((savedEndTime - Date.now()) / 1000);
+  const interval = setInterval(() => {
+    const savedEndTime = Number(localStorage.getItem("endTime"));
+    const remaining = Math.floor((savedEndTime - Date.now()) / 1000);
 
-      if (remaining > 0) {
-        lockCheckin();
-        setTimeLeft(remaining);
-      } else {
-        setTimeLeft(0);
-        unLockCheckin();
-        getAllNames().then(students => {
-          if(students === undefined || students === null){
-            deleteCollection(programme);
-            return alert("Document coudn't be saved. Check internet connection and try again");
-          }
-          const date = new Date();
-          const doc = new jsPDF();
-          doc.setFont("times");
-          doc.setFontSize(14);
-          doc.text(`${programme} Attendance Sheet`, 10, 10);
-          let y = 20;
-          students.forEach((student,index)=>{
-            let line = `${index + 1}. ${student.name} - ${student.index_no}`;
-            if(student.doubtChecker === "1")
-            {
-              doc.setFillColor(255, 255, 0);
-              doc.rect(10, y - 7, 190, 10, 'F'); // x, y, width, height, fill
-              doc.setFont("times", "bolditalic");
-              line += "      Check if in class";
-            }
-            else{
-              doc.setFont("times", "normal");
-            }
+    if (remaining > 0) {
+      lockCheckin();
+      setTimeLeft(remaining);
+    } else {
+      setTimeLeft(0);
+      unLockCheckin();
 
-              // Check if next line will overflow
-            if (index !== 0 && index % 27 === 0) {
-              doc.addPage();
-              y = 20; // reset Y for new page
-            }
-
-
-            doc.text(line, 10, y);
-            y+=10; // move to the next line
-          });
-
-          doc.save(`${programme}_${date.toLocaleDateString()}`);
-
-          //console.log("Done");
-          //console.log(programme);
-          //console.log(students);
-          alert("Document saved successfully");
-          deleteCollection(programme);
-          setStudents([]);
-        });
-        localStorage.removeItem("endTime");
-        clearInterval(interval);
+      if (!Array.isArray(students) || students.length === 0) {
+        deleteCollection(programme);
+        return alert("Document couldn't be saved. No attendance data found.");
       }
-    }, 1000);
 
-    const fetchNames = setInterval(()=>{
-      getAllNames()
-    },5000)
+      const date = new Date();
+      const doc = new jsPDF();
+      doc.setFont("times");
+      doc.setFontSize(14);
+      doc.text(`${programme} Attendance Sheet`, 10, 10);
+      let y = 20;
+      students.forEach((student, index) => {
+        let line = `${index + 1}. ${student.name} - ${student.index_no}`;
+        if (student.doubtChecker === "1") {
+          doc.setFillColor(255, 255, 0);
+          doc.rect(10, y - 7, 190, 10, 'F');
+          doc.setFont("times", "bolditalic");
+          line += "      Check if in class";
+        } else {
+          doc.setFont("times", "normal");
+        }
 
-    return () =>{ 
+        if (index !== 0 && index % 27 === 0) {
+          doc.addPage();
+          y = 20;
+        }
+
+        doc.text(line, 10, y);
+        y += 10;
+      });
+
+      doc.save(`${programme}_${date.toLocaleDateString()}`);
+      alert("Document saved successfully");
+      deleteCollection(programme);
+      setStudents([]);
+      localStorage.removeItem("endTime");
       clearInterval(interval);
-      clearInterval(fetchNames);
-      
-    };
-  }, [hostTime]);
+    }
+  }, 1000);
+
+  // 🟢 FETCH AND STORE STUDENTS CONTINUOUSLY
+  const fetchNames = setInterval(() => {
+    getAllNames().then(data => {
+      if (Array.isArray(data)) setStudents(data);
+    });
+  }, 5000);
+
+  return () => {
+    clearInterval(interval);
+    clearInterval(fetchNames);
+  };
+}, [hostTime]);
 
 
   const formatTime = (seconds) => {
@@ -143,6 +136,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
 
 
