@@ -2,11 +2,11 @@ import jsPDF from 'jspdf';
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 
-const Timer = styled.label
+const Timer = styled.label`
   font-family: 'Roboto Mono', monospace;
   color: black;
   padding-top: 45px;
-  font-size: 25px;
+  font-size: 25px;`
 ;
 
 const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,programme}) => {
@@ -145,5 +145,6 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
 
