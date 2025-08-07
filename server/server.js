@@ -36,7 +36,7 @@ const studentSchema = new mongoose.Schema({
         lat: Number,
         lon: Number,
     },
-});
+}, { timestamps: true });
 
 // // Define the model once at the top level
 // const Student = mongoose.model("Student", studentSchema);
@@ -238,27 +238,27 @@ setInterval(async () => {
   try {
     const collections = await mongoose.connection.db.listCollections().toArray();
 
-    const threshold = new Date(Date.now() - 4 * 60 * 1000); // 4 minutes ago
-    const thresholdObjId = ObjectId.createFromTime(Math.floor(threshold.getTime() / 1000));
+    const threshold = new Date(Date.now() - 4 * 60 * 1000); // 4 mins ago
 
     for (const coll of collections) {
       const name = coll.name;
 
-      // Skip system collections like 'system.indexes'
       if (name.startsWith('system.')) continue;
 
-      const db = mongoose.connection.collection(name);
+      const StudentModel = mongoose.model('Programme', studentSchema, name);
 
-      const oldDocs = await db.find({ _id: { $lt: thresholdObjId } }).limit(1).toArray();
-      if (oldDocs.length > 0) {
-        await db.drop();
+      const oldDocs = await StudentModel.findOne({ createdAt: { $lt: threshold } });
+
+      if (oldDocs) {
+        await mongoose.connection.dropCollection(name);
         console.log(`Dropped collection: ${name}`);
       }
     }
   } catch (err) {
     console.error("Auto-cleanup error:", err);
   }
-}, 1 * 60 * 1000); // Runs every 4 minutes
+}, 1 * 60 * 1000); // every 1 minute
+
 
 
 
