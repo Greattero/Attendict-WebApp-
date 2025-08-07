@@ -117,9 +117,13 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
       }
     }, 1000);
 
-    const fetchNames = setInterval(()=>{
-      getAllNames()
-    },5000)
+    const fetchNames = setInterval(() => {
+      getAllNames().then(fetchedStudents => {
+        if (fetchedStudents) {
+          setStudents(fetchedStudents);
+        }
+      });
+    }, 5000);
 
     return () =>{ 
       clearInterval(interval);
@@ -143,6 +147,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
 
 
