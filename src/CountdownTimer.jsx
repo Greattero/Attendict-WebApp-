@@ -16,13 +16,13 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 
   const getAllNames = async () =>{
     try{
-      const response = await fetch("https://attendict.onrender.com/api/student-list?programme=${programme}");
+      const response = await fetch(`https://attendict.onrender.com/api/student-list?programme=${programme}`);
       console.log(programme);
       const students = await response.json();
       return students;
     }
     catch(err){
-      console.log(Couldn't get names: ${err})
+      console.log(`Couldn't get names: ${err}`);
     }
   }
 
@@ -77,10 +77,10 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
           const doc = new jsPDF();
           doc.setFont("times");
           doc.setFontSize(14);
-          doc.text(${programme} Attendance Sheet, 10, 10);
+          doc.text(`${programme} Attendance Sheet`, 10, 10);
           let y = 20;
           students.forEach((student,index)=>{
-            let line = ${index + 1}. ${student.name} - ${student.index_no};
+            let line = `${index + 1}. ${student.name} - ${student.index_no}`;
             if(student.doubtChecker === "1")
             {
               doc.setFillColor(255, 255, 0);
@@ -103,7 +103,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
             y+=10; // move to the next line
           });
 
-          doc.save(${programme}_${date.toLocaleDateString()});
+          doc.save(`${programme}_${date.toLocaleDateString()}`);
 
           //console.log("Done");
           //console.log(programme);
@@ -134,7 +134,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
   const formatTime = (seconds) => {
     const m = String(Math.floor(seconds / 60)).padStart(2, "0");
     const s = String(seconds % 60).padStart(2, "0");
-    return ${m}:${s};
+    return `${m}:${s}`;
   };
 
   return (
@@ -145,4 +145,5 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
