@@ -32,6 +32,7 @@ const studentSchema = new mongoose.Schema({
     username: String,
     password: String,
     doubtChecker: String,
+    checkedTime: String,
     location: {
         lat: Number,
         lon: Number,
@@ -78,6 +79,7 @@ app.post("/api/host-details", async (req, res) => {
             myip,
             location,
             doubtChecker: "0",
+          checkedTime: new Date().toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"}),
         });
         res.status(201).json(newStudent);
 
@@ -117,6 +119,7 @@ app.post("/api/checkin-details", async (req, res) => {
       level,
       myip,
       doubtChecker: ipCounter > 0 ? "1" : "0",
+      checkedTime: new Date().toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"}),
     });
 
     res.status(201).json(newStudent);
@@ -155,7 +158,7 @@ app.get("/api/student-list", async (req,res) =>{
     try{
     const { programme } = req.query;
     const Student = mongoose.model("Programme", studentSchema, programme);
-    const studentList = await Student.find({},{name: 1, index_no: 1, doubtChecker: 1, _id: 0});
+    const studentList = await Student.find({},{name: 1, index_no: 1, doubtChecker: 1, checkedTime: 1, _id: 0});
     console.log(programme);
 
     res.json(studentList);
@@ -258,6 +261,7 @@ setInterval(async () => {
     console.error("Auto-cleanup error:", err);
   }
 }, 1 * 60 * 1000); // every 1 minute
+
 
 
 
