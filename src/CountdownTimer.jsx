@@ -90,7 +90,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
         
           // Create CSV with custom headers
           const csv = Papa.unparse({
-            fields: ["#", "Name", "Index Number", "Checked Time", "Status"],
+            fields: ["S/N", "Name", "Index Number", "Checked Time", "Status"],
             data: csvData
           });
         
@@ -145,6 +145,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
 
 
