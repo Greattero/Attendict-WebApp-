@@ -1,4 +1,4 @@
-import jsPDF from 'jspdf';
+import Papa from "papaparse";
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 
@@ -69,42 +69,40 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
         setTimeLeft(0);
         unLockCheckin();
         getAllNames().then(students => {
-          if(students === undefined || students === null){
+          if (students === undefined || students === null) {
             deleteCollection(programme);
-            return alert("Document coudn't be saved. Check internet connection and try again");
+            return alert("Document couldn't be saved. Check internet connection and try again");
           }
+        
           const date = new Date();
-          const doc = new jsPDF();
-          doc.setFont("times");
-          doc.setFontSize(14);
-          doc.text(`${programme} Attendance Sheet`, 10, 10);
-          let y = 20;
-          students.forEach((student,index)=>{
-            let line = `${index + 1}. ${student.name} - ${student.index_no}`;
-            if(student.doubtChecker === "1")
-            {
-              doc.setFillColor(255, 255, 0);
-              doc.rect(10, y - 7, 190, 10, 'F'); // x, y, width, height, fill
-              doc.setFont("times", "bolditalic");
-              line += "      Check if in class";
-            }
-            else{
-              doc.setFont("times", "normal");
-            }
-
-              // Check if next line will overflow
-            if (index !== 0 && index % 27 === 0) {
-              doc.addPage();
-              y = 20; // reset Y for new page
-            }
-
-
-            doc.text(line, 10, y);
-            y+=10; // move to the next line
+        
+          // ✅ Sort students alphabetically by name
+          students.sort((a, b) => a.name.localeCompare(b.name));
+        
+          // Prepare data for CSV
+          const csvData = students.map((student, index) => [
+            index + 1, 
+            student.name, 
+            student.index_no, 
+            student.checkedTime || "", 
+            student.doubtChecker === "1" ? "Check if in class" : "Present"
+          ]);
+        
+          // Create CSV with custom headers
+          const csv = Papa.unparse({
+            fields: ["#", "Name", "Index Number", "Checked Time", "Status"],
+            data: csvData
           });
-
-          doc.save(`${programme}_${date.toLocaleDateString()}`);
-
+        
+          // Download CSV
+          const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          const safeDate = date.toISOString().split("T")[0]; // 2025-08-13
+          a.download = `${programme}_${safeDate}.csv`;
+          a.click();
+          URL.revokeObjectURL(url);
           //console.log("Done");
           //console.log(programme);
           //console.log(students);
@@ -147,6 +145,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
 
 
