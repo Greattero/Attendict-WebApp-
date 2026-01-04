@@ -358,7 +358,7 @@ const handleSubmit = async (e) => {
     }
 
     if(data.available){
-      alert("Chill buddy! You’ve checked in already 🎟️😎");
+      alert("😕 Oops! Too many check-ins on this network. Switch to another connection 🌐");
       setLoading(false); // Stop loading
       onClose();
       return;
@@ -439,8 +439,6 @@ const handleSubmit = async (e) => {
 }
 
 export default CheckInForm;
-
-
 
 
 

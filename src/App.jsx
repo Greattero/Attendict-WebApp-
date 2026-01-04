@@ -43,6 +43,37 @@ function App() {
 
   const [logoutDisable, setLogoutDisable] = useState(false);
 
+  React.useEffect(() => {
+    const interval = setInterval(async () => {
+      const raw = localStorage.getItem("pendingDeletes");
+      if (!raw) return;
+
+      const { time, data } = JSON.parse(raw);
+      const FIVE_MIN = 5 * 60 * 1000;
+
+      // ⏱️ not yet 5 minutes
+      if (Date.now() - time < FIVE_MIN) return;
+
+      if (data.length > 0) {
+        for (const name of data) {
+          try {
+            await fetch("https://attendict.onrender.com/api/delete-collection", {
+              method: "DELETE",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ collection_name: name }),
+            });
+                    // 🧹 cleanup after success/attempt
+            localStorage.setItem("pendingDeletes", JSON.stringify(data.filter(n => n !== name)));
+
+          } catch {}
+        }
+
+      }
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const handleLock = () => {
     setDisable(true);
   }

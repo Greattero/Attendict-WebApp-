@@ -139,7 +139,7 @@ const Notice = styled.label`
     width: 75%;
     margin-top: 5.5rem;
     text-align: center;
-    margin-left: -9.5rem;
+    margin-left: -10.7rem;
   }
 `;
 
@@ -163,12 +163,10 @@ function Home({onButtonClick, disabled}){
                     <h2>CheckIn</h2>
                 </CheckIn>
             </Buttons>
-            <Notice>⚠️Please allow location — mandatory for host and check-in</Notice>
+            <Notice>⚠️Do not connect to public networks or hotspots.</Notice>
         </HomePage>
     )
 
 }
 
 export default Home;
-
-

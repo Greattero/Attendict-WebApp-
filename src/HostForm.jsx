@@ -130,6 +130,34 @@ function HostForm({onClose, setHostTime, setProgramme}) {
   }, [onClose]);  // Re-run if `onClose` changes
 
 
+      // Check if there are some pending deletions to be made
+  useEffect(() => {
+    const interval = setInterval(async () => {
+        const raw = localStorage.getItem("pendingDeletes");
+        if (!raw) return;
+
+        const { time, data } = JSON.parse(raw);
+      
+
+        if (data.length > 0) {
+        for (const name of data) {
+            try {
+            await fetch("https://attendict.onrender.com/api/delete-collection", {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ collection_name: name }),
+            });
+            localStorage.setItem("pendingDeletes", JSON.stringify(data.filter(n => n !== name)));
+            } catch {}
+        }
+
+        }
+    }, 2000);
+
+    return () => clearInterval(interval);
+    }, []);
+
+
 
   const [location, setLocation] = useState({lon:null,lat:null});
 
@@ -150,8 +178,8 @@ function HostForm({onClose, setHostTime, setProgramme}) {
     duration: "",
     myip: "",
     location:{
-      lat:location.lat,
-      lon: location.lon,
+      lat:null,
+      lon: null,
     }
   });
 
@@ -177,9 +205,9 @@ function HostForm({onClose, setHostTime, setProgramme}) {
   setFormData((prev) => ({
     ...prev,
     location: {
-        lat: location.lat != null ? Number(location.lat.toFixed(6)) : null,
-        lon: location.lon != null ? Number(location.lon.toFixed(6)) : null,
-      },
+      lat: location.lat,
+      lon: location.lon,
+    },
     myip: ip,
     index_no: username,
   }));
@@ -217,13 +245,8 @@ function HostForm({onClose, setHostTime, setProgramme}) {
       return;
     }
 
-    if(formData.programme.length !== 5){
-      alert("Programme code must be 5 characters");
-      return;
-    }
-
     if(formData.location.lat === null || formData.location.lon === null){
-      alert("Location not found 😬. Check if location is on. Refresh and try again.");
+      alert("Location not found 😬. Check if location is on and try again.");
       return;
     }
 
@@ -245,7 +268,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
       const data = await response.json();
 
       if (data.dbAvailable) {
-        alert("Session already exists. Please try again in a few minutes.");
+        alert("Session already exists.");
         setLoading(false);
         console.log(`Was it: ${data.dbAvailable}`);
         onClose();
@@ -258,6 +281,21 @@ function HostForm({onClose, setHostTime, setProgramme}) {
         setLoading(false);
         onClose();
       } else {
+        const raw = localStorage.getItem("pendingDeletes");
+        const parsed = raw ? JSON.parse(raw) : { time: Date.now(), data: [] };
+
+        // add programme if not already there
+        if (!parsed.data.includes(formData.programme)) {
+        parsed.data.push(formData.programme);
+        }
+
+        // refresh timestamp (or keep old one if you prefer)
+        parsed.time = Date.now();
+
+        localStorage.setItem(
+        "pendingDeletes",
+        JSON.stringify(parsed)
+        );
         console.log("Successfully submitted:", data);
         alert("Submitted Successfully🎉");
         setLoading(false); // Stop loading
@@ -336,6 +374,3 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 }
 
 export default HostForm;
-
-
-
