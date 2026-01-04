@@ -32,12 +32,11 @@ const studentSchema = new mongoose.Schema({
     username: String,
     password: String,
     doubtChecker: String,
-    checkedTime: String,
     location: {
         lat: Number,
         lon: Number,
     },
-}, { timestamps: true });
+});
 
 // // Define the model once at the top level
 // const Student = mongoose.model("Student", studentSchema);
@@ -79,7 +78,6 @@ app.post("/api/host-details", async (req, res) => {
             myip,
             location,
             doubtChecker: "0",
-          checkedTime: new Date().toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"}),
         });
         res.status(201).json(newStudent);
 
@@ -103,11 +101,12 @@ app.post("/api/checkin-details", async (req, res) => {
     const Student = mongoose.model("Programme", studentSchema, programme);
 
     // Check if student already exists
-    const user = await Student.findOne({index_no});
+    const user = await Student.findOne({ index_no });
+    
 
     const ipCounter = await Student.countDocuments({myip});
 
-    if (user) {
+    if (ipCounter > 4 || user) {
       return res.json({ available: true });
     }
 
@@ -119,7 +118,6 @@ app.post("/api/checkin-details", async (req, res) => {
       level,
       myip,
       doubtChecker: ipCounter > 0 ? "1" : "0",
-      checkedTime: new Date().toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"}),
     });
 
     res.status(201).json(newStudent);
@@ -158,7 +156,7 @@ app.get("/api/student-list", async (req,res) =>{
     try{
     const { programme } = req.query;
     const Student = mongoose.model("Programme", studentSchema, programme);
-    const studentList = await Student.find({},{name: 1, index_no: 1, doubtChecker: 1, checkedTime: 1, _id: 0});
+    const studentList = await Student.find({},{name: 1, index_no: 1, doubtChecker: 1, _id: 0});
     console.log(programme);
 
     res.json(studentList);
@@ -235,34 +233,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 });
-
-// Auto delete collections older than 4 minutes
-setInterval(async () => {
-  try {
-    const collections = await mongoose.connection.db.listCollections().toArray();
-
-    const threshold = new Date(Date.now() - 4 * 60 * 1000); // 4 mins ago
-
-    for (const coll of collections) {
-      const name = coll.name;
-
-      if (name.startsWith('system.')) continue;
-
-      const StudentModel = mongoose.model('Programme', studentSchema, name);
-
-      const oldDocs = await StudentModel.findOne({ createdAt: { $lt: threshold } });
-
-      if (oldDocs) {
-        await mongoose.connection.dropCollection(name);
-        console.log(`Dropped collection: ${name}`);
-      }
-    }
-  } catch (err) {
-    console.error("Auto-cleanup error:", err);
-  }
-}, 1 * 60 * 1000); // every 1 minute
-
-
-
-
-
