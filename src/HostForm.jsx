@@ -285,6 +285,11 @@ function HostForm({onClose, setHostTime, setProgramme}) {
         setLoading(false);
         onClose();
       } else {
+        setHostTime(null);
+        setTimeout(() => {
+        setHostTime(formData?.duration);
+        setProgramme(formData?.programme);
+        }, 0);
         const raw = localStorage?.getItem("pendingDeletes");
         const parsed = raw && raw.startsWith("{") ? JSON?.parse(raw) : { time: Date.now(), data: [] };
 
@@ -303,13 +308,6 @@ function HostForm({onClose, setHostTime, setProgramme}) {
         console.log("Successfully submitted:", data);
         alert("Submitted Successfully🎉");
         setLoading(false); // Stop loading
-
-        setHostTime(null);
-        setTimeout(() => {
-        setHostTime(formData?.duration);
-        setProgramme(formData?.programme);
-        }, 0);
-
         onClose();
       }
     } catch (error) {
@@ -379,6 +377,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
 
 export default HostForm;
+
 
 
 
