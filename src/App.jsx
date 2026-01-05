@@ -43,6 +43,8 @@ function App() {
 
   const [logoutDisable, setLogoutDisable] = useState(false);
 
+  const [disableHost, setDisableHost] = useState(false);
+
   React.useEffect(() => {
     const interval = setInterval(async () => {
       const raw = localStorage?.getItem("pendingDeletes");
@@ -83,6 +85,7 @@ function App() {
   }
   const handleUnlock = () => {
     setDisable(false);
+    setDisableHost(false);
   }
 
   const handleButtonClick = (type) => {
@@ -126,7 +129,7 @@ function App() {
         <Home onButtonClick={(type)=>handleButtonClick(type)} disabled={disable}/> {/* Remove all styles from Home */}
         {showPop && (<>
           <Overlay isVisible={showPop}/>
-          {form === "host" && <HostForm onClose={()=>closeForm()} setHostTime={setHostTime} setProgramme={setProgramme}/>}
+          {disableHost === false ?(form === "host" && <HostForm onClose={()=>closeForm()} setHostTime={setHostTime} setProgramme={setProgramme} disableMe={setDisableHost} />) : null}
           {form === "checkin" && <CheckInForm onClose={()=>closeForm()} disableLogout={setLogoutDisable}/>}
           </>)
           }
