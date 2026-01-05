@@ -45,6 +45,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 
       const { time, data } = JSON?.parse(raw);
       localStorage?.setItem("pendingDeletes", JSON?.stringify(data?.filter(n => n !== myProgramme)));
+        console.log("Counter did did it");
 
       const result = await delResponse.json();
       console.log(result.message);
@@ -150,5 +151,6 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
     </div>
   );
 };
+
 
 export default CountdownTimer;
