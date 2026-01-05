@@ -285,6 +285,7 @@ function HostForm({onClose, setHostTime, setProgramme, disableMe}) {
         setLoading(false);
         onClose();
       } else {
+        disableMe(true);
         setHostTime(null);
         setTimeout(() => {
         setHostTime(formData?.duration);
@@ -305,7 +306,6 @@ function HostForm({onClose, setHostTime, setProgramme, disableMe}) {
         "pendingDeletes",
         JSON.stringify(parsed)
         );
-        disableMe(true);
         console.log("Successfully submitted:", data);
         alert("Submitted Successfully🎉");
         setLoading(false); // Stop loading
@@ -378,6 +378,7 @@ function HostForm({onClose, setHostTime, setProgramme, disableMe}) {
 
 
 export default HostForm;
+
 
 
 
