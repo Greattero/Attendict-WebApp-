@@ -139,7 +139,7 @@ function HostForm({onClose, setHostTime, setProgramme, disableMe}) {
               console.log("FFFFFF ", raw);
 
 
-        //const { time, data } = JSON?.parse(raw);
+        const { time, data } = JSON?.parse(raw);
   
         //const ONE_MIN = 10000;
   
@@ -385,6 +385,7 @@ function HostForm({onClose, setHostTime, setProgramme, disableMe}) {
 
 
 export default HostForm;
+
 
 
 
