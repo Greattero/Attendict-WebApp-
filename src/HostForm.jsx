@@ -134,7 +134,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
   useEffect(() => {
     const interval = setInterval(async () => {
         const raw = localStorage?.getItem("pendingDeletes");
-        if (!raw) return;
+        if (!raw || raw ==="undefined") return;
 
               console.log("FFFFFF ", raw);
 
@@ -378,4 +378,5 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
 
 export default HostForm;
+
 
