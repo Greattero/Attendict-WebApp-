@@ -293,7 +293,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
         }
 
         // refresh timestamp (or keep old one if you prefer)
-        parsed?.time = Date.now();
+        parsed.time = Date.now();
 
         localStorage.setItem(
         "pendingDeletes",
@@ -375,5 +375,6 @@ function HostForm({onClose, setHostTime, setProgramme}) {
     </Hosting>
   );
 }
+
 
 export default HostForm;
