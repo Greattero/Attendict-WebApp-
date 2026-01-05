@@ -67,6 +67,7 @@ function App() {
                     // 🧹 cleanup after success/attempt
                     
             localStorage?.setItem("pendingDeletes", JSON?.stringify(data?.filter(n => n !== name)));
+            console.log("App did it");
 
           } catch {}
         }
