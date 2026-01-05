@@ -157,7 +157,9 @@ function HostForm({onClose, setHostTime, setProgramme, disableMe}) {
             });
             localStorage?.setItem("pendingDeletes", JSON?.stringify(data?.filter(n => n !== name)));
                 console.log("HostForm did it");
-            } catch {}
+            } catch(err) {
+              console.log("Hmmm: ", err);
+            }
         }
 
         }
@@ -383,6 +385,7 @@ function HostForm({onClose, setHostTime, setProgramme, disableMe}) {
 
 
 export default HostForm;
+
 
 
 
