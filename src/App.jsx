@@ -46,7 +46,7 @@ function App() {
   React.useEffect(() => {
     const interval = setInterval(async () => {
       const raw = localStorage?.getItem("pendingDeletes");
-      if (!raw) return;
+      if (!raw || raw==="undefined") return;
 
       console.log("ghhhh ", raw);
 
