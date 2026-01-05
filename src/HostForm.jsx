@@ -285,7 +285,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
         onClose();
       } else {
         const raw = localStorage?.getItem("pendingDeletes");
-        const parsed = raw && raw.startsWith("{") ? JSON.parse(raw) : { time: Date.now(), data: [] };
+        const parsed = raw && raw.startsWith("{") ? JSON?.parse(raw) : { time: Date.now(), data: [] };
 
         // add programme if not already there
         if (!parsed?.data?.includes(formData?.programme)) {
@@ -295,7 +295,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
         // refresh timestamp (or keep old one if you prefer)
         parsed.time = Date.now();
 
-        localStorage.setItem(
+        localStorage?.setItem(
         "pendingDeletes",
         JSON.stringify(parsed)
         );
@@ -378,3 +378,4 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
 
 export default HostForm;
+
