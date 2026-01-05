@@ -140,6 +140,11 @@ function HostForm({onClose, setHostTime, setProgramme, disableMe}) {
 
 
         const { time, data } = JSON?.parse(raw);
+  
+        const ONE_MIN = 1 * 60 * 1000;
+  
+        // ⏱️ not yet 1 minutes
+        if (Date.now() - time < ONE_MIN) return;
       
 
         if (data?.length > 0) {
@@ -378,6 +383,7 @@ function HostForm({onClose, setHostTime, setProgramme, disableMe}) {
 
 
 export default HostForm;
+
 
 
 
