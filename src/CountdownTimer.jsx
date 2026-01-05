@@ -40,11 +40,11 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
         body: JSON.stringify({collection_name: myProgramme}),
       });
 
-      const raw = localStorage.getItem("pendingDeletes");
+      const raw = localStorage?.getItem("pendingDeletes");
       if (!raw) return;
 
-      const { time, data } = JSON.parse(raw);
-      localStorage.setItem("pendingDeletes", JSON.stringify(data.filter(n => n !== myProgramme)));
+      const { time, data } = JSON?.parse(raw);
+      localStorage?.setItem("pendingDeletes", JSON?.stringify(data?.filter(n => n !== myProgramme)));
 
       const result = await delResponse.json();
       console.log(result.message);

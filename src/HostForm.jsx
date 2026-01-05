@@ -133,13 +133,16 @@ function HostForm({onClose, setHostTime, setProgramme}) {
       // Check if there are some pending deletions to be made
   useEffect(() => {
     const interval = setInterval(async () => {
-        const raw = localStorage.getItem("pendingDeletes");
+        const raw = localStorage?.getItem("pendingDeletes");
         if (!raw) return;
 
-        const { time, data } = JSON.parse(raw);
+              console.log("FFFFFF ", raw);
+
+
+        const { time, data } = JSON?.parse(raw);
       
 
-        if (data.length > 0) {
+        if (data?.length > 0) {
         for (const name of data) {
             try {
             await fetch("https://attendict.onrender.com/api/delete-collection", {
@@ -147,7 +150,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ collection_name: name }),
             });
-            localStorage.setItem("pendingDeletes", JSON.stringify(data.filter(n => n !== name)));
+            localStorage?.setItem("pendingDeletes", JSON?.stringify(data?.filter(n => n !== name)));
             } catch {}
         }
 
@@ -281,16 +284,16 @@ function HostForm({onClose, setHostTime, setProgramme}) {
         setLoading(false);
         onClose();
       } else {
-        const raw = localStorage.getItem("pendingDeletes");
-        const parsed = raw ? JSON.parse(raw) : { time: Date.now(), data: [] };
+        const raw = localStorage?.getItem("pendingDeletes");
+        const parsed = raw && raw.startsWith("{") ? JSON.parse(raw) : { time: Date.now(), data: [] };
 
         // add programme if not already there
-        if (!parsed.data.includes(formData.programme)) {
-        parsed.data.push(formData.programme);
+        if (!parsed?.data?.includes(formData?.programme)) {
+        parsed?.data?.push(formData?.programme);
         }
 
         // refresh timestamp (or keep old one if you prefer)
-        parsed.time = Date.now();
+        parsed?.time = Date.now();
 
         localStorage.setItem(
         "pendingDeletes",
@@ -302,8 +305,8 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
         setHostTime(null);
         setTimeout(() => {
-        setHostTime(formData.duration);
-        setProgramme(formData.programme);
+        setHostTime(formData?.duration);
+        setProgramme(formData?.programme);
         }, 0);
 
         onClose();
