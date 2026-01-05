@@ -149,7 +149,7 @@ function Home({onButtonClick, disabled}){
     return(
         <HomePage>
             <Buttons>
-                <Host onClick={() => onButtonClick("host")}>
+                <Host onClick={!disabled ? () => onButtonClick("host") : () => alert("A session is ongoing")}>
                     <IconWrapper>
                     <i className='bx bxs-user'></i>
                     </IconWrapper>
@@ -168,5 +168,6 @@ function Home({onButtonClick, disabled}){
     )
 
 }
+
 
 export default Home;
