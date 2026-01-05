@@ -125,7 +125,7 @@ function App() {
         <Home onButtonClick={(type)=>handleButtonClick(type)} disabled={disable}/> {/* Remove all styles from Home */}
         {showPop && (<>
           <Overlay isVisible={showPop}/>
-          {disable===false ? form === "host" && <HostForm onClose={()=>closeForm()} setHostTime={setHostTime} setProgramme={setProgramme}/> : alert("A session is ongoing")}
+          {form === "host" && <HostForm onClose={()=>closeForm()} setHostTime={setHostTime} setProgramme={setProgramme}/>}
           {form === "checkin" && <CheckInForm onClose={()=>closeForm()} disableLogout={setLogoutDisable}/>}
           </>)
           }
