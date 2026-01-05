@@ -110,7 +110,7 @@ const LabelHint = styled.label`
 `;
 
 
-function HostForm({onClose, setHostTime, setProgramme}) {
+function HostForm({onClose, setHostTime, setProgramme, disableMe}) {
 
 
   const [loading, setLoading] = useState(false);
@@ -305,6 +305,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
         "pendingDeletes",
         JSON.stringify(parsed)
         );
+        disableMe(true);
         console.log("Successfully submitted:", data);
         alert("Submitted Successfully🎉");
         setLoading(false); // Stop loading
@@ -377,6 +378,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
 
 export default HostForm;
+
 
 
 
