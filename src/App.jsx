@@ -51,7 +51,7 @@ function App() {
 
       const parsed = JSON.parse(raw); // ARRAY
 
-      console.log("AAAA: ", parsed);
+     // console.log("AAAA: ", parsed);
 
       if (!Array.isArray(parsed) || parsed.length === 0) return;
 
@@ -74,9 +74,9 @@ function App() {
           const updated = parsed.filter(v => v !== item);
           localStorage.setItem("pendingDeletes", JSON.stringify(updated));
 
-          console.log("App did it:", programme);
+          //console.log("App did it:", programme);
         } catch (err) {
-          console.log("Hmmm:", err);
+          //console.log("Hmmm:", err);
         }
       }
     }, 2000);
