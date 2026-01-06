@@ -20,12 +20,12 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
   const getAllNames = async () =>{
     try{
       const response = await fetch(`https://attendict.onrender.com/api/student-list?programme=${programme}`);
-      console.log(programme);
+      //console.log(programme);
       const students = await response.json();
       return students;
     }
     catch(err){
-      console.log(`Couldn't get names: ${err}`)
+     // console.log(`Couldn't get names: ${err}`)
     }
   }
 
@@ -52,10 +52,10 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 
 
       const result = await delResponse.json();
-      console.log(result.message);
+      //console.log(result.message);
     }
     catch(err){
-      console.log(err);
+      //console.log(err);
     }
   }
 
@@ -106,7 +106,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
             student.doubtChecker === "1" ? "Check if in class" : "Present"
           ]);
 
-          console.log("TTTTTTTTTTTTT",programme, csvData);
+          //console.log("TTTTTTTTTTTTT",programme, csvData);
         
           // Create CSV with custom headers
           const csv = Papa.unparse({
@@ -170,6 +170,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
 
 
