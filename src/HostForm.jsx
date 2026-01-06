@@ -192,7 +192,6 @@ function HostForm({onClose, setHostTime, setProgramme}) {
     level:"",
     duration: "",
     myip: "",
-    checkedTime: new Date().toLocaleTimeString(),
     location:{
       lat:null,
       lon: null,
@@ -271,6 +270,12 @@ function HostForm({onClose, setHostTime, setProgramme}) {
    // console.log(`lat:${formData.location.lat} and long: ${formData.location.lon}`);
     //console.log(`Your IP is ${ip}`);
     //console.log("Sending data:", formData);
+
+    setFormData(prev => ({
+      ...prev,
+      checkedTime: new Date().toLocaleTimeString()
+    }));
+    
 
     try {
       const response = await fetch("https://attendict.onrender.com/api/host-details", {
@@ -391,6 +396,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
 
 export default HostForm;
+
 
 
 
