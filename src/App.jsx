@@ -55,7 +55,7 @@ function App() {
 
       if (!Array.isArray(parsed) || parsed.length === 0) return;
 
-      const FIVE_MIN = 50000;
+      const FIVE_MIN = 5 * 60 * 1000; // 300,000 ms
 
       for (const item of parsed) {
         const [programme, time] = item.split("|");
