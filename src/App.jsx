@@ -60,7 +60,7 @@ function App() {
         const [programme, time] = item.split("|");
 
         // ⏱️ not yet time
-        if (Date.now() - Number(time) > FIVE_MIN) continue;
+        if (Date.now() - Number(time) < FIVE_MIN) return;
 
         try {
           await fetch("https://attendict.onrender.com/api/delete-collection", {
