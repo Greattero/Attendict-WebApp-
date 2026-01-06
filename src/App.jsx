@@ -87,11 +87,9 @@ function App() {
 
   const handleLock = () => {
     setDisable(true);
-    setShowPop(false);
   }
   const handleUnlock = () => {
     setDisable(false);
-    setShowPop(true);
   }
 
   const handleButtonClick = (type) => {
