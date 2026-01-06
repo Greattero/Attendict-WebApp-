@@ -52,6 +52,8 @@ function App() {
 
       const parsed = JSON.parse(raw); // ARRAY
 
+      console.log("AAAA: ", parsed);
+
       if (!Array.isArray(parsed) || parsed.length === 0) return;
 
       const FIVE_MIN = 50000;
