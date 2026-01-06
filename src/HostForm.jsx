@@ -304,7 +304,7 @@ function HostForm({onClose, setHostTime, setProgramme, disableMe}) {
         }, 0);
 
         const time = Date.now();
-        const raw = await AsyncStorage.getItem("pendingDeletes");
+        const raw = localStorage.getItem("pendingDeletes");
 
         const parsed = raw && raw.startsWith("[")
           ? JSON.parse(raw)
@@ -315,7 +315,7 @@ function HostForm({onClose, setHostTime, setProgramme, disableMe}) {
           parsed.push(`${formData?.programme}|${time}`);
         }
 
-        await AsyncStorage.setItem(
+        localStorage.setItem(
           "pendingDeletes",
           JSON.stringify(parsed)
         );
@@ -390,6 +390,7 @@ function HostForm({onClose, setHostTime, setProgramme, disableMe}) {
 
 
 export default HostForm;
+
 
 
 
