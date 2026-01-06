@@ -192,6 +192,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
     level:"",
     duration: "",
     myip: "",
+    checkedTime: new Date().toLocaleTimeString(),
     location:{
       lat:null,
       lon: null,
@@ -390,6 +391,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
 
 export default HostForm;
+
 
 
 
