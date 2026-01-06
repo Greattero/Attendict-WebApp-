@@ -74,7 +74,7 @@ function App() {
           const updated = parsed.filter(v => v !== item);
           localStorage.setItem("pendingDeletes", JSON.stringify(updated));
 
-          console.log("HostForm did it:", programme);
+          console.log("App did it:", programme);
         } catch (err) {
           console.log("Hmmm:", err);
         }
