@@ -146,7 +146,7 @@ function HostForm({onClose, setHostTime, setProgramme, disableMe}) {
             const [programme, time] = item.split("|");
 
             // ⏱️ not yet time
-            if (Date.now() - Number(time) > ONE_MIN) continue;
+            if (Date.now() - Number(time) < ONE_MIN) return;
 
             try {
               await fetch("https://attendict.onrender.com/api/delete-collection", {
@@ -388,6 +388,7 @@ function HostForm({onClose, setHostTime, setProgramme, disableMe}) {
 
 
 export default HostForm;
+
 
 
 
