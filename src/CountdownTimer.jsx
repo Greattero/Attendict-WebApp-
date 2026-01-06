@@ -12,20 +12,15 @@ const Timer = styled.label`
 const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,programme}) => {
   const [timeLeft, setTimeLeft] = useState(0);
   const [students, setStudents] = useState([]);
-  const [myProgramme, setMyProgramme] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(()=>{
-    setMyProgramme(programme);
-  },[programme])
 
-  console.log("🥺🥺🥺",myProgramme, programme);
 
 
   const getAllNames = async () =>{
     try{
-      const response = await fetch(`https://attendict.onrender.com/api/student-list?programme=${myProgramme}`);
-      console.log(myProgramme);
+      const response = await fetch(`https://attendict.onrender.com/api/student-list?programme=${programme}`);
+      console.log(programme);
       const students = await response.json();
       return students;
     }
@@ -34,13 +29,13 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
     }
   }
 
-  const deleteCollection = async (myProgramme) => {
+  const deleteCollection = async (programme) => {
 
     try{
       const delResponse = await fetch("https://attendict.onrender.com/api/delete-collection",{
         method:"DELETE",
         headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({collection_name: myProgramme}),
+        body: JSON.stringify({collection_name: programme}),
       });
 
       const raw = localStorage.getItem("pendingDeletes");
@@ -50,7 +45,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 
       const filtered = parsed.filter(item => {
         const [programme, time] = item.split("|");
-        return programme !== myProgramme;
+        return programme !== programme;
       });
 
       localStorage.setItem("pendingDeletes", JSON.stringify(filtered));
@@ -92,7 +87,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
         unLockCheckin();
         getAllNames().then(students => {
           if (students === undefined || students === null) {
-            deleteCollection(myProgramme);
+            deleteCollection(programme);
             setIsLoading(false);
             return alert("Document couldn't be saved. Check internet connection and try again");
           }
@@ -111,7 +106,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
             student.doubtChecker === "1" ? "Check if in class" : "Present"
           ]);
 
-          console.log("TTTTTTTTTTTTT",myProgramme, csvData);
+          console.log("TTTTTTTTTTTTT",programme, csvData);
         
           // Create CSV with custom headers
           const csv = Papa.unparse({
@@ -125,15 +120,15 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
           const a = document.createElement("a");
           a.href = url;
           const safeDate = date.toISOString().split("T")[0]; // 2025-08-13
-          a.download = `${myProgramme}_${safeDate}.csv`;
+          a.download = `${programme}_${safeDate}.csv`;
           a.click();
           URL.revokeObjectURL(url);
           //console.log("Done");
-          //console.log(myProgramme);
+          //console.log(programme);
           //console.log(students);
           alert("Document saved successfully");
           setIsLoading(false);
-          deleteCollection(myProgramme);
+          deleteCollection(programme);
           setStudents([]);
         });
         localStorage.removeItem("endTime");
@@ -171,7 +166,6 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
-
 
 
 
