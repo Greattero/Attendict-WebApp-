@@ -47,38 +47,42 @@ function App() {
 
   React.useEffect(() => {
     const interval = setInterval(async () => {
-      const raw = localStorage?.getItem("pendingDeletes");
-      if (!raw || raw==="undefined") return;
+      const raw = localStorage.getItem("pendingDeletes");
+      if (!raw || raw === "undefined") return;
 
-      console.log("ghhhh ", raw);
+      const parsed = JSON.parse(raw); // ARRAY
 
-      const { time, data } = JSON?.parse(raw);
-      const FIVE_MIN = 5 * 60 * 1000;
+      if (!Array.isArray(parsed) || parsed.length === 0) return;
 
-      // ⏱️ not yet 5 minutes
-      if (Date.now() - time < FIVE_MIN) return;
+      const FIVE_MIN = 50000;
 
-      if (data?.length > 0) {
-        for (const name of data) {
-          try {
-            await fetch("https://attendict.onrender.com/api/delete-collection", {
-              method: "DELETE",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ collection_name: name }),
-            });
-                    // 🧹 cleanup after success/attempt
-                    
-            localStorage?.setItem("pendingDeletes", JSON?.stringify(data?.filter(n => n !== name)));
-            console.log("App did it");
+      for (const item of parsed) {
+        const [programme, time] = item.split("|");
 
-          } catch {}
+        // ⏱️ not yet time
+        if (Date.now() - Number(time) > FIVE_MIN) continue;
+
+        try {
+          await fetch("https://attendict.onrender.com/api/delete-collection", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ collection_name: programme }),
+          });
+
+          // remove ONLY the processed item
+          const updated = parsed.filter(v => v !== item);
+          localStorage.setItem("pendingDeletes", JSON.stringify(updated));
+
+          console.log("HostForm did it:", programme);
+        } catch (err) {
+          console.log("Hmmm:", err);
         }
-
       }
     }, 2000);
 
     return () => clearInterval(interval);
   }, []);
+
 
   const handleLock = () => {
     setDisable(true);

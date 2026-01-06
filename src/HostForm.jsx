@@ -131,42 +131,44 @@ function HostForm({onClose, setHostTime, setProgramme, disableMe}) {
 
 
       // Check if there are some pending deletions to be made
-  useEffect(() => {
-    const interval = setInterval(async () => {
-        const raw = localStorage?.getItem("pendingDeletes");
-        if (!raw || raw ==="undefined") return;
+      useEffect(() => {
+        const interval = setInterval(async () => {
+          const raw = localStorage.getItem("pendingDeletes");
+          if (!raw || raw === "undefined") return;
 
-              console.log("FFFFFF ", raw);
+          const parsed = JSON.parse(raw); // ARRAY
 
+          if (!Array.isArray(parsed) || parsed.length === 0) return;
 
-        const { time, data } = JSON?.parse(raw);
-  
-        const ONE_MIN = 10000;
-  
-        // ⏱️ not yet 1 minutes
-        if (Date.now() - time < ONE_MIN) return;
-      
+          const ONE_MIN = 10000;
 
-        if (data?.length > 0) {
-        for (const name of data) {
+          for (const item of parsed) {
+            const [programme, time] = item.split("|");
+
+            // ⏱️ not yet time
+            if (Date.now() - Number(time) > ONE_MIN) continue;
+
             try {
-            await fetch("https://attendict.onrender.com/api/delete-collection", {
+              await fetch("https://attendict.onrender.com/api/delete-collection", {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ collection_name: name }),
-            });
-            localStorage?.setItem("pendingDeletes", JSON?.stringify(data?.filter(n => n !== name)));
-                console.log("HostForm did it");
-            } catch(err) {
-              console.log("Hmmm: ", err);
+                body: JSON.stringify({ collection_name: programme }),
+              });
+
+              // remove ONLY the processed item
+              const updated = parsed.filter(v => v !== item);
+              localStorage.setItem("pendingDeletes", JSON.stringify(updated));
+
+              console.log("HostForm did it:", programme);
+            } catch (err) {
+              console.log("Hmmm:", err);
             }
-        }
+          }
+        }, 2000);
 
-        }
-    }, 2000);
+        return () => clearInterval(interval);
+      }, []);
 
-    return () => clearInterval(interval);
-    }, []);
 
 
 
@@ -298,23 +300,24 @@ function HostForm({onClose, setHostTime, setProgramme, disableMe}) {
         setHostTime(formData?.duration);
         setProgramme(formData?.programme);
         }, 0);
-        const raw = localStorage?.getItem("pendingDeletes");
-        const parsed = raw && raw.startsWith("{") ? JSON?.parse(raw) : { time: Date.now(), data: [] };
 
-        // add programme if not already there
-        if (!parsed?.data?.includes(formData?.programme)) {
-        parsed?.data?.push(formData?.programme);
+        const time = Date.now();
+        const raw = await AsyncStorage.getItem("pendingDeletes");
+
+        const parsed = raw && raw.startsWith("[")
+          ? JSON.parse(raw)
+          : [];
+
+        // add course code if not already there
+        if (!parsed.some(v => v.startsWith(formData?.programme + "|"))) {
+          parsed.push(`${formData?.programme}|${time}`);
         }
 
-        // refresh timestamp (or keep old one if you prefer)
-        parsed.time = Date.now();
-
-        localStorage?.setItem(
-        "pendingDeletes",
-        JSON.stringify(parsed)
+        await AsyncStorage.setItem(
+          "pendingDeletes",
+          JSON.stringify(parsed)
         );
-        console.log("Successfully submitted:", data);
-        alert("Submitted Successfully🎉");
+
         setLoading(false); // Stop loading
         onClose();
       }
@@ -385,7 +388,6 @@ function HostForm({onClose, setHostTime, setProgramme, disableMe}) {
 
 
 export default HostForm;
-
 
 
 
