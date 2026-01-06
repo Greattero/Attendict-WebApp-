@@ -102,7 +102,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
             index + 1, 
             student.name, 
             student.index_no, 
-            student.checkedTime || new Date.toLocaleTimeString(), 
+            student.checkedTime || new Date().toLocaleTimeString(), 
             student.doubtChecker === "1" ? "Check if in class" : "Present"
           ]);
 
