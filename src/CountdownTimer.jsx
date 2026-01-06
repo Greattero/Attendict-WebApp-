@@ -161,12 +161,13 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 
   return (
     <div>
-      <Timer>{formatTime(timeLeft)}</Timer>
+      <Timer>{isLoading===false ? formatTime(timeLeft) : "Downloading file"}</Timer>
     </div>
   );
 };
 
 export default CountdownTimer;
+
 
 
 
