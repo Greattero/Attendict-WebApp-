@@ -19,6 +19,8 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
     setMyProgramme(programme);
   },[programme])
 
+  console.log("🥺🥺🥺",myProgramme, programme);
+
 
   const getAllNames = async () =>{
     try{
@@ -169,6 +171,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
 
 
