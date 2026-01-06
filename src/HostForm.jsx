@@ -138,6 +138,8 @@ function HostForm({onClose, setHostTime, setProgramme, disableMe}) {
 
           const parsed = JSON.parse(raw); // ARRAY
 
+          console.log("hosss: ", parsed);
+
           if (!Array.isArray(parsed) || parsed.length === 0) return;
 
           const ONE_MIN = 10000;
@@ -388,6 +390,7 @@ function HostForm({onClose, setHostTime, setProgramme, disableMe}) {
 
 
 export default HostForm;
+
 
 
 
