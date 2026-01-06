@@ -138,7 +138,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
           const parsed = JSON.parse(raw); // ARRAY
 
-          console.log("hosss: ", parsed);
+          //console.log("hosss: ", parsed);
 
           if (!Array.isArray(parsed) || parsed.length === 0) return;
 
@@ -161,9 +161,9 @@ function HostForm({onClose, setHostTime, setProgramme}) {
               const updated = parsed.filter(v => v !== item);
               localStorage.setItem("pendingDeletes", JSON.stringify(updated));
 
-              console.log("HostForm check did it:", programme);
+             // console.log("HostForm check did it:", programme);
             } catch (err) {
-              console.log("Hmmm:", err);
+             // console.log("Hmmm:", err);
             }
           }
         }, 2000);
@@ -253,7 +253,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    console.log(`lat:${formData.location.lat} and long: ${formData.location.lon}`);
+    //console.log(`lat:${formData.location.lat} and long: ${formData.location.lon}`);
     
     if (!formData.name || !formData.programme || !formData.level || !formData.duration) {
       alert("Please fill all required fields.");
@@ -267,9 +267,9 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
     setLoading(true); // Start loading
 
-    console.log(`lat:${formData.location.lat} and long: ${formData.location.lon}`);
-    console.log(`Your IP is ${ip}`);
-    console.log("Sending data:", formData);
+   // console.log(`lat:${formData.location.lat} and long: ${formData.location.lon}`);
+    //console.log(`Your IP is ${ip}`);
+    //console.log("Sending data:", formData);
 
     try {
       const response = await fetch("https://attendict.onrender.com/api/host-details", {
@@ -285,7 +285,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
       if (data.dbAvailable) {
         alert("Session already exists.");
         setLoading(false);
-        console.log(`Was it: ${data.dbAvailable}`);
+        //console.log(`Was it: ${data.dbAvailable}`);
         onClose();
         return;
       }
@@ -372,8 +372,8 @@ function HostForm({onClose, setHostTime, setProgramme}) {
           }
         >
           <option value="" disabled>Select duration</option> {/* this one is key */}
-          <option value="2">2 min</option>
           <option value="3">3 min</option>
+          <option value="5">5 min</option>
         </Select2>
 
         <Button onClick={(e) => handleSubmit(e)} disabled={loading}>
@@ -390,6 +390,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
 
 export default HostForm;
+
 
 
 
