@@ -113,13 +113,17 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
             fields: ["S/N", "Name", "Index Number", "Checked Time", "Status"],
             data: csvData
           });
+
+          const safeDate = date.toISOString().split("T")[0]; // 2025-08-13
+
+          const finalCsv = `${myProgramme} - ${safeDate}\n${csv}`
         
           // Download CSV
-          const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+          const blob = new Blob([finalCsv], { type: "text/csv;charset=utf-8;" });
           const url = URL.createObjectURL(blob);
           const a = document.createElement("a");
           a.href = url;
-          const safeDate = date.toISOString().split("T")[0]; // 2025-08-13
+          
           a.download = `${programme}_${safeDate}.csv`;
           a.click();
           URL.revokeObjectURL(url);
@@ -166,6 +170,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
 
 
