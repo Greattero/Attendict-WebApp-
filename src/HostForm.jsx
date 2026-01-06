@@ -110,7 +110,7 @@ const LabelHint = styled.label`
 `;
 
 
-function HostForm({onClose, setHostTime, setProgramme, disableMe}) {
+function HostForm({onClose, setHostTime, setProgramme}) {
 
 
   const [loading, setLoading] = useState(false);
@@ -296,7 +296,7 @@ function HostForm({onClose, setHostTime, setProgramme, disableMe}) {
         setLoading(false);
         onClose();
       } else {
-        disableMe(true);
+  
         setHostTime(null);
         setTimeout(() => {
         setHostTime(formData?.duration);
