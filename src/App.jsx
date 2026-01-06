@@ -131,12 +131,28 @@ function App() {
         paddingBottom: "250px",
       }}>
         <Home onButtonClick={(type)=>handleButtonClick(type)} disabled={disable}/> {/* Remove all styles from Home */}
-        {showPop && (<>
-          <Overlay isVisible={showPop}/>
-          {disable===false && (form === "host" && <HostForm onClose={()=>closeForm()} setHostTime={setHostTime} setProgramme={setProgramme} />)}
-          {form === "checkin" && <CheckInForm onClose={()=>closeForm()} disableLogout={setLogoutDisable}/>}
-          </>)
-          }
+        {showPop && (
+          <>
+            <Overlay isVisible={showPop} />
+        
+            {/* HostForm popup */}
+            {form === "host" && !disable && (
+              <HostForm 
+                onClose={closeForm} 
+                setHostTime={setHostTime} 
+                setProgramme={setProgramme} 
+              />
+            )}
+        
+            {/* CheckInForm popup */}
+            {form === "checkin" && (
+              <CheckInForm 
+                onClose={closeForm} 
+                disableLogout={setLogoutDisable} 
+              />
+            )}
+          </>
+        )}
       </div>
       <div style= {{
         position: "absolute",
