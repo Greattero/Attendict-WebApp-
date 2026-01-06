@@ -268,7 +268,7 @@ function Login({onLoginSuccess}){
     }
     catch(err){
         alert("No records found");
-        console.log(err);
+        // console.log(err);
         setLoading(false);
     }
     }
@@ -326,4 +326,5 @@ function Login({onLoginSuccess}){
         
     )
 }
+
 export default Login;
