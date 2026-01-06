@@ -178,11 +178,11 @@ function CheckInForm({onClose,disableLogout}) {
           if (attempts >= 5) {
             clearInterval(intervalId);
             triedProgrammesRef.current.add(currentProg);
-            console.log("❌ Host location not found after 5 attempts.");
+            //console.log("❌ Host location not found after 5 attempts.");
           }
         }
       } catch (err) {
-        console.log("❌ Error fetching host location:", err);
+        //console.log("❌ Error fetching host location:", err);
         attempts += 1;
         attemptsMapRef.current.set(currentProg, attempts);
 
@@ -211,7 +211,7 @@ function CheckInForm({onClose,disableLogout}) {
   // ✅ NEW: useEffect to track updated hostCoords
   useEffect(() => {
     if (hostCoords.lat !== null && hostCoords.lon !== null) {
-      console.log(`✅ Updated Host lat: ${hostCoords.lat}, lon: ${hostCoords.lon}`);
+      //console.log(`✅ Updated Host lat: ${hostCoords.lat}, lon: ${hostCoords.lon}`);
     }
   }, [hostCoords]);
 
@@ -305,7 +305,7 @@ useEffect(() => {
 const handleSubmit = async (e) => {
   e.preventDefault(); // prevent default form behavior if used inside a <form>
 
-  console.log(`lat:${formData.location.lat} and long: ${formData.location.lon}`);
+  //console.log(`lat:${formData.location.lat} and long: ${formData.location.lon}`);
 
   // Validate form fields
   if (!formData.name || !formData.programme || !formData.level) {
@@ -323,20 +323,20 @@ const handleSubmit = async (e) => {
   // Check location distance range
   if (distance === null && !hostCoords.lat) {
     alert("Host location not found 😬. Check course code or turn on location. Then refresh and try again.");
-    console.log("Couldn't get Host location. Try again");
-    console.log(distance);
+    //console.log("Couldn't get Host location. Try again");
+    //console.log(distance);
     setLoading(false); // Stop loading
     return;
   }
   else if( distance > range){
     alert(`You are out of range 😭.Refresh and try again`);
-    console.log("You are out of range.");
-    console.log(distance);
+    //console.log("You are out of range.");
+    //console.log(distance);
     setLoading(false); // Stop loading
     return;
   }
 
-  console.log("Sending data:", formData);
+ // console.log("Sending data:", formData);
 
   try {
     const response = await fetch("https://attendict.onrender.com/api/checkin-details", {
@@ -352,7 +352,7 @@ const handleSubmit = async (e) => {
     if (data.dbAvailable) {
       alert("Session doesn't exist");
       setLoading(false);
-      console.log(`Was it: ${data.dbAvailable}`);
+      //console.log(`Was it: ${data.dbAvailable}`);
       onClose();
       return;
     }
@@ -365,15 +365,15 @@ const handleSubmit = async (e) => {
     }
 
     if (!response.ok) {
-      console.error("Server error:", data);
+      //console.error("Server error:", data);
       alert("Unstable internet connection. Try again😬")
       setLoading(false); // Stop loading
       
 
     } else {
-      console.log("Check-in successful:", data);
+      //console.log("Check-in successful:", data);
       alert(`Submitted Successfully🎉\nYou are ${distance.toFixed(3)}km away`);
-      console.log(distance);
+      //console.log(distance);
       setLoading(false); // Stop loading
       onClose(); // close the form so the countdown shows
 
@@ -387,7 +387,7 @@ const handleSubmit = async (e) => {
     }
 
   } catch (err) {
-    console.error("Fetch error:", err);
+    //console.error("Fetch error:", err);
     setLoading(false); // Stop loading
 
   }
@@ -439,6 +439,7 @@ const handleSubmit = async (e) => {
 }
 
 export default CheckInForm;
+
 
 
 
