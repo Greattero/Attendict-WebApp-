@@ -142,7 +142,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
           if (!Array.isArray(parsed) || parsed.length === 0) return;
 
-          const ONE_MIN = 10000;
+          const ONE_MIN = 1 * 60 * 1000; // 60,000 ms
 
           for (const item of parsed) {
             const [programme, time] = item.split("|");
@@ -390,6 +390,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
 
 export default HostForm;
+
 
 
 
