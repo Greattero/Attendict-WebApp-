@@ -116,7 +116,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 
           const safeDate = date.toISOString().split("T")[0]; // 2025-08-13
 
-          const finalCsv = `${myProgramme} - ${safeDate}\n${csv}`
+          const finalCsv = `${programme} - ${safeDate}\n${csv}`
         
           // Download CSV
           const blob = new Blob([finalCsv], { type: "text/csv;charset=utf-8;" });
@@ -170,6 +170,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
 
 
