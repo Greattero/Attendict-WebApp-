@@ -109,7 +109,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
             student.doubtChecker === "1" ? "Check if in class" : "Present"
           ]);
 
-          console.log(myProgramme, csvData);
+          console.log("TTTTTTTTTTTTT",myProgramme, csvData);
         
           // Create CSV with custom headers
           const csv = Papa.unparse({
@@ -169,6 +169,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
 
 
