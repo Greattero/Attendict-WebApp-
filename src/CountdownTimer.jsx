@@ -13,6 +13,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
   const [timeLeft, setTimeLeft] = useState(0);
   const [students, setStudents] = useState([]);
   const [myProgramme, setMyProgramme] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(()=>{
     setMyProgramme(programme);
@@ -85,10 +86,12 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
         setTimeLeft(remaining);
       } else {
         setTimeLeft(0);
+        setIsLoading(true);
         unLockCheckin();
         getAllNames().then(students => {
           if (students === undefined || students === null) {
             deleteCollection(myProgramme);
+            setIsLoading(false);
             return alert("Document couldn't be saved. Check internet connection and try again");
           }
         
@@ -125,6 +128,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
           //console.log(myProgramme);
           //console.log(students);
           alert("Document saved successfully");
+          setIsLoading(false);
           deleteCollection(myProgramme);
           setStudents([]);
         });
@@ -163,6 +167,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
 
 
