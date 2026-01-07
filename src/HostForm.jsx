@@ -178,12 +178,18 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
   const [ip, setIP] = useState("");
 
+  const [myTime, setMyTime] = useState("");
+
   useEffect(()=>{
     fetch("https://api.ipify.org?format=json")
       .then((res) => res.json())
       .then((data) => setIP(data.ip))
       .catch((err) => console.log(err))
   },[]);
+
+  useEffect(()=>{
+    setMyTime(new Date().toLocaleTimeString());
+  },[])
   
   const [formData,setFormData] = useState({
     name:"",
@@ -225,8 +231,9 @@ function HostForm({onClose, setHostTime, setProgramme}) {
     },
     myip: ip,
     index_no: username,
+    checkedTime: myTime
   }));
-}, [location,ip]);
+}, [location,ip,myTime]);
 
   const handleName = (e) => {
     setFormData((prev) => ({...prev, name: e.target.value}))
@@ -271,11 +278,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
     //console.log(`Your IP is ${ip}`);
     //console.log("Sending data:", formData);
 
-    setFormData(prev => ({
-      ...prev,
-      checkedTime: new Date().toLocaleTimeString()
-    }));
-    
+   
 
     try {
       const response = await fetch("https://attendict.onrender.com/api/host-details", {
@@ -396,6 +399,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
 
 export default HostForm;
+
 
 
 
