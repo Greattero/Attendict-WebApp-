@@ -170,7 +170,7 @@ app.get("/api/student-list", async (req,res) =>{
       mongoose.models[programme] ||
       mongoose.model(programme, studentSchema, programme);
 
-    const studentList = await Student.find({},{name: 1, index_no: 1, doubtChecker: 1, _id: 0});
+    const studentList = await Student.find({},{name: 1, index_no: 1, doubtChecker: 1, checkedTime: 1, _id: 0});
     console.log(programme);
 
     res.json(studentList);
@@ -247,6 +247,7 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 });
+
 
 
 
