@@ -103,7 +103,8 @@ app.post("/api/checkin-details", async (req, res) => {
 
     // Now safely define the model
     const Student =
-      mongoose.models[programme];
+      mongoose.models[programme] ||
+      mongoose.model(programme, studentSchema, programme);
 
 
     // Check if student already exists
@@ -145,7 +146,8 @@ app.get("/api/host-location", async (req, res) => {
         }
 
         const Student =
-          mongoose.models[programme];
+          mongoose.models[programme] ||
+          mongoose.model(programme, studentSchema, programme);
 
         const host = await Student.findOne();
 
@@ -256,8 +258,6 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 });
-
-
 
 
 
