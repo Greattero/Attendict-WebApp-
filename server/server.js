@@ -31,6 +31,7 @@ const studentSchema = new mongoose.Schema({
     myip: String, // ✅ add this line
     username: String,
     password: String,
+    checkedTime: String,
     doubtChecker: String,
     location: {
         lat: Number,
@@ -235,4 +236,5 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 });
+
 
