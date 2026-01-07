@@ -125,6 +125,7 @@ function CheckInForm({onClose,disableLogout}) {
     programme:"",
     level:"",
     myip:"",
+    checkedTime: new Date().toLocaleTimeString(),
   })
   const [distance, setDistance] = useState(null);
 
@@ -439,6 +440,7 @@ const handleSubmit = async (e) => {
 }
 
 export default CheckInForm;
+
 
 
 
