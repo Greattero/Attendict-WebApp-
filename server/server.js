@@ -68,8 +68,10 @@ app.post("/api/host-details", async (req, res) => {
         }
 
         // Create dynamic model if needed
-        const Student = mongoose.model("Programme", studentSchema, `${programme}`);
-        
+        const Student =
+          mongoose.models[programme] ||
+          mongoose.model(programme, studentSchema, programme);
+                
         // Save the data
         const newStudent = await Student.create({
             name,
@@ -100,7 +102,10 @@ app.post("/api/checkin-details", async (req, res) => {
     }
 
     // Now safely define the model
-    const Student = mongoose.model("Programme", studentSchema, programme);
+    const Student =
+      mongoose.models[programme] ||
+      mongoose.model(programme, studentSchema, programme);
+
 
     // Check if student already exists
     const user = await Student.findOne({ index_no });
@@ -140,7 +145,10 @@ app.get("/api/host-location", async (req, res) => {
             return res.status(400).json({ error: "Programme is required" });
         }
 
-        const Student = mongoose.model("Programme", studentSchema, programme);
+        const Student =
+          mongoose.models[programme] ||
+          mongoose.model(programme, studentSchema, programme);
+
         const host = await Student.findOne();
 
         if (!host || !host.location) {
@@ -158,7 +166,10 @@ app.get("/api/student-list", async (req,res) =>{
 
     try{
     const { programme } = req.query;
-    const Student = mongoose.model("Programme", studentSchema, programme);
+    const Student =
+      mongoose.models[programme] ||
+      mongoose.model(programme, studentSchema, programme);
+
     const studentList = await Student.find({},{name: 1, index_no: 1, doubtChecker: 1, _id: 0});
     console.log(programme);
 
@@ -236,5 +247,6 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 });
+
 
 
