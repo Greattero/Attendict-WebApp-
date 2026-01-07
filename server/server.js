@@ -58,7 +58,7 @@ const studentSchema = new mongoose.Schema({
 
 app.post("/api/host-details", async (req, res) => {
     try {
-        const {name, index_no, programme, level, myip, location} = req.body;
+        const {name, index_no, programme, level, myip, location, checkedTime} = req.body;
     
         // Check if collection exists first
         const collections = await mongoose.connection.db.listCollections({ name: programme }).toArray();
@@ -77,6 +77,7 @@ app.post("/api/host-details", async (req, res) => {
             level,
             myip,
             location,
+            checkedTime,
             doubtChecker: "0",
         });
         res.status(201).json(newStudent);
@@ -89,7 +90,7 @@ app.post("/api/host-details", async (req, res) => {
 
 app.post("/api/checkin-details", async (req, res) => {
   try {
-    const { name, index_no, programme, level, myip } = req.body;
+    const { name, index_no, programme, level, myip, checkedTime } = req.body;
 
     // Check if collection exists first
     const collections = await mongoose.connection.db.listCollections({ name: programme }).toArray();
@@ -117,6 +118,7 @@ app.post("/api/checkin-details", async (req, res) => {
       programme,
       level,
       myip,
+      checkedTime,
       doubtChecker: ipCounter > 0 ? "1" : "0",
     });
 
@@ -233,3 +235,4 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 });
+
