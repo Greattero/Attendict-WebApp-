@@ -276,7 +276,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
    // console.log(`lat:${formData.location.lat} and long: ${formData.location.lon}`);
     //console.log(`Your IP is ${ip}`);
-    //console.log("Sending data:", formData);
+    console.log("Sending data:", formData);
 
    
 
@@ -399,6 +399,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
 
 export default HostForm;
+
 
 
 
