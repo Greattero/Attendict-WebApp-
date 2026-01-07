@@ -189,14 +189,23 @@ app.post("/api/login-details", async (req, res)=>{
 
     const { username, password } = req.body;
     const usernameChecker = username.replace(/[.\s]/g,"");
-    const schoolCode = usernameChecker.substring(0,5);
+    const schoolCode = usernameChecker[0]==="S" ? usernameChecker.substring(0,5) : usernameChecker.substring(0,3);
     const departmentalCode = usernameChecker.substring(5,8);
     const schoolYear = usernameChecker.slice(-2);
     const departmentalCodesArray = ["002","003","005","007","006","008","010","024","028"];
 
-    if(schoolCode !== "SRI41" || !departmentalCodesArray.includes(departmentalCode) || usernameChecker.length !== 13){
-        console.log("nooooooooooooooooooo");
-        return res.json({success: false});
+    const isSpecialUser = usernameChecker === "901";
+    
+    if (
+      !isSpecialUser &&
+      (
+        schoolCode !== "SRI41" ||
+        !departmentalCodesArray.includes(departmentalCode) ||
+        usernameChecker.length !== 13
+      )
+    ) {
+      console.log("nooooooooooooooooooo");
+      return res.json({ success: false });
     }
 
     // const user = await LoginModel.findOne({ username, password });
@@ -247,6 +256,7 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 });
+
 
 
 
