@@ -194,7 +194,7 @@ app.post("/api/login-details", async (req, res)=>{
     const schoolYear = usernameChecker.slice(-2);
     const departmentalCodesArray = ["002","003","005","007","006","008","010","024","028"];
 
-    const isSpecialUser = usernameChecker === "901";
+    const isSpecialUser = schoolCode === "901";
     
     if (
       !isSpecialUser &&
@@ -256,6 +256,7 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 });
+
 
 
 
