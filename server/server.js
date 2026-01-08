@@ -368,7 +368,7 @@ app.post("/api/login-details", async (req, res)=>{
 
 
 
-    if ( !isSpecialUser && ( schoolCode !== "SRI41" || !departmentalCodesArray.includes(departmentalCode) || usernameChecker.length !== 13 ){
+    if ( !isSpecialUser && ( schoolCode !== "SRI41" || !departmentalCodesArray.includes(departmentalCode) || usernameChecker.length !== 13 )){
 
         console.log("nooooooooooooooooooo");
 
@@ -473,4 +473,5 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 
 });
+
 
