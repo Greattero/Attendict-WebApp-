@@ -199,6 +199,7 @@ app.post("/api/checkin-details", async (req, res) => {
     }
 
 
+
     // Now safely define the model
 
     const Student = mongoose.model("Programme", studentSchema, programme);
@@ -353,29 +354,24 @@ app.post("/api/login-details", async (req, res)=>{
 
     const { username, password } = req.body;
 
-    const usernameChecker = formData.index_no.replace(/[.\s]/g,"");
+    const usernameChecker = username.replace(/[.\s]/g,"");
 
-    const schoolCode = usernameChecker[0]==="S" ? 
-                       usernameChecker.substring(0,5) : 
-                       usernameChecker.substring(0,3);
+    const schoolCode = usernameChecker.substring(0,5);
 
     const departmentalCode = usernameChecker.substring(5,8);
 
-    // const schoolYear = usernameChecker.slice(-2);
+    const schoolYear = usernameChecker.slice(-2);
 
     const departmentalCodesArray = ["002","003","005","007","006","008","010","024","028"];
 
-    const isSpecialUser = schoolCode === "901";
 
-    if (
-      !isSpecialUser &&
-      (
-        schoolCode !== "SRI41" ||
-        !departmentalCodesArray.includes(departmentalCode) ||
-        usernameChecker.length !== 13
-      )
-    ) {
-      return res.json({ success: false });
+
+    if(schoolCode !== "SRI41" || !departmentalCodesArray.includes(departmentalCode) || usernameChecker.length !== 13){
+
+        console.log("nooooooooooooooooooo");
+
+        return res.json({success: false});
+
     }
 
 
