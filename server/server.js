@@ -316,7 +316,7 @@ app.get("/api/student-list", async (req,res) =>{
 
     const { programme } = req.query;
 
-    const Student = mongoose.model("Programme", studentSchema, programme);
+    const Student = mongoose.models[programme];
 
     const studentList = await Student.find({},{name: 1, index_no: 1, doubtChecker: 1, checkedTime: 1, _id: 0});
 
@@ -473,5 +473,6 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 
 });
+
 
 
