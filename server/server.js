@@ -138,7 +138,10 @@ app.post("/api/host-details", async (req, res) => {
 
         // Create dynamic model if needed
 
-        const Student = mongoose.model("Programme", studentSchema, `${programme}`);
+        const Student =
+              mongoose.models[programme] ||
+              mongoose.model(programme, studentSchema, programme);
+
 
         
 
@@ -202,7 +205,10 @@ app.post("/api/checkin-details", async (req, res) => {
 
     // Now safely define the model
 
-    const Student = mongoose.model("Programme", studentSchema, programme);
+    const Student =
+      mongoose.models[programme] ||
+      mongoose.model(programme, studentSchema, programme);
+    
 
 
 
@@ -280,7 +286,10 @@ app.get("/api/host-location", async (req, res) => {
 
 
 
-        const Student = mongoose.model("Programme", studentSchema, programme);
+    const Student =
+      mongoose.models[programme] ||
+      mongoose.model(programme, studentSchema, programme);
+    
 
         const host = await Student.findOne();
 
@@ -316,7 +325,10 @@ app.get("/api/student-list", async (req,res) =>{
 
     const { programme } = req.query;
 
-    const Student = mongoose.models[programme];
+    const Student =
+      mongoose.models[programme] ||
+      mongoose.model(programme, studentSchema, programme);
+
 
     const studentList = await Student.find({},{name: 1, index_no: 1, doubtChecker: 1, checkedTime: 1, _id: 0});
 
@@ -431,6 +443,8 @@ app.delete("/api/delete-collection",async(req,res)=> {
         const db =  await mongoose.connection.collection(collection_name);
 
         await db.drop();
+        delete mongoose.models[collection_name];
+
 
         res.status(200).json({message:`Document saved successfully`});
 
@@ -473,6 +487,7 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 
 });
+
 
 
 
