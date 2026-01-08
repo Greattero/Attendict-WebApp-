@@ -388,7 +388,7 @@ const handleSubmit = async (e) => {
     }
 
   } catch (err) {
-    //console.error("Fetch error:", err);
+    console.error("Fetch error:", err);
     setLoading(false); // Stop loading
 
   }
@@ -440,6 +440,7 @@ const handleSubmit = async (e) => {
 }
 
 export default CheckInForm;
+
 
 
 
