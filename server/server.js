@@ -202,7 +202,8 @@ app.post("/api/checkin-details", async (req, res) => {
 
     // Now safely define the model
 
-    const Student = mongoose.models[programme];
+    const Student = mongoose.model("Programme", studentSchema, programme);
+
 
 
     // Check if student already exists
@@ -315,7 +316,7 @@ app.get("/api/student-list", async (req,res) =>{
 
     const { programme } = req.query;
 
-    const Student = mongoose.models[programme];
+    const Student = mongoose.model("Programme", studentSchema, programme);
 
     const studentList = await Student.find({},{name: 1, index_no: 1, doubtChecker: 1, checkedTime: 1, _id: 0});
 
@@ -342,6 +343,14 @@ app.get("/api/student-list", async (req,res) =>{
 
 
 app.post("/api/login-details", async (req, res)=>{
+
+    
+
+
+
+    // const LoginModel = mongoose.models.Login || mongoose.model("Login", studentSchema, "Logins");
+
+
 
     const { username, password } = req.body;
 
@@ -462,5 +471,3 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 
 });
-
-
