@@ -356,7 +356,7 @@ app.post("/api/login-details", async (req, res)=>{
 
     const usernameChecker = username.replace(/[.\s]/g,"");
 
-    const schoolCode = usernameChecker.substring(0,5);
+    const schoolCode = usernameChecker[0]==="S" ? usernameChecker.substring(0,5) : usernameChecker.substring(0,3);
 
     const departmentalCode = usernameChecker.substring(5,8);
 
@@ -364,9 +364,11 @@ app.post("/api/login-details", async (req, res)=>{
 
     const departmentalCodesArray = ["002","003","005","007","006","008","010","024","028"];
 
+    const isSpecialUser = schoolCode === "901";
 
 
-    if(schoolCode !== "SRI41" || !departmentalCodesArray.includes(departmentalCode) || usernameChecker.length !== 13){
+
+    if ( !isSpecialUser && ( schoolCode !== "SRI41" || !departmentalCodesArray.includes(departmentalCode) || usernameChecker.length !== 13 ){
 
         console.log("nooooooooooooooooooo");
 
@@ -471,3 +473,4 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 
 });
+
