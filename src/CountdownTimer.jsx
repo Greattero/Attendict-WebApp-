@@ -9,7 +9,7 @@ const Timer = styled.label`
   font-size: 25px;
 `;
 
-const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,programme}) => {
+const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,programme, resetProgramme}) => {
   const [timeLeft, setTimeLeft] = useState(0);
   const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -87,6 +87,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
         unLockCheckin();
         getAllNames().then(students => {
           if (students === undefined || students === null) {
+            resetProgramme(null);
             deleteCollection(programme);
             setIsLoading(false);
             return alert("Document couldn't be saved. Check internet connection and try again");
@@ -130,6 +131,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
           //console.log("Done");
           //console.log(programme);
           //console.log(students);
+          resetProgramme(null);
           alert("Document saved successfully");
           setIsLoading(false);
           deleteCollection(programme);
@@ -170,6 +172,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
 
 
