@@ -164,10 +164,11 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
   return (
     <div>
       <Timer>
-        {isLoading === false ? formatTime(timeLeft) : <img src={loader} alt="loading" />}
+        {isLoading === false ? formatTime(timeLeft) : <img src={loader} alt="loading" style={{width: 30, height: 30}}/>}
       </Timer>
     </div>
   );
 };
 
 export default CountdownTimer;
+
