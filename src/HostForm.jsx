@@ -314,6 +314,8 @@ function HostForm({onClose, setHostTime, setProgramme}) {
         setProgramme(formData?.programme);
         }, 0);
 
+        localStorage.setItem("backup", programme);
+
         const time = Date.now();
         const raw = localStorage.getItem("pendingDeletes");
 
@@ -401,6 +403,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
 
 export default HostForm;
+
 
 
 
