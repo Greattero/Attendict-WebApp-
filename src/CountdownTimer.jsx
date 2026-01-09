@@ -23,7 +23,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 
   console.log("KKKK: ", programme);
 
-  const getAllNames = async () =>{
+  const getAllNames = async (programme) =>{
     try{
       const response = await fetch(`https://attendict.onrender.com/api/student-list?programme=${programme}`);
       console.log("Shockkk",programme);
@@ -167,6 +167,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
 
 
