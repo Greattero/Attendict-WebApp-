@@ -230,7 +230,12 @@ function CheckInForm({onClose,disableLogout}) {
         }
         )
       },
-      (err) => {console.log(err)}
+      (err) => {console.log(err)},
+      {
+      enableHighAccuracy: true,
+      timeout: 15000,
+      maximumAge: 0,
+    }
     )
 
   }
@@ -440,6 +445,7 @@ const handleSubmit = async (e) => {
 }
 
 export default CheckInForm;
+
 
 
 
