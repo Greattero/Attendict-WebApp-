@@ -75,6 +75,7 @@ function App() {
           // remove ONLY the processed item
           const updated = parsed.filter(v => v !== item);
           localStorage.setItem("pendingDeletes", JSON.stringify(updated));
+          console.log("App did it");
 
           //console.log("App did it:", programme);
         } catch (err) {
