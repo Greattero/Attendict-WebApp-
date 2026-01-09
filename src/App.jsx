@@ -164,7 +164,7 @@ function App() {
             <AppHeader onLogout={()=>handleLogoutSuccess()} disableLogout={logoutDisable}/>
       </div>
 
-      {programme !== "" && <div style= {{
+      <div style= {{
         position: "absolute",
         top: "-10px",
         right: "20px",
@@ -183,7 +183,7 @@ function App() {
         programme={programme}
         resetProgramme={setProgramme}
         />
-      </div>}
+      </div>
 
     </div> 
     ) :
