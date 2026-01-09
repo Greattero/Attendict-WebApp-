@@ -14,8 +14,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
   const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-
-
+  console.log("KKKK: ", programme);
 
   const getAllNames = async () =>{
     try{
@@ -159,6 +158,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
 
 
