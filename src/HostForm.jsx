@@ -214,7 +214,12 @@ function HostForm({onClose, setHostTime, setProgramme}) {
                     lat: position.coords.latitude}
         )
       },
-      (err) => {console.log(err)}
+      (err) => {console.log(err)},
+      {
+        enableHighAccuracy: true,
+        timeout: 15000,
+        maximumAge: 0,
+      }
     )
   }
   else{
@@ -403,6 +408,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
 
 export default HostForm;
+
 
 
 
