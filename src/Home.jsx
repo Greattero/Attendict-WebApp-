@@ -4,6 +4,10 @@ import CountdownTimer from "./CountdownTimer.jsx";
 
 const HomePage = styled.div`
 
+display:flex,
+   justify-content: center;
+   align-items: center;
+
 `;
 
 
