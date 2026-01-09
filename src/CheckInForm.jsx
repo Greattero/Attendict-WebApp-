@@ -330,7 +330,7 @@ const handleSubmit = async (e) => {
     return;
   }
   else if( distance > range){
-    alert(`You are out of range 😭.Refresh and try again`);
+    alert(`You are out of range 😭.Refresh and try again ${distance}`);
     //console.log("You are out of range.");
     //console.log(distance);
     setLoading(false); // Stop loading
@@ -440,6 +440,7 @@ const handleSubmit = async (e) => {
 }
 
 export default CheckInForm;
+
 
 
 
