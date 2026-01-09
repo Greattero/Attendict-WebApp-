@@ -14,6 +14,13 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
   const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    const backup = localStorage.getItem("backup");
+    if (programme === "" && backup) {
+      resetProgramme(backup);
+    }
+  }, [programme, resetProgramme]);
+
   console.log("KKKK: ", programme);
 
   const getAllNames = async () =>{
@@ -122,6 +129,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
           deleteCollection(programme);
           setStudents([]);
           resetProgramme("");
+          localStorage.removeItem("backup");
         });
         localStorage.removeItem("endTime");
         clearInterval(interval);
@@ -158,6 +166,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
 
 
