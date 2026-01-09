@@ -78,7 +78,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
         setTimeLeft(0);
         setIsLoading(true);
         unLockCheckin();
-        getAllNames().then(students => {
+        getAllNames(programme).then(students => {
           if (students === undefined || students === null) {
             deleteCollection(programme);
             setIsLoading(false);
@@ -138,7 +138,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
     }, 1000);
 
     const fetchNames = setInterval(() => {
-      getAllNames().then(fetchedStudents => {
+      getAllNames(programme).then(fetchedStudents => {
         if (fetchedStudents) {
           setStudents(fetchedStudents);
         }
@@ -167,6 +167,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
 
 
