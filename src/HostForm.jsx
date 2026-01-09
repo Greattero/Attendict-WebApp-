@@ -216,8 +216,6 @@ function HostForm({onClose, setHostTime, setProgramme}) {
       },
       (err) => {console.log(err)},
       {
-        enableHighAccuracy: true,
-        timeout: 15000,
         maximumAge: 0,
       }
     )
@@ -408,6 +406,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
 
 export default HostForm;
+
 
 
 
