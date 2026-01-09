@@ -43,6 +43,8 @@ function App() {
 
   const [logoutDisable, setLogoutDisable] = useState(false);
 
+  console.log("DDD:", programme);
+
 
   React.useEffect(() => {
     const interval = setInterval(async () => {
@@ -51,7 +53,7 @@ function App() {
 
       const parsed = JSON.parse(raw); // ARRAY
 
-     console.log("AAAA: ", parsed);
+     // console.log("AAAA: ", parsed);
 
       if (!Array.isArray(parsed) || parsed.length === 0) return;
 
