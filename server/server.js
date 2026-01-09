@@ -68,8 +68,6 @@ const studentSchema = new mongoose.Schema({
 
     checkedTime: String,
 
-    inspect: String,
-
     location: {
 
         lat: Number,
@@ -189,7 +187,7 @@ app.post("/api/checkin-details", async (req, res) => {
 
   try {
 
-    const { name, index_no, programme, level, myip, inspect } = req.body;
+    const { name, index_no, programme, level, myip, distance } = req.body;
 
 
 
@@ -224,6 +222,8 @@ app.post("/api/checkin-details", async (req, res) => {
 
     }
 
+    let inspect = "0";
+    if (distance > 0.1 && distance < 1.6) inspect = "1";
 
 
     // Save the new student
@@ -485,6 +485,7 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 
 });
+
 
 
 
