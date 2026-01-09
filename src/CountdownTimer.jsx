@@ -20,7 +20,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
   const getAllNames = async () =>{
     try{
       const response = await fetch(`https://attendict.onrender.com/api/student-list?programme=${programme}`);
-      //console.log(programme);
+      console.log(programme);
       const students = await response.json();
       return students;
     }
@@ -170,6 +170,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
 
 
