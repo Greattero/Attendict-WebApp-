@@ -1,6 +1,7 @@
 import Papa from "papaparse";
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
+import loader from './assets/rolling.svg';
 
 const Timer = styled.label`
   font-family: 'Roboto Mono', monospace;
@@ -162,47 +163,11 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 
   return (
     <div>
-      <Timer>{isLoading===false ? formatTime(timeLeft) : "Downloading file"}</Timer>
+      <Timer>
+        {isLoading === false ? formatTime(timeLeft) : <img src={loader} alt="loading" />}
+      </Timer>
     </div>
   );
 };
 
 export default CountdownTimer;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
