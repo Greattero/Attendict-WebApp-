@@ -163,7 +163,7 @@ function Home({onButtonClick, disabled}){
                     <h2>CheckIn</h2>
                 </CheckIn>
             </Buttons>
-            <Notice>⚠️Do not connect to public networks or hotspots.</Notice>
+            <Notice>⚠️Make sure location is on.</Notice>
         </HomePage>
     )
 
@@ -171,4 +171,5 @@ function Home({onButtonClick, disabled}){
 
 
 export default Home;
+
 
