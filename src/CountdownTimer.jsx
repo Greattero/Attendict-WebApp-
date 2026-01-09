@@ -38,19 +38,6 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
         body: JSON.stringify({collection_name: programme}),
       });
 
-      const raw = localStorage.getItem("pendingDeletes");
-      if (!raw || raw === "undefined") return;
-
-      const parsed = JSON.parse(raw); // ARRAY
-
-      const filtered = parsed.filter(item => {
-        const [programme, time] = item.split("|");
-        return programme !== programme;
-      });
-
-      localStorage.setItem("pendingDeletes", JSON.stringify(filtered));
-
-
       const result = await delResponse.json();
       //console.log(result.message);
     }
@@ -172,6 +159,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
 
 
