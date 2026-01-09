@@ -50,7 +50,12 @@ function AppHeader({onLogout,disableLogout}){
     return(
 
         <Heading>
-            <h1>Attendict</h1>
+            <img src="../assets/images/headingPic.png"
+                  style={{
+                width: 40,
+                height: 40
+                  }}
+              />
             <button onClick={() => {
                 if (!disableLogout) {
                   localStorage.removeItem("username");
@@ -69,5 +74,6 @@ function AppHeader({onLogout,disableLogout}){
 
 
 }
+
 
 export default AppHeader;
