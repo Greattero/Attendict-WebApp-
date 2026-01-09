@@ -385,7 +385,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
           }
         >
           <option value="" disabled>Select duration</option> {/* this one is key */}
-          <option value="0.3">3 min</option>
+          <option value="3">3 min</option>
           <option value="5">5 min</option>
         </Select2>
 
@@ -403,6 +403,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
 
 export default HostForm;
+
 
 
 
