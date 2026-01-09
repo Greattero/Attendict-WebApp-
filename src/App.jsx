@@ -43,7 +43,7 @@ function App() {
 
   const [logoutDisable, setLogoutDisable] = useState(false);
 
-  console.log("DDD:", programme);
+  // console.log("DDD:", programme);
 
 
   React.useEffect(() => {
@@ -53,7 +53,7 @@ function App() {
 
       const parsed = JSON.parse(raw); // ARRAY
 
-      console.log("AAAA: ", parsed);
+      // console.log("AAAA: ", parsed);
 
       if (!Array.isArray(parsed) || parsed.length === 0) return;
 
@@ -75,7 +75,7 @@ function App() {
           // remove ONLY the processed item
           const updated = parsed.filter(v => v !== item);
           localStorage.setItem("pendingDeletes", JSON.stringify(updated));
-          console.log("App did it");
+          // console.log("App did it");
 
           //console.log("App did it:", programme);
         } catch (err) {
