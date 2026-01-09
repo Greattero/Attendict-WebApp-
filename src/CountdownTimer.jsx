@@ -87,9 +87,9 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
         unLockCheckin();
         getAllNames().then(students => {
           if (students === undefined || students === null) {
-            resetProgramme(null);
             deleteCollection(programme);
             setIsLoading(false);
+            resetProgramme(null);
             return alert("Document couldn't be saved. Check internet connection and try again");
           }
         
@@ -131,11 +131,11 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
           //console.log("Done");
           //console.log(programme);
           //console.log(students);
-          resetProgramme(null);
           alert("Document saved successfully");
           setIsLoading(false);
           deleteCollection(programme);
           setStudents([]);
+          resetProgramme(null);
         });
         localStorage.removeItem("endTime");
         clearInterval(interval);
@@ -172,6 +172,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
 
 
