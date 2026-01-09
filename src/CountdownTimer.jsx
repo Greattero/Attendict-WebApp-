@@ -128,7 +128,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
           setIsLoading(false);
           deleteCollection(programme);
           setStudents([]);
-          localStorage.setItem("backup", "";
+          localStorage.setItem("backup", null);
           resetProgramme("");
 
         });
@@ -167,6 +167,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
 
 
