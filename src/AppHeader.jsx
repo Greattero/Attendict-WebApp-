@@ -55,7 +55,7 @@ function AppHeader({onLogout,disableLogout}){
                   style={{
                 width: 40,
                 height: 40,
-                marginTop: 10
+                marginTop: 25
                   }}
               />
             <button onClick={() => {
@@ -79,6 +79,7 @@ function AppHeader({onLogout,disableLogout}){
 
 
 export default AppHeader;
+
 
 
 
