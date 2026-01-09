@@ -16,7 +16,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 
   useEffect(() => {
     const backup = localStorage.getItem("backup");
-    if (programme === "" && backup) {
+    if (programme === "") {
       resetProgramme(backup);
     }
   }, [programme, resetProgramme]);
@@ -166,6 +166,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
 
 
