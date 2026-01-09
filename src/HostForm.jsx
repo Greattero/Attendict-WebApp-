@@ -331,7 +331,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
           JSON.stringify(parsed)
         );
 
-        localStorage.setItem("backup", programme);
+        localStorage.setItem("backup", formData?.programme);
 
         setLoading(false); // Stop loading
         onClose();
@@ -403,6 +403,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
 
 export default HostForm;
+
 
 
 
