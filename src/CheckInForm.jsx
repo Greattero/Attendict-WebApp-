@@ -338,12 +338,10 @@ const handleSubmit = async (e) => {
     return;
   }
 
-  if (distance > 0.1 && distance < 1.6) {
     setFormData((prev) => ({
       ...prev,
-      inspect: "1"
+      inspect: distance > 0.1 && distance < 1.6 ? "1" : "0"
     }));
-  }
 
  // console.log("Sending data:", formData);
 
@@ -448,6 +446,7 @@ const handleSubmit = async (e) => {
 }
 
 export default CheckInForm;
+
 
 
 
