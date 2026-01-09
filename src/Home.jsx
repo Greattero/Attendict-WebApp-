@@ -34,7 +34,7 @@ const Host = styled.button`
 
  @media screen and (max-width: 650px) {
     //position: absolute;
-    width: 80%;
+    width: 20rem;
     height: 8.8rem;
     margin-top: -230px;
     border-radius: 6px;
