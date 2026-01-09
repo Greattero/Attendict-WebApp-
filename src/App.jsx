@@ -179,6 +179,7 @@ function App() {
         lockCheckin={()=>handleLock()}
         unLockCheckin={()=>handleUnlock()}
         programme={programme}
+        resetProgramme={setProgramme}
         />
       </div>
 
