@@ -216,7 +216,10 @@ function HostForm({onClose, setHostTime, setProgramme}) {
       },
       (err) => {console.log(err)},
       {
-        maximumAge: 0,
+    enableHighAccuracy: true,
+    timeout: 8000,       // faster than 15s
+    maximumAge: 3000,    // allow recent GPS
+
       }
     )
   }
@@ -406,6 +409,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
 
 export default HostForm;
+
 
 
 
