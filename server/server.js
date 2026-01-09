@@ -240,6 +240,8 @@ app.post("/api/checkin-details", async (req, res) => {
 
       myip,
 
+      inspect,
+
       doubtChecker: (ipCounter > 0 || inspect === "1") ? "1" : "0",
 
       checkedTime: new Date().toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"}),
@@ -483,6 +485,7 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 
 });
+
 
 
 
