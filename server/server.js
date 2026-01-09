@@ -68,6 +68,8 @@ const studentSchema = new mongoose.Schema({
 
     checkedTime: String,
 
+    inspect: String,
+
     location: {
 
         lat: Number,
@@ -481,6 +483,7 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 
 });
+
 
 
 
