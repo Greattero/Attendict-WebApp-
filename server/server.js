@@ -187,7 +187,7 @@ app.post("/api/checkin-details", async (req, res) => {
 
   try {
 
-    const { name, index_no, programme, level, myip } = req.body;
+    const { name, index_no, programme, level, myip, inspect } = req.body;
 
 
 
@@ -201,21 +201,15 @@ app.post("/api/checkin-details", async (req, res) => {
 
     }
 
-
-
     // Now safely define the model
 
     const Student =
       mongoose.models[programme] ||
       mongoose.model(programme, studentSchema, programme);
     
-
-
-
     // Check if student already exists
 
     const user = await Student.findOne({index_no});
-
 
 
     const ipCounter = await Student.countDocuments({myip});
@@ -244,7 +238,7 @@ app.post("/api/checkin-details", async (req, res) => {
 
       myip,
 
-      doubtChecker: ipCounter > 0 ? "1" : "0",
+      doubtChecker: (ipCounter > 0 || inspect === "1") ? "1" : "0",
 
       checkedTime: new Date().toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"}),
 
@@ -487,6 +481,7 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 
 });
+
 
 
 
