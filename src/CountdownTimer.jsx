@@ -150,7 +150,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
       clearInterval(fetchNames);
       
     };
-  }, [hostTime]);
+  }, [hostTime, programme]);
 
 
   const formatTime = (seconds) => {
@@ -167,6 +167,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
 
 
