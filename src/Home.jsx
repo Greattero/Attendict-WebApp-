@@ -80,7 +80,7 @@ const CheckIn = styled.button`
 
     @media screen and (max-width: 650px) {
         //position: absolute;
-        width: 20rem;
+        width: 10rem;
         height: 8.8rem;
         margin-top: -70px;
         border-radius: 6px;
