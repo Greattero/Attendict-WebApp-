@@ -125,7 +125,6 @@ function CheckInForm({onClose,disableLogout}) {
     programme:"",
     level:"",
     myip:"",
-    inspect: "",
     checkedTime: new Date().toLocaleTimeString(),
   })
   const [distance, setDistance] = useState(null);
@@ -338,10 +337,16 @@ const handleSubmit = async (e) => {
     return;
   }
 
-    setFormData((prev) => ({
-      ...prev,
-      inspect: distance > 0.1 && distance < 1.6 ? "1" : "0";
-    }));
+    // setFormData((prev) => ({
+    //   ...prev,
+    //   inspect: distance > 0.1 && distance < 1.6 ? "1" : "0";
+    // }));
+
+    const dataToSend = {
+          ...formData,
+          distance,  // send distance
+        };
+
 
  // console.log("Sending data:", formData);
 
@@ -351,7 +356,7 @@ const handleSubmit = async (e) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(dataToSend),
     });
 
     const data = await response.json();
@@ -446,6 +451,7 @@ const handleSubmit = async (e) => {
 }
 
 export default CheckInForm;
+
 
 
 
