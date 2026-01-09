@@ -161,6 +161,8 @@ function HostForm({onClose, setHostTime, setProgramme}) {
               const updated = parsed.filter(v => v !== item);
               localStorage.setItem("pendingDeletes", JSON.stringify(updated));
 
+              console.log("HostForm")
+
              // console.log("HostForm check did it:", programme);
             } catch (err) {
              // console.log("Hmmm:", err);
@@ -399,6 +401,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
 
 export default HostForm;
+
 
 
 
