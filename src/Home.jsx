@@ -160,13 +160,12 @@ const Notice = styled.label`
   }
 `;
 
-
 function Home({onButtonClick, disabled}){
 
     return(
         <HomePage>
             <Buttons>
-                <Host onClick={() => onButtonClick("host")}>
+                <Host onClick={!disabled ? () => onButtonClick("host") : () => alert("A session is ongoing")}>
                     <IconWrapper>
                     <i className='bx bxs-user'></i>
                     </IconWrapper>
@@ -180,10 +179,12 @@ function Home({onButtonClick, disabled}){
                     <h2>CheckIn</h2>
                 </CheckIn>
             </Buttons>
-            <Notice>⚠️Do not connect to public networks or hotspots.</Notice>
+            <Notice>⚠️Make sure location is on.</Notice>
         </HomePage>
     )
 
 }
 
+
 export default Home;
+
