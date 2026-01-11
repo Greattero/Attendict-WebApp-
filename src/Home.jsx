@@ -1,20 +1,16 @@
 import styled from "styled-components";
 import 'boxicons/css/boxicons.min.css';
-import CountdownTimer from "./CountdownTimer.jsx";
 
 const HomePage = styled.div`
- @media screen and (max-width: 650px) {
+  @media screen and (max-width: 650px) {
+    min-height: 100svh;     /* mobile-safe height */
     display: flex;
-    flex-direction: row;
-    background-color: #dbdbdb;
-    margin: 0;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin-top: 260px;
-    width: 100vw;
- 
- }
+    align-items: flex-start; /* 👈 key */
+    background-color: #dbdbdb;
+    padding-top: 4rem;     /* safe spacing */
+    width: 100%;
+  }
 
 `;
 
@@ -27,11 +23,12 @@ const Buttons = styled.div`
     width:100%;
     padding-top:8rem;
 
-    @media screen and (max-width: 650px) {
+  @media screen and (max-width: 650px) {
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    margin-bottom: 22rem;
+    margin-bottom: 3rem; /* NOT huge */
+    margin-top: 70px
   }
 `;
 
@@ -154,7 +151,7 @@ const Notice = styled.label`
 
   @media screen and (max-width: 650px) {
     width: 75%;
-    margin-top: 13.5rem;
+    margin-top: 535px;
     text-align: center;
     // margin-left: -10.7rem;
   }
@@ -187,4 +184,5 @@ function Home({onButtonClick, disabled}){
 
 
 export default Home;
+
 
