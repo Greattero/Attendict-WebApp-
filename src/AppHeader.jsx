@@ -24,7 +24,7 @@ const Heading = styled.div`
 
   button {
     background-color: transparent;
-    color: red;
+    color: #dbdbdb;
     border: none;
     cursor: pointer;
     display: flex;
@@ -80,6 +80,7 @@ function AppHeader({onLogout,disableLogout}){
 
 
 export default AppHeader;
+
 
 
 
