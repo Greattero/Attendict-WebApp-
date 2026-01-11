@@ -3,10 +3,18 @@ import 'boxicons/css/boxicons.min.css';
 import CountdownTimer from "./CountdownTimer.jsx";
 
 const HomePage = styled.div`
-
-display:flex,
-   justify-content: center;
-   align-items: center;
+ @media screen and (max-width: 650px) {
+    display: flex;
+    flex-direction: row;
+    background-color: #dbdbdb;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin-top: 260px;
+    width: 100vw;
+ 
+ }
 
 `;
 
@@ -18,6 +26,13 @@ const Buttons = styled.div`
     gap: 6rem;
     width:100%;
     padding-top:8rem;
+
+    @media screen and (max-width: 650px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 22rem;
+  }
 `;
 
 
@@ -37,10 +52,9 @@ const Host = styled.button`
     }
 
  @media screen and (max-width: 650px) {
-    //position: absolute;
-    width: 20rem;
+    width: 80%;
     height: 8.8rem;
-    margin-top: -230px;
+    // margin-top: -230px;
     border-radius: 6px;
 
         i{
@@ -55,13 +69,13 @@ const Host = styled.button`
         font-size: 25px;
         }
     
-        button{
-        border-radius:100px;
-        border: none;
-        background-color:rgb(230, 230, 230);
-        margin-top: 25px;
+        // button{
+        // border-radius:100px;
+        // border: none;
+        // background-color:rgb(230, 230, 230);
+        // margin-top: 20px;
        
-        }
+        // }
 
   }
 
@@ -83,10 +97,9 @@ const CheckIn = styled.button`
         }
 
     @media screen and (max-width: 650px) {
-        //position: absolute;
-        width: 10rem;
+        width: 80%;
         height: 8.8rem;
-        margin-top: -70px;
+        // margin-top: -70px;
         border-radius: 6px;
 
 
@@ -103,13 +116,13 @@ const CheckIn = styled.button`
         font-size: 25px;
         }
     
-        button{
-        border-radius:100px;
-        border: none;
-        background-color:rgb(230, 230, 230);
-        margin-top: 25px;
+        // button{
+        // border-radius:100px;
+        // border: none;
+        // background-color:rgb(230, 230, 230);
+        // margin-top: 25px;
        
-        }
+        // }
 
   }
 `
@@ -141,9 +154,9 @@ const Notice = styled.label`
 
   @media screen and (max-width: 650px) {
     width: 75%;
-    margin-top: 5.5rem;
+    margin-top: 13.5rem;
     text-align: center;
-    margin-left: -10.7rem;
+    // margin-left: -10.7rem;
   }
 `;
 
@@ -153,7 +166,7 @@ function Home({onButtonClick, disabled}){
     return(
         <HomePage>
             <Buttons>
-                <Host onClick={!disabled ? () => onButtonClick("host") : () => alert("A session is ongoing")}>
+                <Host onClick={() => onButtonClick("host")}>
                     <IconWrapper>
                     <i className='bx bxs-user'></i>
                     </IconWrapper>
@@ -167,13 +180,10 @@ function Home({onButtonClick, disabled}){
                     <h2>CheckIn</h2>
                 </CheckIn>
             </Buttons>
-            <Notice>⚠️Make sure location is on.</Notice>
+            <Notice>⚠️Do not connect to public networks or hotspots.</Notice>
         </HomePage>
     )
 
 }
 
-
 export default Home;
-
-
