@@ -66,7 +66,7 @@ function AppHeader({onLogout,disableLogout}){
                   alert("📸 Chakam! Nice try 😂 Logout drops in 3 mins—cheaters no dey win!");
                 }
               }}>
-                      <i className="bx bx-arrow-out-right-square-half"></i>
+                      <i className="bx bx-log-out"></i>
 
 
             </button>
@@ -80,6 +80,7 @@ function AppHeader({onLogout,disableLogout}){
 
 
 export default AppHeader;
+
 
 
 
