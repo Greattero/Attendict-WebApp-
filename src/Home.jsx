@@ -225,7 +225,7 @@ function Home({onButtonClick, disabled}){
 
                <Remove onClick={!disabled ? () => onButtonClick("remove") : () => alert("A session is ongoing")}>
                     <IconWrapper>
-                    <i className='bx bxs-block'></i>
+                    <i className='bx bx-block'></i>
                     </IconWrapper>
                     <h2>Remove</h2> 
                </Remove>
@@ -240,6 +240,7 @@ function Home({onButtonClick, disabled}){
 
 
 export default Home;
+
 
 
 
