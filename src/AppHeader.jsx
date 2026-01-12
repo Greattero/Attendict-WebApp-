@@ -39,7 +39,7 @@ const Heading = styled.div`
 
   i {
     font-size: 30px;
-    margin-bottom: 18px;
+    margin: 0px;
     cursor: pointer;
   }
 
