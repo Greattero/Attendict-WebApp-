@@ -175,12 +175,11 @@ function App() {
       </div>
 
       <div style= {{
-        position: "absolute",
-        top: "-10px",
-        right: "20px",
-        zIndex: 1000,
-        paddingRight: "70px",
-        paddingTop: "19px",
+          position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100vw",
+  zIndex: 1100
       }}
       
       >
