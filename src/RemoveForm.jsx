@@ -363,7 +363,7 @@ const handleSubmit = async (e) => {
 
       console.log("Session reseted successful:", data);
 
-      alert("Session reseted Successfully);
+      alert("Session reseted Successfully");
 
       setLoading(false); // Stop loading
 
