@@ -346,7 +346,7 @@ onClose();
 
         value={progName}
 
-        onChange={(e)=>setProgName(e.target.value)}
+        onChange={(e)=>setProgName(e.target.value.toUpperCase())}
 
         placeholder="Ex: CE123" />
 
