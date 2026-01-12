@@ -5,6 +5,7 @@ import CheckInForm from "./CheckInForm.jsx";
 import CountdownTimer from "./CountdownTimer.jsx";
 import Login from "./Login.jsx";
 import AppHeader from "./AppHeader.jsx";
+import RemoveForm from "./RemoveForm.jsx";
 import './index.css';
 
 
@@ -154,6 +155,14 @@ function App() {
                 disableLogout={setLogoutDisable} 
               />
             )}
+
+            {form === "remove" && (
+              <RemoveForm 
+                onClose={closeForm} 
+           
+              />
+            )}
+            
           </>
         )}
       </div>
