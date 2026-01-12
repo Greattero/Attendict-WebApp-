@@ -349,33 +349,27 @@ const handleSubmit = async (e) => {
 
 
 
-    
+    if (!response.ok) {
+
+      console.error("Server error:", data);
+
+      alert("Unstable internet connection. Try again😬")
+
+      setLoading(false); // Stop loading
 
 
 
-    //if (!response.ok) {
+    } else {
 
-      //console.error("Server error:", data);
+      console.log("Session reseted successful:", data);
 
-      //alert("Unstable internet connection. Try again😬")
+      alert("Session reseted Successfully);
 
-      //setLoading(false); // Stop loading
+      setLoading(false); // Stop loading
 
-      
+      onClose(); // close the form so the countdown shows
 
-
-
-   // } else {
-
-      //console.log("Check-in successful:", data);
-
-      //console.log(distance);
-
-  //  setLoading(false); // Stop loading
-
-     // onClose(); // close the form so the countdown shows
-
-   // }
+    }
 
 
 
