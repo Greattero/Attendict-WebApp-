@@ -166,11 +166,12 @@ function App() {
           </>
         )}
       </div>
-      <div style= {{
-        position: "absolute",
-        width: "100%",
-        top: 0,
-      }}>
+      <div style={{
+  display: "flex",
+  width: "100%",
+  height: "100vh",
+}}>
+
             <AppHeader onLogout={()=>handleLogoutSuccess()} disableLogout={logoutDisable}/>
       </div>
 
