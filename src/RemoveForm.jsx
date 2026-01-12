@@ -243,133 +243,6 @@ function RemoveForm({onClose,disableLogout}) {
   }, [onClose]);  // Re-run if `onClose` cha
 
 
-  
-
-    const currentProg = formData.programme;
-
-
-  useEffect(() => {if(navigator.geolocation){
-
-    navigator.geolocation.getCurrentPosition(
-
-      (position) => {
-
-        setLocation({
-
-          lat: position.coords.latitude,
-
-          lon: position.coords.longitude,
-
-        }
-
-        )
-
-      },
-
-      (err) => {console.log(err)}
-
-    )
-
-
-
-  }
-
-  else{
-
-    console.log("Error")
-
-  }
-
-
-
-  },[])
-
-
-
-  useEffect(() => {
-
-    const username = localStorage.getItem("username");
-
-    setFormData((prev) => ({
-
-      ...prev,
-
-      location: {
-
-        lat: location.lat != null ? Number(location.lat.toFixed(6)) : null,
-
-        lon: location.lon != null ? Number(location.lon.toFixed(6)) : null,
-
-      },
-
-      myip: ip,
-
-      index_no: username,
-
-    }));
-
-  }, [location,ip]);
-
-
-
-  const { lat: checkinLat, lon: checkinLon } = location;
-
-
-
-useEffect(() => {
-
-  if (checkinLat && hostLat) {
-
-    const R = 6371;
-
-    const toRad = angle => angle * (Math.PI / 180);
-
-    const dLat = toRad(checkinLat - hostLat);
-
-    const dLon = toRad(checkinLon - hostLon);
-
-
-
-    const a =
-
-      Math.sin(dLat / 2) ** 2 +
-
-      Math.cos(toRad(hostLat)) * Math.cos(toRad(checkinLat)) *
-
-      Math.sin(dLon / 2) ** 2;
-
-
-
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-
-
-    setDistance(R * c);
-
-  }
-
-}, [checkinLat, checkinLon, hostLat, hostLon]);
-
-
-
-
-
-  const handleName = (e) => {
-
-    setFormData(
-
-      (prev) => ({...prev, name: e.target.value})
-
-    )
-
-  }
-
-
-
-  const handleIndexNo = () => {
-
-
-
 
 const handleSubmit = async (e) => {
 
@@ -383,7 +256,7 @@ const handleSubmit = async (e) => {
 
   // Validate form fields
 
-  if (!formData.name || !formData.programme || !formData.level) {
+  if (!progName) {
 
     alert("Please fill all required fields.");
 
@@ -393,7 +266,7 @@ const handleSubmit = async (e) => {
 
 
 
-  if(formData.programme.length !== 5){
+  if(progName.length !== 5){
 
       alert("Programme code must be 5 characters");
 
@@ -449,17 +322,6 @@ const handleSubmit = async (e) => {
 
 
 
-    const dataToSend = {
-
-          ...formData,
-
-          distance,  // send distance
-
-        };
-
-
-
-
 
  // console.log("Sending data:", formData);
 
@@ -487,33 +349,7 @@ const handleSubmit = async (e) => {
 
 
 
-    if (data.dbAvailable) {
-
-      alert("Session doesn't exist");
-
-      setLoading(false);
-
-      //console.log(`Was it: ${data.dbAvailable}`);
-
-      onClose();
-
-      return;
-
-    }
-
-
-
-    if(data.available){
-
-      alert("You've already checked in");
-
-      setLoading(false); // Stop loading
-
-      onClose();
-
-      return;
-
-    }
+    
 
 
 
@@ -533,29 +369,11 @@ const handleSubmit = async (e) => {
 
       //console.log("Check-in successful:", data);
 
-      alert(`Submitted Successfully🎉\nYou are ${distance.toFixed(3)}km away`);
-
       //console.log(distance);
 
       setLoading(false); // Stop loading
 
       onClose(); // close the form so the countdown shows
-
-
-
-      disableLogout(true);
-
-      localStorage.setItem("logoutDisabledUntil", Date.now() + 3 * 60 * 1000);
-
-
-
-      setTimeout(() => {
-
-        disableLogout(false);
-
-        localStorage.removeItem("logoutDisabledUntil");
-
-      }, 3 * 60 * 1000);
 
     }
 
@@ -592,9 +410,9 @@ const handleSubmit = async (e) => {
 
         <Input type="text"
 
-        value={formData.programme}
+        value={progName}
 
-        onChange={(e)=>handleProgramme(e)}
+        onChange={(e)=>setProgName(e.target.value)}
 
         placeholder="Ex: CE123" />
 
