@@ -33,13 +33,14 @@ const Heading = styled.div`
     justify-content: center;
     height: 100%;
     padding-top: 35px;
+    padding-right: 35px;
     position: relative;
     z-index: 9999;
   }
 
   i {
     font-size: 30px;
-    margin: 0px;
+    margin-bottom: 18px;
     cursor: pointer;
   }
 
