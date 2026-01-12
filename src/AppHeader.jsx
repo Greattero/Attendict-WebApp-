@@ -3,16 +3,23 @@ import CheckInForm from "./CheckInForm.jsx";
 import icon from './assets/icon.png';
 
 const Heading = styled.div`
-  background-color: rgb(241, 239, 239);;
-  margin-top: -25px;
+position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
   height: 80px;
-  width:100%;
+  width: 100%;
+
+  background-color: rgb(241, 239, 239);
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   padding: 0 20px;
+  box-shadow: 0 1px 4px grey;
   z-index: 9999;
-  box-shadow: 0.5px 0.5px 0.5px 0.5px grey;
+`;
 
 
   h1 {
