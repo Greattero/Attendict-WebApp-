@@ -428,11 +428,10 @@ app.delete("/api/delete-collection",async(req,res)=> {
 
 
 
-    if(!collection_name){
+    if (!collection_name) {
+  return res.status(400).json({ message: "No collection found" });
+}
 
-        return res.json("No collection found");
-
-    }
 
 
 
@@ -485,6 +484,7 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 
 });
+
 
 
 
