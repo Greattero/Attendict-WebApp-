@@ -19,7 +19,7 @@ const Heading = styled.div`
   padding: 0 20px;
   box-shadow: 0 1px 4px grey;
   z-index: 9999;
-`;
+;
 
 
   h1 {
@@ -40,7 +40,7 @@ const Heading = styled.div`
     justify-content: center;
     height: 100%;
     padding-top: 35px;
-    padding-right: 20px;
+    padding-right: 5px;
     position: relative;
     z-index: 9999;
     font-size: 100px;
@@ -90,16 +90,6 @@ function AppHeader({onLogout,disableLogout}){
 
 
 export default AppHeader;
-
-
-
-
-
-
-
-
-
-
 
 
 
