@@ -124,6 +124,53 @@ const CheckIn = styled.button`
   }
 `
 
+const Remove = styled.button`
+    width: 25rem;
+    height: 11rem;
+    border-radius: 20px;
+    border:none;
+    box-shadow: 2.5px 2.5px 2.5px var(--border-white);
+    background-color:rgb(236, 238, 243);
+
+        i{
+        margin-top: 30px;
+        font-size: 35px;
+        color: grey;
+        margin:10px;
+        text-align: center;
+        }
+
+    @media screen and (max-width: 650px) {
+        width: 80%;
+        height: 8.8rem;
+        // margin-top: -70px;
+        border-radius: 6px;
+
+
+        i{
+        margin-top: 30px;
+        font-size: 35px;
+        color: grey;
+        margin:10px;
+        text-align: center;
+        }
+
+        h2{
+        margin-top: 20px;
+        font-size: 25px;
+        }
+    
+        // button{
+        // border-radius:100px;
+        // border: none;
+        // background-color:rgb(230, 230, 230);
+        // margin-top: 25px;
+       
+        // }
+
+  }
+`
+
 const IconWrapper = styled.div`
   border-radius: 100px;
   background-color: rgb(230, 230, 230);
@@ -175,6 +222,15 @@ function Home({onButtonClick, disabled}){
                     </IconWrapper>
                     <h2>CheckIn</h2>
                 </CheckIn>
+
+               <Remove onClick={!disabled ? () => onButtonClick("remove") : () => alert("A session is ongoing")}>
+                    <IconWrapper>
+                    <i className='bx bxs-user'></i>
+                    </IconWrapper>
+                    <h2>Remove</h2> 
+               </Remove>
+      
+    
             </Buttons>
             <Notice>⚠️Make sure location is on.</Notice>
         </HomePage>
@@ -184,5 +240,6 @@ function Home({onButtonClick, disabled}){
 
 
 export default Home;
+
 
 
