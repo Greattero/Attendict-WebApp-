@@ -443,6 +443,6 @@ const handleSubmit = async (e) => {
 
 
 
-export RemoveForm;
+export default RemoveForm;
 
 
