@@ -329,9 +329,9 @@ const handleSubmit = async (e) => {
 
   try {
 
-    const response = await fetch("https://attendict.onrender.com/api/checkin-details", {
+    const response = await fetch("https://attendict.onrender.com/api/delete-collection", {
 
-      method: "POST",
+      method: "DELETE",
 
       headers: {
 
@@ -339,7 +339,7 @@ const handleSubmit = async (e) => {
 
       },
 
-      body: JSON.stringify(dataToSend),
+      body: JSON.stringify(progName),
 
     });
 
@@ -353,29 +353,29 @@ const handleSubmit = async (e) => {
 
 
 
-    if (!response.ok) {
+    //if (!response.ok) {
 
       //console.error("Server error:", data);
 
-      alert("Unstable internet connection. Try again😬")
+      //alert("Unstable internet connection. Try again😬")
 
-      setLoading(false); // Stop loading
+      //setLoading(false); // Stop loading
 
       
 
 
 
-    } else {
+   // } else {
 
       //console.log("Check-in successful:", data);
 
       //console.log(distance);
 
-      setLoading(false); // Stop loading
+  //  setLoading(false); // Stop loading
 
-      onClose(); // close the form so the countdown shows
+     // onClose(); // close the form so the countdown shows
 
-    }
+   // }
 
 
 
@@ -401,7 +401,7 @@ const handleSubmit = async (e) => {
 
     <Checkin ref= {popupRef}>
 
-        <Header>Check-In </Header>
+        <Header>Remove Session </Header>
 
         <LabelHint>(strictly for course reps and lecturers)</LabelHint>
 
