@@ -6,7 +6,7 @@ const Heading = styled.div`
   background-color: rgb(241, 239, 239);;
   margin-top: -25px;
   height: 80px;
-  width:100vw;
+  width:100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
