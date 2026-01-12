@@ -5,6 +5,7 @@ import CheckInForm from "./CheckInForm.jsx";
 import CountdownTimer from "./CountdownTimer.jsx";
 import Login from "./Login.jsx";
 import AppHeader from "./AppHeader.jsx";
+import RemoveForm from "./RemoveForm.jsx";
 import './index.css';
 
 
@@ -144,6 +145,12 @@ function App() {
                 onClose={closeForm} 
                 setHostTime={setHostTime} 
                 setProgramme={setProgramme} 
+              />
+            )}
+
+            {form === "remove" && !disable && (
+              <RemoveForm 
+                onClose={closeForm} 
               />
             )}
         
