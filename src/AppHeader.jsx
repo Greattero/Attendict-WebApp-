@@ -36,6 +36,7 @@ const Heading = styled.div`
     padding-right: 85px;
     position: relative;
     z-index: 9999;
+    font-size: 100px;
   }
 
   i {
