@@ -289,49 +289,27 @@ const handleSubmit = async (e) => {
 
   try {
 
-    const response = await fetch("https://attendict.onrender.com/api/delete-collection", {
+    const response = await fetch(
+  "https://attendict.onrender.com/api/delete-collection",
+  {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ collection_name: progName }),
+  }
+);
 
-      method: "DELETE",
+const data = await response.json();
 
-      headers: {
+if (!response.ok) {
+  alert(data.message || "Delete failed");
+  setLoading(false);
+  return;
+}
 
-        "Content-Type": "application/json",
+alert("Session reset successfully");
+setLoading(false);
+onClose();
 
-      },
-
-      body: JSON.stringify({
-      collection_name: progName
-       }),
-
-    });
-
-
-
-    const data = await response.json();
-
-
-
-    if (!response.ok) {
-
-      console.error("Server error:", data);
-
-      alert("Unstable internet connection. Try again😬")
-
-      setLoading(false); // Stop loading
-
-
-
-    } else {
-
-      console.log("Session reseted successful:", data);
-
-      alert("Session reseted Successfully");
-
-      setLoading(false); // Stop loading
-
-      onClose(); // close the form so the countdown shows
-
-    }
 
 
 
