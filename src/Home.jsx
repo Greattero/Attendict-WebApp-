@@ -227,7 +227,7 @@ function Home({onButtonClick, disabled}){
                     <IconWrapper>
                     <i className='bx bx-block'></i>
                     </IconWrapper>
-                    <h2>Remove</h2> 
+                    <h2>Remove Session</h2> 
                </Remove>
       
     
@@ -240,6 +240,7 @@ function Home({onButtonClick, disabled}){
 
 
 export default Home;
+
 
 
 
