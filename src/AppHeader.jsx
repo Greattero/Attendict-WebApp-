@@ -3,7 +3,7 @@ import CheckInForm from "./CheckInForm.jsx";
 import icon from './assets/icon.png';
 
 const Heading = styled.div`
-position: fixed;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -40,7 +40,7 @@ position: fixed;
     justify-content: center;
     height: 100%;
     padding-top: 35px;
-    padding-right: 85px;
+    padding-right: 20px;
     position: relative;
     z-index: 9999;
     font-size: 100px;
