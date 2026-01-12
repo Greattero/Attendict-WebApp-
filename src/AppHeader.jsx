@@ -3,23 +3,15 @@ import CheckInForm from "./CheckInForm.jsx";
 import icon from './assets/icon.png';
 
 const Heading = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-
+  background-color: rgb(241, 239, 239);;
+  margin-top: -25px;
   height: 80px;
-  width: 100%;
-
-  background-color: rgb(241, 239, 239);
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   padding: 0 20px;
-  box-shadow: 0 1px 4px grey;
   z-index: 9999;
-;
+  box-shadow: 0.5px 0.5px 0.5px 0.5px grey;
 
 
   h1 {
@@ -40,10 +32,8 @@ const Heading = styled.div`
     justify-content: center;
     height: 100%;
     padding-top: 35px;
-    padding-right: 5px;
     position: relative;
     z-index: 9999;
-    font-size: 100px;
   }
 
   i {
@@ -90,10 +80,3 @@ function AppHeader({onLogout,disableLogout}){
 
 
 export default AppHeader;
-
-
-
-
-
-
-
