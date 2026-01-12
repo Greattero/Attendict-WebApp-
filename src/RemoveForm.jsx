@@ -280,47 +280,7 @@ const handleSubmit = async (e) => {
 
 
 
-  // Check location distance range
-
-  if (distance === null && !hostCoords.lat) {
-
-    alert("Host location not found 😬. Check course code or turn on location. Then refresh and try again.");
-
-    //console.log("Couldn't get Host location. Try again");
-
-    //console.log(distance);
-
-    setLoading(false); // Stop loading
-
-    return;
-
-  }
-
-  else if( distance > range){
-
-    alert(`You are out of range 😭.Refresh and try again ${distance}`);
-
-    //console.log("You are out of range.");
-
-    //console.log(distance);
-
-    setLoading(false); // Stop loading
-
-    return;
-
-  }
-
-
-
-    // setFormData((prev) => ({
-
-    //   ...prev,
-
-    //   inspect: distance > 0.1 && distance < 1.6 ? "1" : "0";
-
-    // }));
-
-
+  
 
 
  // console.log("Sending data:", formData);
@@ -339,7 +299,9 @@ const handleSubmit = async (e) => {
 
       },
 
-      body: JSON.stringify(progName),
+      body: JSON.stringify({
+      collection_name: progName
+       }),
 
     });
 
