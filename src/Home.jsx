@@ -191,10 +191,10 @@ const Notice = styled.label`
   border: 2px solid #ffe4bd;
   border-radius: 15px;
   background-color: #f0d1ae;
-  // padding: 15px;
+  padding: 15px;
   margin-top: 2rem;
   color: black;
-  width: 54rem; /* Matches total width of Host + CheckIn + gap */
+  width: 80rem; /* Matches total width of Host + CheckIn + gap */
 
   @media screen and (max-width: 650px) {
     width: 75%;
@@ -240,6 +240,7 @@ function Home({onButtonClick, disabled}){
 
 
 export default Home;
+
 
 
 
