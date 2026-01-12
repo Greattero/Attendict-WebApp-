@@ -33,7 +33,7 @@ const Heading = styled.div`
     justify-content: center;
     height: 100%;
     padding-top: 35px;
-    padding-right: 35px;
+    padding-right: 85px;
     position: relative;
     z-index: 9999;
   }
