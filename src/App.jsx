@@ -5,7 +5,6 @@ import CheckInForm from "./CheckInForm.jsx";
 import CountdownTimer from "./CountdownTimer.jsx";
 import Login from "./Login.jsx";
 import AppHeader from "./AppHeader.jsx";
-import RemoveForm from "./RemoveForm.jsx";
 import './index.css';
 
 
@@ -155,23 +154,14 @@ function App() {
                 disableLogout={setLogoutDisable} 
               />
             )}
-
-            {form === "remove" && (
-              <RemoveForm 
-                onClose={closeForm} 
-           
-              />
-            )}
-            
           </>
         )}
       </div>
-      <div style={{
-  display: "flex",
-  width: "100%",
-  height: "100vh",
-}}>
-
+      <div style= {{
+        position: "absolute",
+        width: "100%",
+        top: 0,
+      }}>
             <AppHeader onLogout={()=>handleLogoutSuccess()} disableLogout={logoutDisable}/>
       </div>
 
