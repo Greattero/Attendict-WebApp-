@@ -423,7 +423,7 @@ const handleSubmit = async (e) => {
         onChange={()=>handleIndexNo()}
         disabled/>
 
-        <Label>Progamme Initials & Course Code</Label>
+        <Label>Course Code</Label>
         <Input type="text"
         value={formData.programme}
         onChange={(e)=>handleProgramme(e)}
