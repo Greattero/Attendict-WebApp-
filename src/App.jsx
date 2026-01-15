@@ -176,7 +176,7 @@ function App() {
                     : feedback === "sessionExists" ? "Session already exists"
                     : feedback === "alreadyCheckedin" ? "You've already checked in"
                     : feedback === "removeSession" ? "Session removed successfully"
-                    : feedback === "accountNotCreated" ? "Network error"
+                    : feedback === "noSession" ? "Session doesn't exist"
                     : feedback === "newGoogleSignUp" ? "Account created successfully"
                     : feedback === "googleAlreadyExists" ? "Logged in successfully"
                     : feedback === "passwordResetLinkSent" ? "Password reset not successful"
