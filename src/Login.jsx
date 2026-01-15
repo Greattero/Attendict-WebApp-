@@ -270,7 +270,7 @@ function Login({onLoginSuccess, sendFeedback}){
     }
     catch(err){
         alert("No records found");
-        // console.log(err);
+        console.log(err);
         setLoading(false);
     }
     }
@@ -330,6 +330,7 @@ function Login({onLoginSuccess, sendFeedback}){
 }
 
 export default Login;
+
 
 
 
