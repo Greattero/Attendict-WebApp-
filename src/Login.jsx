@@ -218,7 +218,7 @@ const Welcome = styled.div`
 //     }
 // `
 
-function Login({onLoginSuccess, sendFeedback}){
+function Login({onLoginSuccess, sendFeedback, sendVisible}){
 
     const [loading, setLoading] = useState(false);
 
@@ -258,6 +258,7 @@ function Login({onLoginSuccess, sendFeedback}){
         if (data.success){
             localStorage.setItem("username",loginData.username);
             //alert("Login Successful🎉");
+            sendVisible(true);
             sendFeedback("correctLogs");
             onLoginSuccess();
         }
@@ -329,6 +330,7 @@ function Login({onLoginSuccess, sendFeedback}){
 }
 
 export default Login;
+
 
 
 
