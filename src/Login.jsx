@@ -258,6 +258,7 @@ function Login({onLoginSuccess, sendFeedback}){
         if (data.success){
             localStorage.setItem("username",loginData.username);
             //alert("Login Successful🎉");
+            setVisible(true);
             sendFeedback("correctLogs");
             onLoginSuccess();
         }
@@ -329,5 +330,6 @@ function Login({onLoginSuccess, sendFeedback}){
 }
 
 export default Login;
+
 
 
