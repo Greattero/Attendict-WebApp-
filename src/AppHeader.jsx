@@ -53,8 +53,8 @@ function AppHeader({onLogout,disableLogout}){
         <Heading>
             <img src={icon}
                   style={{
-                width: 40,
-                height: 40,
+                width: 65,
+                height: 65,
                 marginTop: 25
                   }}
               />
@@ -80,4 +80,5 @@ function AppHeader({onLogout,disableLogout}){
 
 
 export default AppHeader;
+
 
