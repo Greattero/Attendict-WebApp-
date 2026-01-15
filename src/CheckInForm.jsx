@@ -101,7 +101,7 @@ const LabelHint = styled.label`
 `;
 
 
-function CheckInForm({onClose,disableLogout}) {
+function CheckInForm({onClose,disableLogout, sendFeedback}) {
 
   const [loading, setLoading] = useState(false);
   
@@ -362,7 +362,8 @@ const handleSubmit = async (e) => {
     const data = await response.json();
 
     if (data.dbAvailable) {
-      alert("Session doesn't exist");
+      //alert("Session doesn't exist");
+      sendFeedback("noSession");
       setLoading(false);
       //console.log(`Was it: ${data.dbAvailable}`);
       onClose();
@@ -370,7 +371,8 @@ const handleSubmit = async (e) => {
     }
 
     if(data.available){
-      alert("You've already checked in");
+      //alert("You've already checked in");
+      sendFeedback("alreadyCheckedin")
       setLoading(false); // Stop loading
       onClose();
       return;
@@ -384,7 +386,8 @@ const handleSubmit = async (e) => {
 
     } else {
       //console.log("Check-in successful:", data);
-      alert(`Submitted Successfully🎉\nYou are ${distance.toFixed(3)}km away`);
+      //alert(`Submitted Successfully🎉\nYou are ${distance.toFixed(3)}km away`);
+      sendFeedback("checkedinCorrectly");
       //console.log(distance);
       setLoading(false); // Stop loading
       onClose(); // close the form so the countdown shows
@@ -451,6 +454,7 @@ const handleSubmit = async (e) => {
 }
 
 export default CheckInForm;
+
 
 
 
