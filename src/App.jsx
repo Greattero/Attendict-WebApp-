@@ -204,18 +204,21 @@ function App() {
                 onClose={closeForm} 
                 setHostTime={setHostTime} 
                 setProgramme={setProgramme} 
+                sendFeedback={setFeedBack}
               />
             )}
 
             {form === "remove" && !disable && (
               <RemoveForm 
                 onClose={closeForm} 
+                sendFeedback={setFeedBack}
               />
             )}
         
             {/* CheckInForm popup */}
             {form === "checkin" && (
               <CheckInForm 
+                sendFeedback={setFeedBack}
                 onClose={closeForm} 
                 disableLogout={setLogoutDisable} 
               />
@@ -262,7 +265,9 @@ function App() {
       boxShadow: "0px 0px 30px hsla(0, 41.9%, 42.5%, 0.87)",
       borderRadius: "30px"
       }}>
-      <Login onLoginSuccess={()=>handleLoginSuccess()}/>
+      <Login 
+        sendFeedback={setFeedBack}
+        onLoginSuccess={()=>handleLoginSuccess()}/>
     </div>
     
   
