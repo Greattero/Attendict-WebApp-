@@ -218,7 +218,7 @@ const Welcome = styled.div`
 //     }
 // `
 
-function Login({onLoginSuccess}){
+function Login({onLoginSuccess, sendFeedBack}){
 
     const [loading, setLoading] = useState(false);
 
@@ -257,7 +257,8 @@ function Login({onLoginSuccess}){
         const data = await res.json();
         if (data.success){
             localStorage.setItem("username",loginData.username);
-            alert("Login Successful🎉");
+            //alert("Login Successful🎉");
+            sendFeedBack("correctLogs");
             onLoginSuccess();
         }
         else{
@@ -328,3 +329,4 @@ function Login({onLoginSuccess}){
 }
 
 export default Login;
+
