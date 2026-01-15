@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import CheckInForm from "./CheckInForm.jsx";
-import icon from './assets/icon.png';
+import icon from './assets/newPic.png';
 
 const Heading = styled.div`
   background-color: rgb(241, 239, 239);;
@@ -80,3 +80,4 @@ function AppHeader({onLogout,disableLogout}){
 
 
 export default AppHeader;
+
