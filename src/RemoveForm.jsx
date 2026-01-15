@@ -204,7 +204,7 @@ const LabelHint = styled.label`
 
 
 
-function RemoveForm({onClose,disableLogout}) {
+function RemoveForm({onClose,disableLogout, sendFeedback}) {
 
 
 
@@ -306,7 +306,8 @@ if (!response.ok) {
   return;
 }
 
-alert("Session reset successfully");
+//alert("Session reset successfully");
+sendFeedback("removeSession");
 setLoading(false);
 onClose();
 
