@@ -7,6 +7,7 @@ import Login from "./Login.jsx";
 import AppHeader from "./AppHeader.jsx";
 import RemoveForm from "./RemoveForm.jsx";
 import './index.css';
+import "./myStyling.css";
 
 
 
