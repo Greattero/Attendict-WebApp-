@@ -203,21 +203,24 @@ function App() {
               <HostForm 
                 onClose={closeForm} 
                 setHostTime={setHostTime} 
-                setProgramme={setProgramme} 
+                setProgramme={setProgramme}
+                sendVisible={setVisible}
                 sendFeedback={setFeedBack}
               />
             )}
 
             {form === "remove" && !disable && (
               <RemoveForm 
-                onClose={closeForm} 
+                onClose={closeForm}
+                sendVisible={setVisible}
                 sendFeedback={setFeedBack}
               />
             )}
         
             {/* CheckInForm popup */}
             {form === "checkin" && (
-              <CheckInForm 
+              <CheckInForm
+                sendVisible={setVisible}
                 sendFeedback={setFeedBack}
                 onClose={closeForm} 
                 disableLogout={setLogoutDisable} 
