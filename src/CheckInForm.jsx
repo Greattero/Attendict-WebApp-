@@ -363,6 +363,7 @@ const handleSubmit = async (e) => {
 
     if (data.dbAvailable) {
       //alert("Session doesn't exist");
+      sendVisible(true);
       sendFeedback("noSession");
       setLoading(false);
       //console.log(`Was it: ${data.dbAvailable}`);
@@ -372,6 +373,7 @@ const handleSubmit = async (e) => {
 
     if(data.available){
       //alert("You've already checked in");
+      sendVisible(true);
       sendFeedback("alreadyCheckedin")
       setLoading(false); // Stop loading
       onClose();
@@ -387,6 +389,7 @@ const handleSubmit = async (e) => {
     } else {
       //console.log("Check-in successful:", data);
       //alert(`Submitted Successfully🎉\nYou are ${distance.toFixed(3)}km away`);
+      sendVisible(true);
       sendFeedback("checkedinCorrectly");
       //console.log(distance);
       setLoading(false); // Stop loading
@@ -402,7 +405,7 @@ const handleSubmit = async (e) => {
     }
 
   } catch (err) {
-    console.error("Fetch error:", err);
+    //console.error("Fetch error:", err);
     setLoading(false); // Stop loading
 
   }
@@ -454,6 +457,7 @@ const handleSubmit = async (e) => {
 }
 
 export default CheckInForm;
+
 
 
 
