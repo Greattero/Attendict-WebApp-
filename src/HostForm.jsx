@@ -110,7 +110,7 @@ const LabelHint = styled.label`
 `;
 
 
-function HostForm({onClose, setHostTime, setProgramme}) {
+function HostForm({onClose, setHostTime, setProgramme, sendFeedback}) {
 
 
   const [loading, setLoading] = useState(false);
@@ -294,7 +294,9 @@ function HostForm({onClose, setHostTime, setProgramme}) {
       const data = await response.json();
 
       if (data.dbAvailable) {
-        alert("Session already exists.");
+        //alert("Session already exists.");
+        sendFeedback("sessionExists")
+        
         setLoading(false);
         //console.log(`Was it: ${data.dbAvailable}`);
         onClose();
@@ -307,12 +309,15 @@ function HostForm({onClose, setHostTime, setProgramme}) {
         setLoading(false);
         onClose();
       } else {
+
+        sendFeedback("hostedSucessfully");
   
         setHostTime(null);
         setTimeout(() => {
         setHostTime(formData?.duration);
         setProgramme(formData?.programme);
         }, 0);
+        
 
         const time = Date.now();
         const raw = localStorage.getItem("pendingDeletes");
@@ -403,6 +408,7 @@ function HostForm({onClose, setHostTime, setProgramme}) {
 
 
 export default HostForm;
+
 
 
 
