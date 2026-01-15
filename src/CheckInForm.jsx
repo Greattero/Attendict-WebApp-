@@ -101,7 +101,7 @@ const LabelHint = styled.label`
 `;
 
 
-function CheckInForm({onClose,disableLogout, sendFeedback}) {
+function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible}) {
 
   const [loading, setLoading] = useState(false);
   
@@ -215,8 +215,6 @@ function CheckInForm({onClose,disableLogout, sendFeedback}) {
       //console.log(`✅ Updated Host lat: ${hostCoords.lat}, lon: ${hostCoords.lon}`);
     }
   }, [hostCoords]);
-
-
 
 
   const { lat: hostLat, lon: hostLon } = hostCoords;
@@ -457,28 +455,3 @@ const handleSubmit = async (e) => {
 }
 
 export default CheckInForm;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
