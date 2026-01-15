@@ -307,6 +307,7 @@ if (!response.ok) {
 }
 
 //alert("Session reset successfully");
+sendVisible(true);
 sendFeedback("removeSession");
 setLoading(false);
 onClose();
