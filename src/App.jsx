@@ -44,7 +44,35 @@ function App() {
 
   const [logoutDisable, setLogoutDisable] = useState(false);
 
+  const [toastY, setToastY] = useState(-100); // starts off-screen
+
+  const [visible, setVisible] = useState(false);
+
+  const [feedback, setFeedBack] = useState();
+
+
   // console.log("DDD:", programme);
+
+  const successFeedbacks = ["hostedSucessfully", "correctLogs", "checkedinCorrectly", "sessionExists", "alreadyCheckedin", "removeSession"];
+
+  const isSuccess = successFeedbacks.includes(feedback);
+
+
+    useEffect(() => {
+        if (!visible) return;
+
+        // Slide in
+        setToastY(20);
+
+        const timer = setTimeout(() => {
+            // Slide out
+            setToastY(-100);
+            // Hide after animation
+            setTimeout(() => setVisible(false), 500); 
+        }, 2000);
+
+        return () => clearTimeout(timer);
+    }, [visible]);
 
 
   React.useEffect(() => {
@@ -126,6 +154,37 @@ function App() {
       {/* <div>
         <Sidebar/>
       </div> */}
+
+    {visible && (
+    <div
+        className="toast"
+        style={{
+            transform: `translateY(${toastY}px)`,
+            transition: 'transform 0.5s ease',
+        }}
+    >
+//const successFeedbacks = ["hostedSucessfully", "correctLogs", "checkedinCorrectly", "sessionExists", "alreadyCheckedin", "removeSession"];
+
+        {!isSuccess ? "❌" : "✅"}
+        <label style={{
+            marginLeft: "15px",
+            marginTop: "2px",
+        }}>
+                    {feedback === "hostedSucessfully" ? "Created session successfully" 
+                    : feedback === "correctLogs" ? "Logged in successfully"
+                    : feedback === "checkedinCorrectly" ? "Checked in successfully" 
+                    : feedback === "sessionExists" ? "Session already exists"
+                    : feedback === "alreadyCheckedin" ? "You've already checked in"
+                    : feedback === "removeSession" ? "Session removed successfully"
+                    : feedback === "accountNotCreated" ? "Network error"
+                    : feedback === "newGoogleSignUp" ? "Account created successfully"
+                    : feedback === "googleAlreadyExists" ? "Logged in successfully"
+                    : feedback === "passwordResetLinkSent" ? "Password reset not successful"
+                    : feedback === "emailAlreadyRegistered" ? "Account already exists"
+                    : null}
+        </label>
+    </div>
+    )}
       
       <div style={{ // New wrapper div
         flex: 1,
