@@ -110,7 +110,7 @@ const LabelHint = styled.label`
 `;
 
 
-function HostForm({onClose, setHostTime, setProgramme, sendFeedback}) {
+function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible}) {
 
 
   const [loading, setLoading] = useState(false);
@@ -295,7 +295,8 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback}) {
 
       if (data.dbAvailable) {
         //alert("Session already exists.");
-        sendFeedback("sessionExists")
+        sendVisible(true);
+        sendFeedback("sessionExists");
         
         setLoading(false);
         //console.log(`Was it: ${data.dbAvailable}`);
@@ -309,7 +310,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback}) {
         setLoading(false);
         onClose();
       } else {
-
+        sendVisible(true);
         sendFeedback("hostedSucessfully");
   
         setHostTime(null);
@@ -408,6 +409,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback}) {
 
 
 export default HostForm;
+
 
 
 
