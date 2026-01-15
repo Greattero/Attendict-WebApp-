@@ -204,7 +204,7 @@ const LabelHint = styled.label`
 
 
 
-function RemoveForm({onClose,disableLogout, sendFeedback}) {
+function RemoveForm({onClose,disableLogout, sendFeedback, sendVisible}) {
 
 
 
