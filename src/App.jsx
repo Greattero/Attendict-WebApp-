@@ -265,6 +265,7 @@ function App() {
       borderRadius: "30px"
       }}>
       <Login 
+        sendVisible={setVisible}
         sendFeedback={setFeedBack}
         onLoginSuccess={()=>handleLoginSuccess()}/>
     </div>
