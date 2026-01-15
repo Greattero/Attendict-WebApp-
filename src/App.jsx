@@ -163,7 +163,6 @@ function App() {
             transition: 'transform 0.5s ease',
         }}
     >
-//const successFeedbacks = ["hostedSucessfully", "correctLogs", "checkedinCorrectly", "sessionExists", "alreadyCheckedin", "removeSession"];
 
         {!isSuccess ? "❌" : "✅"}
         <label style={{
