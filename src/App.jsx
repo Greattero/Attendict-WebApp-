@@ -53,7 +53,7 @@ function App() {
 
   // console.log("DDD:", programme);
 
-  const successFeedbacks = ["hostedSucessfully", "correctLogs", "checkedinCorrectly", "sessionExists", "alreadyCheckedin", "removeSession"];
+  const successFeedbacks = ["hostedSucessfully", "correctLogs", "checkedinCorrectly", "sessionExists", "alreadyCheckedin", "removeSession", "noSession"];
 
   const isSuccess = successFeedbacks.includes(feedback);
 
