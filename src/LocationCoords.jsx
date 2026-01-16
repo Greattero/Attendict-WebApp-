@@ -3,12 +3,12 @@ import styled from "styled-components";
 
 const LocationWrapper = styled.div`
 
-  background-color: rgb(241, 239, 239);;
-  margin-top: -10px;
+  background-color: red;
+  margin-top: 15px;
   height: 80px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 0 20px;
   z-index: 9999;
   box-shadow: 0.5px 0.5px 0.5px 0.5px grey;
