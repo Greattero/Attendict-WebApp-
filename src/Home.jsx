@@ -3,7 +3,7 @@ import 'boxicons/css/boxicons.min.css';
 
 const HomePage = styled.div`
   @media screen and (max-width: 650px) {
-    min-height: 80svh;     /* mobile-safe height */
+    min-height: 75svh;     /* mobile-safe height */
     display: flex;
     justify-content: center;
     align-items: flex-start; /* 👈 key */
@@ -22,7 +22,7 @@ const Buttons = styled.div`
     gap: 6rem;
     width:100%;
     padding-top:2rem;
-    background-color: red;
+    //background-color: red;
 
   @media screen and (max-width: 650px) {
     flex-direction: column;
@@ -239,28 +239,5 @@ function Home({onButtonClick, disabled}){
 
 
 export default Home;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
