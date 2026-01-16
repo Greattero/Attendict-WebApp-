@@ -151,13 +151,14 @@ function App() {
       display: "flex", 
       width: "100vw", // Use vw instead of % for full viewport width
       height: "100vh",
+      
     }}>
        <div style={{ // New wrapper div
         flex: 1,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        paddingBottom: "150px",
+        // paddingBottom: "30px",
       }}>
           <LocationCoords/>
       </div>
