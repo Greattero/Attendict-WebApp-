@@ -2,7 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 const LocationWrapper = styled.div`
-  display: flex;   /* ← REQUIRED */
+  display: flex; 
+      
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 6rem;
+    width:100%;
+    padding-top:8rem;
 
   @media screen and (max-width: 650px) {
     flex-direction: column;
