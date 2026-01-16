@@ -43,7 +43,7 @@ export default function LocationCoords({locationValues}){
             borderWidth: 2,
             borderColor:"rgba(141, 138, 138, 1)"}}>
 
-        {location (
+        {location ? (
             <label style={{
                 fontWeight:"bold"
             }}>
