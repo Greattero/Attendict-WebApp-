@@ -6,6 +6,7 @@ import CountdownTimer from "./CountdownTimer.jsx";
 import Login from "./Login.jsx";
 import AppHeader from "./AppHeader.jsx";
 import RemoveForm from "./RemoveForm.jsx";
+import LocationCoords from "./LocationCoords.jsx";
 import './index.css';
 import "./myStyling.css";
 
@@ -193,6 +194,7 @@ function App() {
         alignItems: "center",
         paddingBottom: "250px",
       }}>
+        <LocationCoords/>
         <Home onButtonClick={(type)=>handleButtonClick(type)} disabled={disable}/> {/* Remove all styles from Home */}
         {showPop && (
           <>
