@@ -21,7 +21,7 @@ const Buttons = styled.div`
     justify-content: center;
     gap: 6rem;
     width:100%;
-    padding-top:2rem;
+    //padding-top:2rem;
     //background-color: red;
 
   @media screen and (max-width: 650px) {
@@ -240,6 +240,7 @@ function Home({onButtonClick, disabled}){
 
 
 export default Home;
+
 
 
 
