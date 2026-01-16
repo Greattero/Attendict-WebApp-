@@ -28,7 +28,6 @@ const Buttons = styled.div`
     align-items: center;
     gap: 2rem;
     margin-bottom: 3rem; /* NOT huge */
-    margin-top: 5px
   }
 `;
 
@@ -240,6 +239,7 @@ function Home({onButtonClick, disabled}){
 
 
 export default Home;
+
 
 
 
