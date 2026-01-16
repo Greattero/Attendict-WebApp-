@@ -153,7 +153,7 @@ function App() {
       height: "100vh",
       
     }}>
-       <div style={{ // New wrapper div
+       {/* <div style={{ // New wrapper div
         flex: 1,
         display: "flex",
         flexDirection: "column",
@@ -162,7 +162,7 @@ function App() {
         // paddingBottom: "30px",
       }}>
           <LocationCoords/>
-      </div>
+      </div> */}
 
       {/* <div>
         <Sidebar/>
@@ -202,10 +202,11 @@ function App() {
         flex: 1,
         display: "flex",
         justifyContent: "center",
+        flexDirection: "column",
         alignItems: "center",
         paddingBottom: "250px",
       }}>
-        
+        <LocationCoords/>
         <Home onButtonClick={(type)=>handleButtonClick(type)} disabled={disable}/> {/* Remove all styles from Home */}
         {showPop && (
           <>
