@@ -190,7 +190,7 @@ const Notice = styled.label`
   border: 2px solid #ffe4bd;
   border-radius: 15px;
   background-color: #f0d1ae;
-  padding: 15px;
+  //padding: 15px;
   margin-top: 2rem;
   color: black;
   width: 85rem; /* Matches total width of Host + CheckIn + gap */
@@ -239,6 +239,7 @@ function Home({onButtonClick, disabled}){
 
 
 export default Home;
+
 
 
 
