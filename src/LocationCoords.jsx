@@ -7,11 +7,11 @@ const LocationWrapper = styled.div`
   @media screen and (max-width: 650px) {
     flex-direction: column;
     align-items: center;
+    position: absolute;
     justify-content: center;
     gap: 2rem;
     margin-bottom: 3rem; /* NOT huge */
-    margin-top: 70px;
-    margin-left: 60px;
+    margin-top: 10px;
     background-color: red;
   }
 
