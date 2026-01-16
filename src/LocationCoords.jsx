@@ -2,19 +2,20 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 const LocationWrapper = styled.div`
-  display: flex; 
-      
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  height: auto; /* or min-height: 30px; */
+  padding: 5px 20px;
+  border-radius: 40px;
+  border: 2px solid rgba(141, 138, 138, 1);
+
   @media screen and (max-width: 650px) {
-    // flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2rem;
-    width: 100svw;
-    // margin-bottom: 3rem; /* NOT huge */
-    // margin-top: 10px;
+    width: 100vw;
     background-color: red;
   }
-
 `;
 
 export default function LocationCoords({locationValues}){
@@ -51,14 +52,7 @@ export default function LocationCoords({locationValues}){
 
   return(
 
-    <LocationWrapper  style={{
-            // backgroundColor:"rgba(136, 147, 91, 1)",
-            padding: 5,
-            paddingLeft: 15,
-            paddingRight:20,
-            borderRadius: 40,
-            borderWidth: 2,
-            borderColor:"rgba(141, 138, 138, 1)"}}>
+    <LocationWrapper >
 
         {location ? (
             <label style={{
