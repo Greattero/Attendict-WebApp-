@@ -22,6 +22,7 @@ const Buttons = styled.div`
     gap: 6rem;
     width:100%;
     padding-top:2rem;
+    background-color: red;
 
   @media screen and (max-width: 650px) {
     flex-direction: column;
@@ -238,6 +239,7 @@ function Home({onButtonClick, disabled}){
 
 
 export default Home;
+
 
 
 
