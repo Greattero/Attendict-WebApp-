@@ -62,7 +62,7 @@ export default function LocationCoords({locationValues}){
                 style={{marginTop:5}}
                 /> */}
           <div style={{
-          marginBottom: "5px",
+          paddingBottom: "5px",
           }}>
             <i className="bx bxs-circle" style={{ color: "green", fontSize: "10px" }} />
           </div>              
@@ -76,7 +76,7 @@ export default function LocationCoords({locationValues}){
             style={{marginTop:5}}
             /> */}
           <div style={{
-          marginBottom: "5px",
+          paddingBottom: "5px",
           }}>
             <i className="bx bxs-circle" style={{ color: "grey", fontSize: "10px" }} />
           </div>
