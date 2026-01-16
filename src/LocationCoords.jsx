@@ -61,7 +61,7 @@ export default function LocationCoords({locationValues}){
                 {/* <Octicons name="dot-fill" size={15} color="green" 
                 style={{marginTop:5}}
                 /> */}
-              <i className="bxr bx-circle" style={{ color: "#628245" }} />
+              <i className="bx bxs-circle" style={{ color: "#628245" }} />
               Location pinned
             </label>
         ) : 
@@ -71,7 +71,7 @@ export default function LocationCoords({locationValues}){
             {/* <Octicons name="dot-fill" size={15} color="grey" 
             style={{marginTop:5}}
             /> */}
-          <i className="bxr bx-circle" style={{ color: "#628245" }} />
+          <i className="bx bxs-circle" style={{ color: "#628245" }} />
           Still fetching location...
             
         </label>)
