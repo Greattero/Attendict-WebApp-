@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import 'boxicons/css/boxicons.min.css';
+
 
 const LocationWrapper = styled.div`
   margin-top: 95px;
