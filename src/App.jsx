@@ -197,16 +197,23 @@ function App() {
         </label>
     </div>
     )}
+
+      <div style={{
+        display: "flex",
+        flexDirection: "column", 
+        justifyContent: "center", 
+        alignItems: "center", 
+      }}>
+                <LocationCoords/>        
+      </div>
       
       <div style={{ // New wrapper div
           flex: 1, 
           display: "flex", 
           justifyContent: "center", 
-          flexDirection: "column", 
           alignItems: "center",   
           paddingBottom: "250px",
       }}>
-        <LocationCoords/>
         <Home onButtonClick={(type)=>handleButtonClick(type)} disabled={disable}/> {/* Remove all styles from Home */}
         {showPop && (
           <>
