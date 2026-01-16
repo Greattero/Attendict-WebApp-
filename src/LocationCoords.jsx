@@ -4,7 +4,7 @@ import 'boxicons/css/boxicons.min.css';
 
 
 const LocationWrapper = styled.div`
-  margin-top: 75px;
+  margin-top: 70px;
   display: flex;
   align-items: center;
   justify-content: center;
