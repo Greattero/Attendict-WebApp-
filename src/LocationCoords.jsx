@@ -2,8 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 const LocationWrapper = styled.div`
-
-  background-color: red;
   margin-top: 95px;
   display: flex;
   align-items: center;
