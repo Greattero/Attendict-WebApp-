@@ -4,12 +4,6 @@ import styled from "styled-components";
 const LocationWrapper = styled.div`
   display: flex; 
       
-    flex-wrap: nowrap;
-    justify-content: center;
-    gap: 6rem;
-    width:100%;
-    padding-top:8rem;
-
   @media screen and (max-width: 650px) {
     flex-direction: column;
     align-items: center;
