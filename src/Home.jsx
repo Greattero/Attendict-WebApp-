@@ -8,7 +8,7 @@ const HomePage = styled.div`
     justify-content: center;
     align-items: flex-start; /* 👈 key */
     background-color: #dbdbdb;
-    padding-top: 4rem;     /* safe spacing */
+    padding-top: 1rem;     /* safe spacing */
     width: 100%;
   }
 
@@ -239,6 +239,7 @@ function Home({onButtonClick, disabled}){
 
 
 export default Home;
+
 
 
 
