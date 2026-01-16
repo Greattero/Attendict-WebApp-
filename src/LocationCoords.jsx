@@ -9,6 +9,8 @@ const LocationWrapper = styled.div`
   border: 2px solid rgba(141, 138, 138, 1);
   border-radius: 50px;
   padding: 5px;
+  padding-left: 15px;
+  padding-right: 20px;
 
 `;
 
