@@ -21,12 +21,12 @@ const Buttons = styled.div`
     justify-content: center;
     gap: 6rem;
     width:100%;
-    padding-top:8rem;
+    padding-top:2rem;
 
   @media screen and (max-width: 650px) {
     flex-direction: column;
     align-items: center;
-    // gap: 2rem;
+    gap: 2rem;
     margin-bottom: 3rem; /* NOT huge */
   }
 `;
@@ -239,6 +239,7 @@ function Home({onButtonClick, disabled}){
 
 
 export default Home;
+
 
 
 
