@@ -199,6 +199,7 @@ const Notice = styled.label`
     width: 75%;
     margin-top: 330px;
     text-align: center;
+    padding: 7px;
     // margin-left: -10.7rem;
   }
 `;
@@ -239,5 +240,6 @@ function Home({onButtonClick, disabled}){
 
 
 export default Home;
+
 
 
