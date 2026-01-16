@@ -9,9 +9,7 @@ const LocationWrapper = styled.div`
     align-items: center;
     justify-content: center;
     gap: 2rem;
-    position: absolute;
-    top: 15;
-    //bottom: 0;
+    width: 100svw;
     // margin-bottom: 3rem; /* NOT huge */
     // margin-top: 10px;
     background-color: red;
