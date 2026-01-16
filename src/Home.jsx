@@ -8,7 +8,7 @@ const HomePage = styled.div`
     justify-content: center;
     align-items: flex-start; /* 👈 key */
     background-color: #dbdbdb;
-    padding-top: 1rem;     /* safe spacing */
+    // padding-top: 1rem;     /* safe spacing */
     width: 100%;
   }
 
@@ -26,7 +26,7 @@ const Buttons = styled.div`
   @media screen and (max-width: 650px) {
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
+    // gap: 2rem;
     margin-bottom: 3rem; /* NOT huge */
   }
 `;
@@ -239,6 +239,7 @@ function Home({onButtonClick, disabled}){
 
 
 export default Home;
+
 
 
 
