@@ -5,7 +5,7 @@ const LocationWrapper = styled.div`
 
   background-color: red;
   margin-top: 95px;
-  height: 80px;
+  // height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
