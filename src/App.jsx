@@ -214,7 +214,7 @@ function App() {
           display: "flex", 
           justifyContent: "center", 
           alignItems: "center",   
-          paddingBottom: "50px",
+          //paddingBottom: "50px",
       }}>
         <Home onButtonClick={(type)=>handleButtonClick(type)} disabled={disable}/> {/* Remove all styles from Home */}
         {showPop && (
