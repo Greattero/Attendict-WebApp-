@@ -152,6 +152,7 @@ function App() {
       width: "100vw", // Use vw instead of % for full viewport width
       height: "100vh",
     }}>
+      <LocationCoords/>
 
       {/* <div>
         <Sidebar/>
@@ -194,7 +195,7 @@ function App() {
         alignItems: "center",
         paddingBottom: "250px",
       }}>
-        <LocationCoords/>
+        
         <Home onButtonClick={(type)=>handleButtonClick(type)} disabled={disable}/> {/* Remove all styles from Home */}
         {showPop && (
           <>
