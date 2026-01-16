@@ -52,39 +52,11 @@ export default function LocationCoords({locationValues}){
 
     <LocationWrapper >
 
-        {location ? (
-            <label style={{
-                fontWeight:"bold"
-            }}>
-                {/* Lat: {coords.latitude}{"\n"}
-                Lon: {coords.longitude} */}
-                {/* <Octicons name="dot-fill" size={15} color="green" 
-                style={{marginTop:5}}
-                /> */}
-          <div style={{
-          paddingBottom: "5px",
-          }}>
-            <i className="bx bxs-circle" style={{ color: "green", fontSize: "10px" }} />
-          </div>              
-              Location pinned
-            </label>
-        ) : 
-        (<label style={{
-                fontWeight:"bold"
-            }}>
-            {/* <Octicons name="dot-fill" size={15} color="grey" 
-            style={{marginTop:5}}
-            /> */}
-          <div style={{
-          paddingBottom: "5px",
-          }}>
-            <i className="bx bxs-circle" style={{ color: "grey", fontSize: "10px" }} />
-          </div>
-
-          Still fetching location...
-            
-        </label>)
-        }
+<label style={{ fontWeight: "bold", display: "flex", alignItems: "center", gap: "5px" }}>
+  <i className="bx bxs-circle" style={{ color: location ? "green" : "grey", fontSize: "15px" }} />
+  {location ? "Location pinned" : "Still fetching location..."}
+</label>
+      
     
     </LocationWrapper>
   )
