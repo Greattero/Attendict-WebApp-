@@ -1,4 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
+import styled from "styled-components";
+
+const LocationWrapper = styled.div`
+  @media screen and (max-width: 650px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 3rem; /* NOT huge */
+    margin-top: 70px
+  }
+
+`;
 
 export default function LocationCoords({locationValues}){
 
@@ -34,7 +46,7 @@ export default function LocationCoords({locationValues}){
 
   return(
 
-    <div  style={{
+    <LocationWrapper  style={{
             // backgroundColor:"rgba(136, 147, 91, 1)",
             padding: 5,
             paddingLeft: 15,
@@ -66,7 +78,7 @@ export default function LocationCoords({locationValues}){
         </label>)
         }
     
-    </div>
+    </LocationWrapper>
   )
 
 
