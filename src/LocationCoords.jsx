@@ -10,7 +10,7 @@ const LocationWrapper = styled.div`
     justify-content: center;
     gap: 2rem;
     position: absolute;
-    top: 0;
+    // top: 0;
     //bottom: 0;
     // margin-bottom: 3rem; /* NOT huge */
     // margin-top: 10px;
