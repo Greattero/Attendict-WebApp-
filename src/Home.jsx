@@ -28,7 +28,7 @@ const Buttons = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    margin-top: -15px;
+    margin-top: -25px;
   }
 `;
 
@@ -241,6 +241,7 @@ function Home({onButtonClick, disabled}){
 
 
 export default Home;
+
 
 
 
