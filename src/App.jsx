@@ -202,7 +202,7 @@ function App() {
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  justifyContent: "flex-start",
+  justifyContent: "center",
   height: "100vh",
   gap: "1rem",
   paddingTop: "20px"
