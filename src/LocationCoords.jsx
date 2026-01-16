@@ -7,7 +7,8 @@ const LocationWrapper = styled.div`
     align-items: center;
     gap: 2rem;
     margin-bottom: 3rem; /* NOT huge */
-    margin-top: 70px
+    margin-top: 70px;
+    background-color: red;
   }
 
 `;
