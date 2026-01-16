@@ -52,7 +52,7 @@ export default function LocationCoords({locationValues}){
                 {/* <Octicons name="dot-fill" size={15} color="green" 
                 style={{marginTop:5}}
                 /> */}
-              {`Location pinned ${location}`}
+              {`Location pinned  ${location.lat}, ${location.lon} `}
             </label>
         ) : 
         (<label style={{
