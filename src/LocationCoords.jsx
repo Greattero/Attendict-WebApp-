@@ -4,7 +4,7 @@ import styled from "styled-components";
 const LocationWrapper = styled.div`
 
   background-color: rgb(241, 239, 239);;
-  margin-top: -25px;
+  margin-top: -10px;
   height: 80px;
   display: flex;
   align-items: center;
