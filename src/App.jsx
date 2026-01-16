@@ -156,6 +156,7 @@ function App() {
        <div style={{ // New wrapper div
         flex: 1,
         display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
         // paddingBottom: "30px",
