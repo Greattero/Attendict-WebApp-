@@ -11,6 +11,7 @@ const LocationWrapper = styled.div`
     gap: 2rem;
     position: absolute;
     top: 0;
+    bottom: 10;
     // margin-bottom: 3rem; /* NOT huge */
     // margin-top: 10px;
     background-color: red;
