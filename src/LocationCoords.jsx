@@ -5,11 +5,13 @@ const LocationWrapper = styled.div`
 
   background-color: red;
   margin-top: 95px;
-  // height: 40px;
+  height: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0.5px 0.5px 0.5px 0.5px grey;
+  border-color: rgba(141, 138, 138, 1);
+  border-width: 2;
+  border-radius: 20;
 
 `;
 
