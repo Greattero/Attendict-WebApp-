@@ -199,12 +199,13 @@ function App() {
     )}
       
       <div style={{ // New wrapper div
-        flex: 1,
-        display: "flex",
-        justifyContent: "center",
-        flexDirection: "column",
-        alignItems: "center",
-        paddingBottom: "250px",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "flex-start",
+  height: "100vh",
+  gap: "1rem",
+  paddingTop: "20px"
       }}>
         <LocationCoords/>
         <Home onButtonClick={(type)=>handleButtonClick(type)} disabled={disable}/> {/* Remove all styles from Home */}
