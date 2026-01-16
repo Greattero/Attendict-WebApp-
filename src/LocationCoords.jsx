@@ -6,8 +6,7 @@ const LocationWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-color: rgba(141, 138, 138, 1);
-  border-width: 2px;
+  border: 2px solid rgba(141, 138, 138, 1);
   border-radius: 50px;
   padding: 5px;
 
