@@ -39,13 +39,13 @@ export default function LocationCoords({locationValues}){
       },
       (err) => {
         if (err.code === err.PERMISSION_DENIED) {
-          console.log("Permission denied");
+          alert("Permission denied. Reset permissions, and refresh page");
         } 
-        // else if (err.code === err.POSITION_UNAVAILABLE) {
-        //   console.log("Location services off");
-        // } else if (err.code === err.TIMEOUT) {
-        //   console.log("Location request timed out");
-        // }
+         else if (err.code === err.POSITION_UNAVAILABLE) {
+           alert("Your location is turned off. Turn it on and try again.");
+       } else if (err.code === err.TIMEOUT) {
+         alert("Location request timed out. Refresh page");
+         }
       }
     );
 }, []);
