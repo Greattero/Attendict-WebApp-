@@ -112,7 +112,9 @@ function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible, getLocat
   const [ip, setIP] = useState("");
 
   useEffect(() => {
-    setLocation(getLocation)
+    if (getLocation?.lat != null && getLocation?.lon != null) {
+      setLocation(getLocation);
+    }
   },[getLocation]);
 
   useEffect(()=>{
@@ -241,7 +243,7 @@ function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible, getLocat
     }));
   }, [location,ip]);
 
-  const { lat: checkinLat, lon: checkinLon } = location;
+const { lat: checkinLat, lon: checkinLon } = location || {};
 
 useEffect(() => {
   if (checkinLat && hostLat) {
@@ -450,6 +452,7 @@ if (!location?.lat || !location?.lon) {
 }
 
 export default CheckInForm;
+
 
 
 
