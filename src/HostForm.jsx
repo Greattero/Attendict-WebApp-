@@ -110,7 +110,7 @@ const LabelHint = styled.label`
 `;
 
 
-function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible}) {
+function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible, getLocation}) {
 
 
   const [loading, setLoading] = useState(false);
@@ -207,20 +207,10 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
   });
 
   
-  useEffect(() => {if(navigator.geolocation){
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setLocation({lon: position.coords.longitude, 
-                    lat: position.coords.latitude}
-        )
-      },
-      (err) => {console.log(err)}
-    )
+  useEffect(() => {
+    setLocation(getLocation)
   }
-  else{
-    console.log("Cannot find location")
-  }}
-,[])
+,[getLocation]);
 
 
   useEffect(() => {
@@ -409,6 +399,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
 
 
 export default HostForm;
+
 
 
 
