@@ -302,6 +302,11 @@ const handleSubmit = async (e) => {
     return;
   }
 
+if (!location?.lat || !location?.lon) {
+  alert("Location still fetching 😬. Please wait.");
+  return;
+}
+
   if(formData.programme.length !== 5){
       alert("Programme code must be 5 characters");
       return;
@@ -445,5 +450,6 @@ const handleSubmit = async (e) => {
 }
 
 export default CheckInForm;
+
 
 
