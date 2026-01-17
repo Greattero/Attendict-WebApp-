@@ -29,10 +29,12 @@ export default function LocationCoords({locationValues}){
   
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        setLocation({
-          lat: pos.coords.latitude,
-          lon: pos.coords.longitude,
-        });
+      const coords = {
+        lat: pos.coords.latitude,
+        lon: pos.coords.longitude,
+      };
+        setLocation(coords);
+        locationValues(coords);
         setStat(null);
       },
       (err) => {
