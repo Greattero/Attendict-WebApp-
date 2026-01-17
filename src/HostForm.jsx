@@ -182,12 +182,19 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
 
   const [myTime, setMyTime] = useState("");
 
+    useEffect(() => {
+        setLocation(getLocation)
+      }
+    ,[getLocation]);
+
+
   useEffect(()=>{
     fetch("https://api.ipify.org?format=json")
       .then((res) => res.json())
       .then((data) => setIP(data.ip))
       .catch((err) => console.log(err))
   },[]);
+
 
   useEffect(()=>{
     setMyTime(new Date().toLocaleTimeString());
@@ -207,10 +214,10 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
   });
 
   
-  useEffect(() => {
-    setLocation(getLocation)
-  }
-,[getLocation]);
+//   useEffect(() => {
+//     setLocation(getLocation)
+//   }
+// ,[getLocation]);
 
 
   useEffect(() => {
@@ -399,6 +406,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
 
 
 export default HostForm;
+
 
 
 
