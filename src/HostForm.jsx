@@ -225,8 +225,8 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
   setFormData((prev) => ({
     ...prev,
     location: {
-      lat: location.lat,
-      lon: location.lon,
+      lat: location?.lat,
+      lon: location?.lon,
     },
     myip: ip,
     index_no: username,
@@ -266,7 +266,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
       return;
     }
 
-    if(formData.location.lat === null || formData.location.lon === null){
+    if(formData.location?.lat === null || formData.location?.lon === null){
       alert("Location not found 😬. Check if location is on and try again.");
       return;
     }
@@ -406,6 +406,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
 
 
 export default HostForm;
+
 
 
 
