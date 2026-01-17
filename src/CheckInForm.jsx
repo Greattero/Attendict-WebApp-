@@ -101,7 +101,7 @@ const LabelHint = styled.label`
 `;
 
 
-function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible}) {
+function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible, getLocation}) {
 
   const [loading, setLoading] = useState(false);
   
@@ -111,12 +111,17 @@ function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible}) {
 
   const [ip, setIP] = useState("");
 
+  useEffect(() => {
+    setLocation(getLocation)
+  },[getLocation]);
+
   useEffect(()=>{
     fetch("https://api.ipify.org?format=json")
       .then((res) => res.json())
       .then((data) => setIP(data.ip))
       .catch((err) => console.log(err))
   },[]);
+  
 
 
   const [formData, setFormData] = useState({
@@ -219,24 +224,9 @@ function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible}) {
 
   const { lat: hostLat, lon: hostLon } = hostCoords;
 
-  useEffect(() => {if(navigator.geolocation){
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setLocation({
-          lat: position.coords.latitude,
-          lon: position.coords.longitude,
-        }
-        )
-      },
-      (err) => {console.log(err)}
-    )
-
-  }
-  else{
-    console.log("Error")
-  }
-
-  },[])
+  // useEffect(() => {
+  //   setLocation(getLocation)
+  // },[getLocation]);
 
   useEffect(() => {
     const username = localStorage.getItem("username");
@@ -455,3 +445,4 @@ const handleSubmit = async (e) => {
 }
 
 export default CheckInForm;
+
