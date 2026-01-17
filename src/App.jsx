@@ -52,6 +52,8 @@ function App() {
 
   const [feedback, setFeedBack] = useState();
 
+  const [myLocation, setMyLocation] = useState();
+
 
   // console.log("DDD:", programme);
 
@@ -206,7 +208,7 @@ function App() {
         justifyContent: "center", 
         alignItems: "center", 
       }}>
-                <LocationCoords/>        
+                <LocationCoords locationValues={setMyLocation}/>        
       </div>
       
       <div style={{ // New wrapper div
@@ -225,6 +227,7 @@ function App() {
             {form === "host" && !disable && (
               <HostForm 
                 onClose={closeForm} 
+                getLocation={myLocation}
                 setHostTime={setHostTime} 
                 setProgramme={setProgramme}
                 sendVisible={setVisible}
@@ -243,6 +246,7 @@ function App() {
             {/* CheckInForm popup */}
             {form === "checkin" && (
               <CheckInForm
+                getLocation={myLocation}
                 sendVisible={setVisible}
                 sendFeedback={setFeedBack}
                 onClose={closeForm} 
