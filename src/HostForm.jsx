@@ -266,7 +266,12 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
       return;
     }
 
-    if(formData.location?.lat === null || formData.location?.lon === null){
+   if (
+      !formData.location ||
+      formData.location.lat == null ||
+      formData.location.lon == null
+    )
+   {
       alert("Location not found 😬. Check if location is on and try again.");
       return;
     }
@@ -406,6 +411,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
 
 
 export default HostForm;
+
 
 
 
