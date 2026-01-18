@@ -382,7 +382,7 @@ if (!location?.lat || !location?.lon) {
       
 
     } else {
-      //console.log("Check-in successful:", data);
+      console.log(`Submitted Successfully🎉\nYou are ${distance.toFixed(3)}km away`);
       //alert(`Submitted Successfully🎉\nYou are ${distance.toFixed(3)}km away`);
       sendVisible(true);
       sendFeedback("checkedinCorrectly");
@@ -452,6 +452,7 @@ if (!location?.lat || !location?.lon) {
 }
 
 export default CheckInForm;
+
 
 
 
