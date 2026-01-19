@@ -38,15 +38,10 @@ export default function LocationCoords({locationValues}){
         setStat(null);
       },
       (err) => {
-        if (err.code === err.PERMISSION_DENIED) {
-          alert("Permission denied. Reset permissions, and refresh page");
-        } 
-         else if (err.code === err.POSITION_UNAVAILABLE) {
-           alert("Your location is turned off. Turn it on and try again.");
-       } else if (err.code === err.TIMEOUT) {
-         alert("Location request timed out. Refresh page");
-         }
-      }
+      if (err.code === 1) alert("Permission denied");
+      if (err.code === 2) alert("Position unavailable");
+      if (err.code === 3) alert("Timeout");
+    }
     );
 }, []);
 
