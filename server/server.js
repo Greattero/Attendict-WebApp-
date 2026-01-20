@@ -283,6 +283,16 @@ app.get("/api/host-location", async (req, res) => {
         }
 
 
+    // ✅ CHECK IF COLLECTION EXISTS FIRST
+    const collections = await mongoose.connection.db
+      .listCollections({ name: programme })
+      .toArray();
+
+    // ❌ Course code does not exist in DB
+    if (collections.length === 0) {
+      return res.status(404).json({ error: "Course not found" });
+    }
+      
 
     const Student =
       mongoose.models[programme] ||
@@ -484,6 +494,7 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 
 });
+
 
 
 
