@@ -1,7 +1,7 @@
 import Papa from "papaparse";
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
-import loader from './assets/rolling.svg';
+import loader from './assets/downloadRoller.svg';
 
 const Timer = styled.label`
   font-family: 'Roboto Mono', monospace;
@@ -171,6 +171,7 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 };
 
 export default CountdownTimer;
+
 
 
 
