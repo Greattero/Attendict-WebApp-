@@ -186,7 +186,7 @@ function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible, getLocat
           if (attempts >= 5) {
             clearInterval(intervalId);
             triedProgrammesRef.current.add(currentProg);
-            //console.log("❌ Host location not found after 5 attempts.");
+            console.log("❌ Host location not found after 5 attempts.");
           }
         }
       } catch (err) {
@@ -219,7 +219,7 @@ function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible, getLocat
   // ✅ NEW: useEffect to track updated hostCoords
   useEffect(() => {
     if (hostCoords.lat !== null && hostCoords.lon !== null) {
-      //console.log(`✅ Updated Host lat: ${hostCoords.lat}, lon: ${hostCoords.lon}`);
+      console.log(`✅ Updated Host lat: ${hostCoords.lat}, lon: ${hostCoords.lon}`);
     }
   }, [hostCoords]);
 
@@ -452,6 +452,7 @@ if (!location?.lat || !location?.lon) {
 }
 
 export default CheckInForm;
+
 
 
 
