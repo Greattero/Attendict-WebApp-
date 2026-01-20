@@ -318,7 +318,7 @@ if (!location?.lat || !location?.lon) {
 
   // Check location distance range
   if (distance === null && !hostCoords.lat) {
-    alert("Couldn't fetch host location. Retype course code again");
+    alert("Couldn't fetch host location. Retype course code again and submit");
     //console.log("Couldn't get Host location. Try again");
     //console.log(distance);
     setLoading(false); // Stop loading
@@ -452,6 +452,7 @@ if (!location?.lat || !location?.lon) {
 }
 
 export default CheckInForm;
+
 
 
 
