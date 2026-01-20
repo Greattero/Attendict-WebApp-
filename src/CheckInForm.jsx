@@ -188,6 +188,7 @@ function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible, getLocat
           if (attempts >= 50) {
             clearInterval(intervalId);
             triedProgrammesRef.current.add(currentProg);
+            onClose();
             console.log("❌ Host location not found after 10 attempts.");
           }
         }
@@ -481,6 +482,7 @@ const submitData = async()=>{
 }
 
 export default CheckInForm;
+
 
 
 
