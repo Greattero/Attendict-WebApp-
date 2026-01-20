@@ -268,7 +268,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
     }
 
     if(formData.programme.length !== 5){
-        alert("Programme code must be 5 characters");
+        alert("Course code must be 5 characters");
         return;
     }
 
@@ -417,6 +417,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
 
 
 export default HostForm;
+
 
 
 
