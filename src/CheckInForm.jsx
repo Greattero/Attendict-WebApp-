@@ -308,7 +308,7 @@ useEffect(()=>{
     const t = setTimeout(()=>{
       setPendingSubmit(false);
       submitData();
-    }, 3000)
+    }, 10000)
 
     return () => clearTimeout(t); // 👈 REQUIRED
 
@@ -481,6 +481,7 @@ const submitData = async()=>{
 }
 
 export default CheckInForm;
+
 
 
 
