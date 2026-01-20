@@ -107,6 +107,8 @@ function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible, getLocat
   
   const popupRef = useRef(null);  // Create ref for the popup container
   const [location, setLocation] = useState({lat:null,lon:null});
+  const [pendingSubmit, setPendingSubmit] = useState(null);
+
 
 
   const [ip, setIP] = useState("");
@@ -167,7 +169,7 @@ function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible, getLocat
       let attempts = attemptsMapRef.current.get(currentProg) || 0;
 
       // Prevent extra calls after 5 attempts
-      if (attempts >= 5) {
+      if (attempts >= 10) {
         clearInterval(intervalId);
         return;
       }
@@ -183,10 +185,10 @@ function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible, getLocat
           attempts += 1;
           attemptsMapRef.current.set(currentProg, attempts); // 🔁 Track attempts
 
-          if (attempts >= 5) {
+          if (attempts >= 10) {
             clearInterval(intervalId);
             triedProgrammesRef.current.add(currentProg);
-            console.log("❌ Host location not found after 5 attempts.");
+            console.log("❌ Host location not found after 10 attempts.");
           }
         }
       } catch (err) {
@@ -194,7 +196,7 @@ function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible, getLocat
         attempts += 1;
         attemptsMapRef.current.set(currentProg, attempts);
 
-        if (attempts >= 5) {
+        if (attempts >= 10) {
           clearInterval(intervalId);
           triedProgrammesRef.current.add(currentProg);
         }
@@ -207,7 +209,7 @@ function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible, getLocat
       currentProg.length === 5 &&
       !triedProgrammesRef.current.has(currentProg)
     ) {
-      intervalId = setInterval(fetchHostCoords, 500);
+      intervalId = setInterval(fetchHostCoords, 1000);
     }
 
     return () => clearInterval(intervalId);
@@ -292,6 +294,27 @@ useEffect(() => {
 
   const range = 1.600;
 
+useEffect(()=>{
+
+    if(!pendingSubmit) return;
+
+    if(hostCoords.lat){
+      setPendingSubmit(false);
+      submitData();
+      return; // 👈 stop here
+
+    }
+
+    const t = setTimeout(()=>{
+      setPendingSubmit(false);
+      submitData();
+    }, 3000)
+
+    return () => clearTimeout(t); // 👈 REQUIRED
+
+
+},[pendingSubmit, hostCoords.lat])
+
 
 const handleSubmit = async (e) => {
   e.preventDefault(); // prevent default form behavior if used inside a <form>
@@ -315,7 +338,12 @@ if (!location?.lat || !location?.lon) {
   }
 
   setLoading(true); // Start loading
+  setPendingSubmit(true);
 
+ 
+};
+
+const submitData = async()=>{
   // Check location distance range
   if (distance === null && !hostCoords.lat) {
     alert("Couldn't fetch course rep/lecturer's location. Retype course code again and submit");
@@ -404,6 +432,7 @@ if (!location?.lat || !location?.lon) {
     setLoading(false); // Stop loading
 
   }
+
 };
 
 
@@ -452,6 +481,7 @@ if (!location?.lat || !location?.lon) {
 }
 
 export default CheckInForm;
+
 
 
 
