@@ -169,7 +169,7 @@ function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible, getLocat
       let attempts = attemptsMapRef.current.get(currentProg) || 0;
 
       // Prevent extra calls after 5 attempts
-      if (attempts >= 10) {
+      if (attempts >= 50) {
         clearInterval(intervalId);
         return;
       }
@@ -185,7 +185,7 @@ function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible, getLocat
           attempts += 1;
           attemptsMapRef.current.set(currentProg, attempts); // 🔁 Track attempts
 
-          if (attempts >= 10) {
+          if (attempts >= 50) {
             clearInterval(intervalId);
             triedProgrammesRef.current.add(currentProg);
             console.log("❌ Host location not found after 10 attempts.");
@@ -196,7 +196,7 @@ function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible, getLocat
         attempts += 1;
         attemptsMapRef.current.set(currentProg, attempts);
 
-        if (attempts >= 10) {
+        if (attempts >= 50) {
           clearInterval(intervalId);
           triedProgrammesRef.current.add(currentProg);
         }
@@ -481,6 +481,7 @@ const submitData = async()=>{
 }
 
 export default CheckInForm;
+
 
 
 
