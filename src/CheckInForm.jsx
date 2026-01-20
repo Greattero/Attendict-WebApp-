@@ -334,7 +334,7 @@ if (!location?.lat || !location?.lon) {
 }
 
   if(formData.programme.length !== 5){
-      alert("Programme code must be 5 characters");
+      alert("Course code must be 5 characters");
       return;
   }
 
@@ -482,6 +482,7 @@ const submitData = async()=>{
 }
 
 export default CheckInForm;
+
 
 
 
