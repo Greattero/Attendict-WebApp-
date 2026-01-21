@@ -347,7 +347,7 @@ if (!location?.lat || !location?.lon) {
 const submitData = async()=>{
   // Check location distance range
   if (distance === null && !hostCoords.lat) {
-    alert("Couldn't fetch course rep/lecturer's location. Retype course code again and submit");
+    alert("Couldn't fetch course rep/lecturer's location. Please checkin again");
     //console.log("Couldn't get Host location. Try again");
     //console.log(distance);
     setLoading(false); // Stop loading
@@ -482,6 +482,7 @@ const submitData = async()=>{
 }
 
 export default CheckInForm;
+
 
 
 
