@@ -293,7 +293,7 @@ useEffect(() => {
     )
   }
 
-  const range = 1.600;
+  const range = 0.900;
 
 useEffect(()=>{
 
@@ -482,6 +482,7 @@ const submitData = async()=>{
 }
 
 export default CheckInForm;
+
 
 
 
