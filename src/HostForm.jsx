@@ -377,7 +377,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
     <Hosting ref= {popupRef}>
         <Header>
             HOST
-            <i className='bx bx-x-circle' style={{ color: '#628245', marginTop: "4px" }}/>
+            <i className='bx bx-x-circle' style={{ color: '#628245', marginTop: "3px" }}/>
         </Header>
 
         <LabelHint>(for Lecturers/class reps only)</LabelHint>
@@ -433,6 +433,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
 
 
 export default HostForm;
+
 
 
 
