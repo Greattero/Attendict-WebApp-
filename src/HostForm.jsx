@@ -92,11 +92,16 @@ const Header = styled.label`
   color: green;
   font-size: 30px;
   margin-top: -10px;
-  margin-left: 115px;
+  margin-left: 155px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   gap: 25;
+
+  @media screen and (max-width: 650px) {
+  margin-left: 85px;  
+  }
+  
 `;
 
 const Label = styled.label`
@@ -428,6 +433,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
 
 
 export default HostForm;
+
 
 
 
