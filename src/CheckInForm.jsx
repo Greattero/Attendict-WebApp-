@@ -83,7 +83,7 @@ const Header = styled.label`
   color: green;
   font-size: 30px;
   margin-top: -10px;
-  margin-left: 160px;
+  margin-left: 140px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -495,6 +495,7 @@ const submitData = async()=>{
 }
 
 export default CheckInForm;
+
 
 
 
