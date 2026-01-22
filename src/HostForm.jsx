@@ -374,12 +374,12 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
-        gap: 10,
+        gap: 15,
       }}>
         <Header>
                 HOST 
         </Header>
-        <i className='bx bx-x-circle' style={{ color: '#628245', fontSize: "30px", marginTop: "-5px"}}/>
+        <i className='bx bx-x-circle' style={{ color: '#628245', fontSize: "30px", marginTop: "-7px"}}/>
       </div>
         <LabelHint>(for Lecturers/class reps only)</LabelHint>
         <Label>Full name </Label>
@@ -434,6 +434,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
 
 
 export default HostForm;
+
 
 
 
