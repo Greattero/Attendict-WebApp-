@@ -90,10 +90,10 @@ const Header = styled.label`
   color: green;
   font-size: 30px;
   margin-top: -10px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 10;
+  // display: flex;
+  // flex-direction: row;
+  // justify-content: space-between;
+  // gap: 10;
 `;
 
 const Label = styled.label`
@@ -367,10 +367,17 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
 
   return (
     <Hosting ref= {popupRef}>
+      <div style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        gap: 10,
+      }}>
         <Header>
                 HOST 
-              <i className='bxrf bx-x-circle' style={{ color: '#628245'}}/>
         </Header>
+        <i className='bxrf bx-x-circle' style={{ color: '#628245'}}/>
+      </div>
         <LabelHint>(for Lecturers/class reps only)</LabelHint>
         <Label>Full name </Label>
         <Input 
@@ -424,6 +431,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
 
 
 export default HostForm;
+
 
 
 
