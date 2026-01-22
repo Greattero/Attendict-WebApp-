@@ -92,7 +92,7 @@ const Header = styled.label`
   color: green;
   font-size: 30px;
   margin-top: -10px;
-  margin-left: 155px;
+  margin-left: 175px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -377,7 +377,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
     <Hosting ref= {popupRef}>
         <Header>
             HOST
-            <i className='bx bx-x-circle' style={{ color: '#628245' }}/>
+            <i className='bx bx-x-circle' style={{ color: '#628245', marginTop: "4px" }}/>
         </Header>
 
         <LabelHint>(for Lecturers/class reps only)</LabelHint>
@@ -433,6 +433,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
 
 
 export default HostForm;
+
 
 
 
