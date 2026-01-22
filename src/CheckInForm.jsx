@@ -452,7 +452,9 @@ const submitData = async()=>{
     <Checkin ref= {popupRef}>
         <Header>
           Check-In 
-          <i className='bx bx-x-circle' style={{ color: '#628245', marginTop: "3px" }}/>
+          <i className='bx bx-x-circle' 
+            onPress={()=>onClose()}
+            style={{ color: '#628245', marginTop: "3px" }}/>
         </Header>
         <LabelHint>(for class members)</LabelHint>
         <Label>Full name </Label>
@@ -495,6 +497,7 @@ const submitData = async()=>{
 }
 
 export default CheckInForm;
+
 
 
 
