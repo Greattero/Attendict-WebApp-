@@ -90,7 +90,7 @@ const Header = styled.label`
   gap: 25;
 
   @media screen and (max-width: 650px) {
-  margin-left: 80px;  
+  margin-left: 55px;  
   }
 `;
 
@@ -495,6 +495,7 @@ const submitData = async()=>{
 }
 
 export default CheckInForm;
+
 
 
 
