@@ -14,8 +14,7 @@ const Hosting = styled.div`
   background-color:white;
   padding: 2rem;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
   gap: 1rem;
   transform: translate(-50%, -50%);
   z-index: 1001; /* Higher than overlay */
@@ -420,6 +419,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
 
 
 export default HostForm;
+
 
 
 
