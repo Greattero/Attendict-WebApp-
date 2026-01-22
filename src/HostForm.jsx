@@ -374,7 +374,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
-        gap: 25,
+        gap: 35,
       }}>
         <Header>
                 HOST 
@@ -434,6 +434,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
 
 
 export default HostForm;
+
 
 
 
