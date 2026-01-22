@@ -158,16 +158,16 @@ const Header = styled.label`
   font-weight: bold;
   font-family: Arial, san-serif;
   color: green;
-  font-size: 30px;
+  font-size: 25px;
   margin-top: -10px;
-  margin-left: 160px;
+  margin-left: 130px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   gap: 25;
 
   @media screen and (max-width: 650px) {
-  margin-left: 45px;  
+  margin-left: 15px;  
   }
 
 `;
