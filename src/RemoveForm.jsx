@@ -155,16 +155,19 @@ const Button = styled.button`
 const Header = styled.label`
 
   text-align: center;
-
   font-weight: bold;
-
   font-family: Arial, san-serif;
-
   color: green;
-
   font-size: 30px;
-
   margin-top: -10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 25;
+
+  @media screen and (max-width: 650px) {
+  margin-left: 85px;  
+  }
 
 `;
 
@@ -337,7 +340,12 @@ onClose();
 
     <Checkin ref= {popupRef}>
 
-        <Header>Remove Session </Header>
+        <Header >
+          Remove Session 
+              <i className='bx bx-x-circle' 
+              onClick={()=>onClose()}
+              style={{ color: '#628245', marginTop: "3px" }}/>        
+        </Header>
 
         <LabelHint>(strictly for course reps and lecturers)</LabelHint>
 
