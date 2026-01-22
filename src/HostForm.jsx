@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import React, { useEffect, useRef, useState} from 'react';
 import loader from './assets/rolling.svg';
+import 'boxicons/css/boxicons.min.css';
+
 
 
 const Hosting = styled.div`
@@ -432,6 +434,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
 
 
 export default HostForm;
+
 
 
 
