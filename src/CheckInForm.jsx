@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import React, { useEffect, useRef, useState } from 'react';
 import loader from './assets/rolling.svg';
+import 'boxicons/css/boxicons.min.css';
 
 
 const Checkin = styled.div`
@@ -82,6 +83,14 @@ const Header = styled.label`
   color: green;
   font-size: 30px;
   margin-top: -10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 25;
+
+  @media screen and (max-width: 650px) {
+  margin-left: 85px;  
+  }
 `;
 
 const Label = styled.label`
@@ -440,7 +449,10 @@ const submitData = async()=>{
 
   return (
     <Checkin ref= {popupRef}>
-        <Header>Check-In </Header>
+        <Header>
+          Check-In 
+          <i className='bx bx-x-circle' style={{ color: '#628245', marginTop: "3px" }}/>
+        </Header>
         <LabelHint>(for class members)</LabelHint>
         <Label>Full name </Label>
         <Input type="text"
@@ -482,6 +494,7 @@ const submitData = async()=>{
 }
 
 export default CheckInForm;
+
 
 
 
