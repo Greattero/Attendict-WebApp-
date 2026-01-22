@@ -378,7 +378,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
         <Header>
             HOST
             <i className='bx bx-x-circle' 
-              onPress={()=>onClose()}
+              onClick={()=>onClose()}
               style={{ color: '#628245', marginTop: "3px" }}/>
         </Header>
 
@@ -435,6 +435,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
 
 
 export default HostForm;
+
 
 
 
