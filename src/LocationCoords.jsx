@@ -44,7 +44,7 @@ export default function LocationCoords({locationValues}){
     },
 {
   enableHighAccuracy: true,
-  timeout: 15000,
+  timeout: 60000,
   maximumAge: 0
 }
     );
