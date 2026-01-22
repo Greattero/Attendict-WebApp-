@@ -223,7 +223,7 @@ app.post("/api/checkin-details", async (req, res) => {
     }
 
     let inspect = "0";
-    if (distance > 0.085 && distance <= 0.150) inspect = "1";
+    if (distance > 0.090 && distance <= 0.200) inspect = "1";
 
 
     // Save the new student
@@ -494,6 +494,7 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 
 });
+
 
 
 
