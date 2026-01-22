@@ -90,7 +90,7 @@ const Header = styled.label`
   color: green;
   font-size: 30px;
   margin-top: -10px;
-  margin-left: 50px;
+  margin-left: 85px;
   // display: flex;
   // flex-direction: row;
   // justify-content: space-between;
@@ -432,6 +432,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
 
 
 export default HostForm;
+
 
 
 
