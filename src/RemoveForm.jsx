@@ -160,7 +160,7 @@ const Header = styled.label`
   color: green;
   font-size: 25px;
   margin-top: -10px;
-  margin-left: 130px;
+  margin-left: 90px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
