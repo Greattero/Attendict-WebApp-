@@ -14,7 +14,8 @@ const Hosting = styled.div`
   background-color:white;
   padding: 2rem;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
   gap: 1rem;
   transform: translate(-50%, -50%);
   z-index: 1001; /* Higher than overlay */
@@ -363,7 +364,9 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
 
   return (
     <Hosting ref= {popupRef}>
-        <Header>HOST </Header>
+        <Header>HOST 
+        <i className='bxrf bx-x-circle' style={{ color: '#628245' }}/>
+        </Header>
         <LabelHint>(for Lecturers/class reps only)</LabelHint>
         <Label>Full name </Label>
         <Input 
@@ -417,6 +420,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
 
 
 export default HostForm;
+
 
 
 
