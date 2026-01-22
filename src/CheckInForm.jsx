@@ -303,7 +303,7 @@ useEffect(() => {
     )
   }
 
-  const range = 0.140;
+  const range = 0.115;
 
 useEffect(()=>{
 
