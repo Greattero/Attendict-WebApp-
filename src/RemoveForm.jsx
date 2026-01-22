@@ -160,13 +160,14 @@ const Header = styled.label`
   color: green;
   font-size: 30px;
   margin-top: -10px;
+  margin-left: 160px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   gap: 25;
 
   @media screen and (max-width: 650px) {
-  margin-left: 85px;  
+  margin-left: 45px;  
   }
 
 `;
