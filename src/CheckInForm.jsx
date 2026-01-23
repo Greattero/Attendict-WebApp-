@@ -421,7 +421,7 @@ const submitData = async()=>{
       
 
     } else {
-     console.log(`Submitted Successfully🎉\nYou are ${distance.toFixed(3)}km away`);
+     alert(`Submitted Successfully🎉\nYou are ${distance.toFixed(3)}km away`);
       //alert(`Submitted Successfully🎉\nYou are ${distance.toFixed(3)}km away`);
       sendVisible(true);
       sendFeedback("checkedinCorrectly");
