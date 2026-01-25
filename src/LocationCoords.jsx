@@ -41,7 +41,7 @@ export default function LocationCoords({locationValues}){
             clearInterval(interval); // stop once location is fetched
           },
           (err) => {
-          if (err.code === 1) alert("Permission denied.Turn on your phone’s location or reset browser permissions to allow access, then refresh page.");
+          if (err.code === 1) alert("Turn on location or allow permissions, then refresh page.");
           if (err.code === 2) alert("Position unavailable. Refresh page and try again");
           if (err.code === 3) alert("Timeout. Refresh page and try again");
         },
