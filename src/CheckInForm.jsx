@@ -248,8 +248,8 @@ function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible, getLocat
     setFormData((prev) => ({
       ...prev,
       location: {
-        lat: location?.lat != null ? Number(location?.lat.toFixed(6)) : null,
-        lon: location?.lon != null ? Number(location?.lon.toFixed(6)) : null,
+        lat: location?.lat != null ? Number(location?.lat?.toFixed(6)) : null,
+        lon: location?.lon != null ? Number(location?.lon?.toFixed(6)) : null,
       },
       myip: ip,
       index_no: username,
@@ -421,7 +421,7 @@ const submitData = async()=>{
       
 
     } else {
-     alert(`Submitted Successfully🎉\nYou are ${distance.toFixed(3)}km away`);
+     alert(`Submitted Successfully🎉\nYou are ${distance?.toFixed(3)}km away`);
       //alert(`Submitted Successfully🎉\nYou are ${distance.toFixed(3)}km away`);
       sendVisible(true);
       sendFeedback("checkedinCorrectly");
@@ -497,6 +497,7 @@ const submitData = async()=>{
 }
 
 export default CheckInForm;
+
 
 
 
