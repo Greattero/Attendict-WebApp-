@@ -439,7 +439,7 @@ const submitData = async()=>{
     }
 
   } catch (err) {
-    //console.error("Fetch error:", err);
+    console.log("Fetch error:", err);
     setLoading(false); // Stop loading
 
   }
@@ -497,6 +497,7 @@ const submitData = async()=>{
 }
 
 export default CheckInForm;
+
 
 
 
