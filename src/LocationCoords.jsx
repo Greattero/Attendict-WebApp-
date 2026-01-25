@@ -27,7 +27,7 @@ export default function LocationCoords({locationValues}){
       return;
     }
   
-    navigator.geolocation.getCurrentPosition(
+    navigator.geolocation.watchPosition(
       (pos) => {
       const coords = {
         lat: pos.coords.latitude,
