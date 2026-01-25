@@ -27,7 +27,7 @@ export default function LocationCoords({locationValues}){
       return;
     }
   
-    navigator.geolocation.watchPosition(
+   const watcher =  navigator.geolocation.watchPosition(
       (pos) => {
       const coords = {
         lat: pos.coords.latitude,
@@ -48,6 +48,8 @@ export default function LocationCoords({locationValues}){
   maximumAge: 0
 }
     );
+      return () => navigator.geolocation.clearWatch(watcher);
+
 }, []);
 
   return(
