@@ -259,7 +259,13 @@ function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible, getLocat
 const { lat: checkinLat, lon: checkinLon } = location || {};
 
 useEffect(() => {
-  if (checkinLat && hostLat) {
+  if (
+    checkinLat != null &&
+    checkinLon != null &&
+    hostLat != null &&
+    hostLon != null
+  ) 
+  {
     const R = 6371;
     const toRad = angle => angle * (Math.PI / 180);
     const dLat = toRad(checkinLat - hostLat);
@@ -356,7 +362,7 @@ if (!location?.lat || !location?.lon) {
 
 const submitData = async()=>{
   // Check location distance range
-  if (distance === null && !hostCoords.lat) {
+  if ((distance === null||distance=== undefined) && !hostCoords.lat) {
     alert("Couldn't fetch course rep/lecturer's location. Please checkin again");
     //console.log("Couldn't get Host location. Try again");
     //console.log(distance);
@@ -497,6 +503,7 @@ const submitData = async()=>{
 }
 
 export default CheckInForm;
+
 
 
 
