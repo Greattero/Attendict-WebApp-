@@ -290,7 +290,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
       formData.location.lon == null
     )
    {
-      alert("Location not found 😬. Check if location is on and try again.");
+      alert("Location still fetching 😬. Please wait.");
       return;
     }
 
@@ -435,6 +435,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
 
 
 export default HostForm;
+
 
 
 
