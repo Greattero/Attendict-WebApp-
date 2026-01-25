@@ -26,28 +26,34 @@ export default function LocationCoords({locationValues}){
       console.log("Geolocation not supported");
       return;
     }
+
+    const interval = setInterval(() => {
   
-   navigator.geolocation.watchPosition(
-      (pos) => {
-      const coords = {
-        lat: pos.coords.latitude,
-        lon: pos.coords.longitude,
-      };
-        setLocation(coords);
-        locationValues(coords);
-        setStat(null);
-      },
-      (err) => {
-      if (err.code === 1) alert("Permission denied.Turn on your phone’s location or reset browser permissions to allow access, then refresh page.");
-      if (err.code === 2) alert("Position unavailable. Refresh page and try again");
-      if (err.code === 3) alert("Timeout. Refresh page and try again");
-    },
-{
-  enableHighAccuracy: true,
-  timeout: 60000,
-  maximumAge: 0
-}
-    );
+       navigator.geolocation.getCurrentPosition(
+          (pos) => {
+          const coords = {
+            lat: pos.coords.latitude,
+            lon: pos.coords.longitude,
+          };
+            setLocation(coords);
+            locationValues(coords);
+            setStat(null);
+            clearInterval(interval); // stop once location is fetched
+          },
+          (err) => {
+          if (err.code === 1) alert("Permission denied.Turn on your phone’s location or reset browser permissions to allow access, then refresh page.");
+          if (err.code === 2) alert("Position unavailable. Refresh page and try again");
+          if (err.code === 3) alert("Timeout. Refresh page and try again");
+        },
+    {
+      enableHighAccuracy: true,
+      timeout: 60000,
+      maximumAge: 0
+    }
+        );
+      }, 3000); // retry every 3s
+      return () => clearInterval(interval);
+
 
 }, []);
 
