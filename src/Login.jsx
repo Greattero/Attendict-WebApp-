@@ -178,7 +178,8 @@ const Welcome = styled.div`
     }
 
   @media screen and (max-width: 650px) {
-    position: absolute;
+    //position: absolute;
+    display: flex;
     width: 101%;
     height: 30vh;
     border-radius: 0px 0px 80px 80px;
@@ -340,6 +341,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
