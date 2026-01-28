@@ -18,7 +18,7 @@ const LogBody = styled.div`
 
 
 @media screen and (max-width: 650px){
-    height: calc(100vh - 20px);
+    height: 100vh;
     margin-top: -20px;
   }
 `
@@ -334,6 +334,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
