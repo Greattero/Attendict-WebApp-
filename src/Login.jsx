@@ -57,7 +57,7 @@ const Form = styled.div`
     width: 95%;
     height: 30%;
     border-radius: 60px 60px 0 0;
-    padding-top: 70px;
+    padding-top: 95px;
 
     h1{
         font-size: 36px;
