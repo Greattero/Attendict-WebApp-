@@ -287,6 +287,11 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 
     return(
         <LogBody className="container">
+            <Welcome className="toggle-box">
+                <h1>Welcome To Attendict!</h1>
+
+                <p>Take control of your classroom <br/>attendance effortlessly.</p>
+            </Welcome>
             <FormBox className="form-box Login">
                 <Form>
                     <h1>Login</h1>
@@ -328,11 +333,11 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
             </FormBox>
 
 
-            <Welcome className="toggle-box">
+            {/* <Welcome className="toggle-box">
                 <h1>Welcome To Attendict!</h1>
 
                 <p>Take control of your classroom <br/>attendance effortlessly.</p>
-            </Welcome>
+            </Welcome> */}
         
         
         </LogBody>
@@ -341,6 +346,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
