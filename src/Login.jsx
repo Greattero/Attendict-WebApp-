@@ -298,9 +298,9 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
                         required/>
                         <i className='bx  bxs-lock'></i> 
                     </Input>
-                    <Forget className="forgot-link">
+                    {/* <Forget className="forgot-link">
                         <label>Recommended browser: Google Chrome</label>
-                    </Forget>
+                    </Forget> */}
                     <Button type="submit" className="btn" onClick={(e)=>handleLogin(e)} disabled={loading}>
                         {loading ? (
                             <img src={loader} alt="Loading" style={{ width: "24px", height: "24px" }} />
@@ -308,11 +308,14 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
                             "Login"
                         )}
                     </Button>
-                    <p>Or login with social platforms</p>
+                    <Forget className="forgot-link">
+                        <label>Recommended browser: Google Chrome</label>
+                    </Forget>
+                    {/* <p>Or login with social platforms</p>
                     <Social className="social_icons">
                         <a href="#"><i className='bx  bxl-google'></i></a>
 
-                    </Social>
+                    </Social> */}
                 </Form>
             </FormBox>
 
@@ -330,6 +333,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
