@@ -39,10 +39,9 @@ const FormBox = styled.form`
 
     @media screen and (max-width: 650px){
     background: white;
-    bottom: 0;
     width: 100%;
     height: 65%;
-    margin-top:40px;
+    padding-top:40px;
   }
 `
 const Form = styled.div`
@@ -346,6 +345,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
