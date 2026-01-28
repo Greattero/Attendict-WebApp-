@@ -41,7 +41,7 @@ const FormBox = styled.form`
     background: white;
     width: 100%;
     height: 65%;
-    padding-top:10px;
+    padding-top:20px;
   }
 `
 const Form = styled.div`
