@@ -54,11 +54,16 @@ const Form = styled.div`
     }
 
   @media screen and (max-width: 650px) {
-    position: absolute;
+    // position: absolute;
     width: 95%;
     height: 30%;
     border-radius: 60px 60px 0 0;
     padding-bottom: 300px;
+
+    h1{
+        font-size: 36px;
+
+    }
 
     
   }
@@ -113,6 +118,7 @@ const Forget = styled.div`
         font-size: 17px;
         color: #FF0000;
         text-decoration: none;
+        margin-top: 15px;
     }
 
 `
@@ -334,6 +340,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
