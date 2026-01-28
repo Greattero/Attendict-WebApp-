@@ -61,6 +61,16 @@ function App() {
 
   const isSuccess = successFeedbacks.includes(feedback);
 
+  const APP_VERSION = "2"; // bump this to force logout
+
+  const storedVersion = localStorage.getItem("app_version");
+
+  if (storedVersion !== APP_VERSION) {
+  localStorage.setItem("isLoggedIn", "false"); // force logout
+  localStorage.setItem("app_version", APP_VERSION);
+}
+
+
 
     useEffect(() => {
         if (!visible) return;
