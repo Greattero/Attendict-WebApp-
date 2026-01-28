@@ -109,9 +109,9 @@ const Input = styled.div`
 const Forget = styled.div`
     margin-bottom: 20px;
 
-    a{
+    label{
         font-size: 17px;
-        color: #333;
+        color: #FF0000;
         text-decoration: none;
     }
 
@@ -299,7 +299,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
                         <i className='bx  bxs-lock'></i> 
                     </Input>
                     <Forget className="forgot-link">
-                        <a href="#">Forgot Password?</a>
+                        <label>Recommended browser: Google Chrome</label>
                     </Forget>
                     <Button type="submit" className="btn" onClick={(e)=>handleLogin(e)} disabled={loading}>
                         {loading ? (
@@ -330,6 +330,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
