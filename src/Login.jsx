@@ -128,6 +128,7 @@ const Button = styled.button`
     font-size: 16px;
     color: white;
     font-weight: 600;
+    margin-top: 10px;
 
   @media screen and (max-width: 650px) {
   width: 64%;
@@ -333,6 +334,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
