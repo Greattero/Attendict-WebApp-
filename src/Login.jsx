@@ -24,7 +24,7 @@ const LogBody = styled.div`
 `
 
 const FormBox = styled.form`
-    position: absolute;
+    //position: absolute;
     right: 0;
     width: 50%;
     height: 100%;
@@ -340,6 +340,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
