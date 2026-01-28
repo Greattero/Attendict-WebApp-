@@ -68,6 +68,7 @@ function App() {
   if (storedVersion !== APP_VERSION) {
   localStorage.setItem("isLoggedIn", "false"); // force logout
   localStorage.setItem("app_version", APP_VERSION);
+  setLogin(false);
 }
 
 
