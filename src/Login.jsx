@@ -338,7 +338,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
                                 backgroundColor: "white",
                                 borderWidth: 1,
                                 borderColor: "#eee",
-                                borderRadius: "25px",
+                                borderRadius: "10px",
                                 fontSize: "20px",
                             }}>
                                 Course rep
@@ -387,6 +387,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
