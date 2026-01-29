@@ -328,6 +328,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
                             display: "flex",
                             flexDirection: "row",
                             gap: "2px",
+                            justifyContent: "center";
                             
                         }}>
                             <button>
@@ -370,6 +371,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
