@@ -44,6 +44,7 @@ const FormBox = styled.form`
     height: 65%;
     //padding-top:45px;
     margin-top: 45px;
+    justify-content: flex-start;
   }
 `
 const Form = styled.div`
@@ -348,6 +349,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
