@@ -335,7 +335,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
                             <button style={{
                                 padding: "5px",
                                 backgroundColor: "white",
-                                border: "2px solid #eee",
+                                border: "2px solid #d9d9d9",
                                 borderRadius: "10px",
                                 fontSize: "15px",
                             }}>
@@ -344,7 +344,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
                             <button style={{
                                 padding: "5px",
                                 backgroundColor: "white",
-                                border: "2px solid #eee",
+                                border: "2px solid #d9d9d9",
                                 borderRadius: "10px",
                                 fontSize: "15px",
                             }}>
@@ -384,6 +384,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
