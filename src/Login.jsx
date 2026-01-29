@@ -327,15 +327,16 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
                         <div style={{
                             display: "flex",
                             flexDirection: "row",
-                            gap: 2
+                            gap: "2px",
+                            
                         }}>
                             <button>
                                 Course rep
                             </button>
+                            <button>
+                                Lecturer
+                            </button>
                         </div>
-                        <button>
-                            Lecturer
-                        </button>
                     </PersonType>
                     <Button type="submit" className="btn" onClick={(e)=>handleLogin(e)} disabled={loading}>
                         {loading ? (
@@ -369,6 +370,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
