@@ -43,7 +43,7 @@ const FormBox = styled.form`
     width: 100%;
     height: 65%;
     //padding-top:45px;
-    margin-top: 450px;
+    margin-top: 300px;
     justify-content: flex-start;
     background-color: red;
   }
@@ -349,6 +349,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
