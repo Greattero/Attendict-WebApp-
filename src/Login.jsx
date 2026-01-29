@@ -184,9 +184,9 @@ const Welcome = styled.div`
     //position: absolute;
     display: flex;
     width: 101%;
-    height: 30vh;
+    height: 25vh;
     border-radius: 0px 0px 80px 80px;
-    padding-top: 40px;
+    padding-top: 20px;
 
     p {
       font-size: 14px;
@@ -349,6 +349,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
