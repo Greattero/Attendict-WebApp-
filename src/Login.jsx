@@ -327,7 +327,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
                         <div style={{
                             display: "flex",
                             flexDirection: "row",
-                            gap: 6
+                            gap: 2
                         }}>
                             <button>
                                 Course rep
@@ -369,6 +369,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
