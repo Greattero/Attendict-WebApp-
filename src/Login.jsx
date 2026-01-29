@@ -186,7 +186,7 @@ const Welcome = styled.div`
     width: 101%;
     height: 30vh;
     border-radius: 0px 0px 80px 80px;
-    padding-top: 80px;
+    padding-top: 40px;
 
     p {
       font-size: 14px;
@@ -349,6 +349,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
