@@ -202,7 +202,6 @@ const Welcome = styled.div`
 `
 const PersonType = styled.div`
 
-    background-color: blue;
     
 `
 
@@ -348,7 +347,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
                                 backgroundColor: "white",
                                 borderWidth: 1,
                                 borderColor: "#eee",
-                                borderRadius: "15px",
+                                borderRadius: "10px",
                                 fontSize: "15px",
                             }}>
                                 Class member
@@ -387,6 +386,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
