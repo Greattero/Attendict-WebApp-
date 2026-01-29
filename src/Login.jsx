@@ -200,6 +200,9 @@ const Welcome = styled.div`
   }
 
 `
+const PersonType = styled.div`
+    
+`
 
 // const Input2 = styled.div`
 //     input{
@@ -354,6 +357,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
