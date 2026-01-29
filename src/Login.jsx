@@ -35,7 +35,7 @@ const FormBox = styled.form`
     justify-content: center;
     color: #333;
     text-align: center;
-    z-index: 1;
+    z-index: 2;
 
     @media screen and (max-width: 650px){
     display: flex;
@@ -347,6 +347,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
