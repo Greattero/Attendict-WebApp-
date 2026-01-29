@@ -334,21 +334,25 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
                             justifyContent: "center",
                             
                         }}>
-                            <button style={{
+                            <button
+                                onClick={()=>setPerson("rep")}
+                                style={{
                                 padding: "5px",
-                                backgroundColor: "white",
+                                backgroundColor: person === "rep" ? "blue" : "white",
                                 border: "2px solid #d9d9d9",
                                 borderRadius: "10px",
                                 fontSize: "15px",
                             }}>
                                 Course rep
                             </button>
-                            <button style={{
+                            <button 
+                                onClick={()=>setPerson("member")}
+                                style={{
                                 padding: "5px",
-                                backgroundColor: "white",
                                 border: "2px solid #d9d9d9",
                                 borderRadius: "10px",
                                 fontSize: "15px",
+                                backgroundColor: person === "rep" ? "blue" : "white"
                             }}>
                                 Class member
                             </button>
@@ -386,6 +390,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
