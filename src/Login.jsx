@@ -324,6 +324,14 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
                         <label>
                         I am..
                         </label>
+                        <div>
+                            <button>
+                                Course rep
+                            </button>
+                        </div>
+                        <button>
+                            Lecturer
+                        </button>
                     </PersonType>
                     <Button type="submit" className="btn" onClick={(e)=>handleLogin(e)} disabled={loading}>
                         {loading ? (
@@ -357,6 +365,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
