@@ -339,7 +339,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
                                 borderWidth: 1,
                                 borderColor: "#eee",
                                 borderRadius: "10px",
-                                fontSize: "20px",
+                                fontSize: "15px",
                             }}>
                                 Course rep
                             </button>
@@ -348,10 +348,10 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
                                 backgroundColor: "white",
                                 borderWidth: 1,
                                 borderColor: "#eee",
-                                borderRadius: "25px",
-                                fontSize: "20px",
+                                borderRadius: "15px",
+                                fontSize: "15px",
                             }}>
-                                Lecturer
+                                Class member
                             </button>
                         </div>
                     </PersonType>
@@ -387,6 +387,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
