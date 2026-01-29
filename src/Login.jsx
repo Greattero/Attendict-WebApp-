@@ -38,6 +38,7 @@ const FormBox = styled.form`
     z-index: 1;
 
     @media screen and (max-width: 650px){
+    position: relative;
     background: white;
     width: 100%;
     height: 65%;
@@ -345,6 +346,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
