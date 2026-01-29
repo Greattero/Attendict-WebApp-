@@ -237,6 +237,8 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 
     const [loading, setLoading] = useState(false);
 
+    const [person, setPerson] = useState("");
+
 
     const [loginData, setLoginData] = useState({
         username:"",
