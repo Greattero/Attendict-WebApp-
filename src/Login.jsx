@@ -165,6 +165,7 @@ const Welcome = styled.div`
     width: 50%;
     height: 100%;
     display: flex;
+    z-index: 0;   /* or 1 */
     align-items: center;
     justify-content: center;
     flex-direction: column;
@@ -346,6 +347,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
