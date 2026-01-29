@@ -327,7 +327,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
                         <div style={{
                             display: "flex",
                             flexDirection: "row",
-                            gap: "2px",
+                            gap: "8px",
                             justifyContent: "center",
                             
                         }}>
@@ -371,6 +371,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
