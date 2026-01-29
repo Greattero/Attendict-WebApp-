@@ -63,7 +63,7 @@ export default function LocationCoords({locationValues}){
 
 <label style={{ fontWeight: "bold", display: "flex", alignItems: "center", gap: "5px" }}>
   <i className="bx bxs-circle" style={{ color: location ? "green" : "grey", fontSize: "15px" }} />
-  {location ? location.lat location.lon: "Still fetching location..."}
+  {location ? ${`location.lat location.lon`}: "Still fetching location..."}
 </label>
       
     
