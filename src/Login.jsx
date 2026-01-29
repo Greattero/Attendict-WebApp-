@@ -338,7 +338,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
                                 onClick={()=>setPerson("rep")}
                                 style={{
                                 padding: "5px",
-                                backgroundColor: person === "rep" ? "blue" : "white",
+                                backgroundColor: person === "rep" ? "#97ffaf" : "white",
                                 border: "2px solid #d9d9d9",
                                 borderRadius: "10px",
                                 fontSize: "15px",
@@ -352,7 +352,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
                                 border: "2px solid #d9d9d9",
                                 borderRadius: "10px",
                                 fontSize: "15px",
-                                backgroundColor: person === "rep" ? "blue" : "white"
+                                backgroundColor: person === "member" ? "#97ffaf" : "white"
                             }}>
                                 Class member
                             </button>
@@ -390,6 +390,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
