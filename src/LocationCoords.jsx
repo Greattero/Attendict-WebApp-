@@ -29,7 +29,7 @@ export default function LocationCoords({locationValues}){
 
     const interval = setInterval(() => {
   
-       navigator.geolocation.getCurrentPosition(
+       navigator.geolocation.watchPosition(
           (pos) => {
           const coords = {
             lat: pos.coords.latitude,
