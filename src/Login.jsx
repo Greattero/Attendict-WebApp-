@@ -333,10 +333,24 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
                             justifyContent: "center",
                             
                         }}>
-                            <button>
+                            <button style={{
+                                padding: "5px",
+                                backgroundColor: "white",
+                                borderWidth: 1,
+                                borderColor: "#eee",
+                                borderRadius: "25px",
+                                fontSize: "20px",
+                            }}>
                                 Course rep
                             </button>
-                            <button>
+                            <button style={{
+                                padding: "5px",
+                                backgroundColor: "white",
+                                borderWidth: 1,
+                                borderColor: "#eee",
+                                borderRadius: "25px",
+                                fontSize: "20px",
+                            }}>
                                 Lecturer
                             </button>
                         </div>
@@ -373,6 +387,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
