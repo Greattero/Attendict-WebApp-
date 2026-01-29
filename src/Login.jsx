@@ -317,6 +317,11 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
                     {/* <Forget className="forgot-link">
                         <label>Recommended browser: Google Chrome</label>
                     </Forget> */}
+                    <PersonType>
+                        <label>
+                        I am..
+                        </label>
+                    </PersonType>
                     <Button type="submit" className="btn" onClick={(e)=>handleLogin(e)} disabled={loading}>
                         {loading ? (
                             <img src={loader} alt="Loading" style={{ width: "24px", height: "24px" }} />
@@ -349,6 +354,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
