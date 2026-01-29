@@ -201,6 +201,8 @@ const Welcome = styled.div`
 
 `
 const PersonType = styled.div`
+
+    background-color: blue;
     
 `
 
@@ -371,6 +373,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
 }
 
 export default Login;
+
 
 
 
