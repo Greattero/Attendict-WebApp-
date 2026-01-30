@@ -189,7 +189,11 @@ function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible, getLocat
         const data = await response.json();
 
         if (data?.location?.lat && data?.location?.lon) {
-          setHostCoords({ lat: data?.location?.lat, lon: data?.location?.lon });
+          setHostCoords({
+  lat: Number(data?.location.lat.toFixed(6)),
+  lon: Number(data?.location.lon.toFixed(6)),
+});
+
           clearInterval(intervalId);
         } else {
           attempts += 1;
