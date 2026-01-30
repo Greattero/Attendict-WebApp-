@@ -31,7 +31,7 @@ export default function LocationCoords({locationValues}){
     (pos) => {
       setStat("Fetching location..");
 
-      if (pos.coords.accuracy <= 7) {
+      if (pos.coords.accuracy <= 5) {
         const coords = {
           lat: pos.coords.latitude,
           lon: pos.coords.longitude
