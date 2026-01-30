@@ -28,6 +28,7 @@ useEffect(() => {
   let retryInterval = null;
 
   const startWatch = () => {
+    if (watchId !== null) return; // ✅ prevent multiple watches
     watchId = navigator.geolocation.watchPosition(
       (pos) => {
         if (pos.coords.accuracy <= 10) {
