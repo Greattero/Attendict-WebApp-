@@ -190,8 +190,8 @@ function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible, getLocat
 
         if (data?.location?.lat && data?.location?.lon) {
           setHostCoords({
-  lat: Number(data?.location.lat.toFixed(6)),
-  lon: Number(data?.location.lon.toFixed(6)),
+  lat: Number(data?.location.lat.toFixed(5)),
+  lon: Number(data?.location.lon.toFixed(5)),
 });
 
           clearInterval(intervalId);
@@ -252,8 +252,8 @@ function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible, getLocat
     setFormData((prev) => ({
       ...prev,
       location: {
-        lat: location?.lat != null ? Number(location?.lat?.toFixed(6)) : null,
-        lon: location?.lon != null ? Number(location?.lon?.toFixed(6)) : null,
+        lat: location?.lat != null ? Number(location?.lat?.toFixed(5)) : null,
+        lon: location?.lon != null ? Number(location?.lon?.toFixed(5)) : null,
       },
       myip: ip,
       index_no: username,
@@ -512,6 +512,7 @@ const submitData = async()=>{
 }
 
 export default CheckInForm;
+
 
 
 
