@@ -33,8 +33,8 @@ export default function LocationCoords({locationValues}){
 
       if (pos.coords.accuracy <= 5) {
         const coords = {
-          lat: pos.coords.latitude,
-          lon: pos.coords.longitude
+          lat: pos.coords.latitude.toFixed(5),
+          lon: pos.coords.longitude.toFixed(5)
         };
         setLocation(coords);
         locationValues(coords);
