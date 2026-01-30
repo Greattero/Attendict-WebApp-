@@ -51,7 +51,7 @@ useEffect(() => {
         if (err.code === 3) alert("Timeout. Refresh page and try again");
         // retry every 3s if error
       },
-      { enableHighAccuracy: true, timeout: 60000, maximumAge: 0 }
+      { enableHighAccuracy: true, timeout: 120000, maximumAge: 0 }
     );
   };
 
