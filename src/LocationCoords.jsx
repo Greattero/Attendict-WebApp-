@@ -43,7 +43,8 @@ export default function LocationCoords({locationValues}){
         // stop watching once accurate
         navigator.geolocation.clearWatch(watchId);
       } else {
-        setStat("Inaccurate location. Still fetching");
+        setStat(`Inaccurate location (${pos.coords.accuracy.toFixed(1)} m). Still fetching`);
+
       }
     },
     (err) => {
