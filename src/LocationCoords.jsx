@@ -30,7 +30,7 @@ useEffect(() => {
   const startWatch = () => {
     watchId = navigator.geolocation.watchPosition(
       (pos) => {
-        if (pos.coords.accuracy <= 5) {
+        if (pos.coords.accuracy <= 10) {
           const coords = {
             lat: pos.coords.latitude.toFixed(5),
             lon: pos.coords.longitude.toFixed(5)
