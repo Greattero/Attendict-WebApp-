@@ -21,43 +21,53 @@ export default function LocationCoords({locationValues}){
   const [location, setLocation] = useState(null);
   const [stat, setStat] = useState("Fetching location..");
   
-  useEffect(() => {
-  if (!navigator.geolocation) {
-    console.log("Geolocation not supported");
-    return;
-  }
+useEffect(() => {
+  if (!navigator.geolocation) return;
 
-  const watchId = navigator.geolocation.watchPosition(
-    (pos) => {
-      setStat("Fetching location..");
+  let watchId = null;
+  let retryInterval = null;
 
-      if (pos.coords.accuracy <= 5) {
-        const coords = {
-          lat: pos.coords.latitude.toFixed(5),
-          lon: pos.coords.longitude.toFixed(5)
-        };
-        setLocation(coords);
-        locationValues(coords);
-        setStat("Location pinned");
-        alert(`Location pinned (${pos.coords.accuracy.toFixed(1)} m)`);
+  const startWatch = () => {
+    watchId = navigator.geolocation.watchPosition(
+      (pos) => {
+        if (pos.coords.accuracy <= 5) {
+          const coords = {
+            lat: pos.coords.latitude.toFixed(5),
+            lon: pos.coords.longitude.toFixed(5)
+          };
+          setLocation(coords);
+          locationValues(coords);
+          setStat("Location pinned");
 
-        // stop watching once accurate
-        navigator.geolocation.clearWatch(watchId);
-      } else {
-        setStat(`Inaccurate location (${pos.coords.accuracy.toFixed(1)} m). Still fetching`);
+          if (watchId) navigator.geolocation.clearWatch(watchId);
+          if (retryInterval) clearInterval(retryInterval);
+        } else {
+          setStat(`Inaccurate location (${pos.coords.accuracy.toFixed(1)} m). Still fetching`);
+        }
+      },
+      (err) => {
+        if (err.code === 1) alert("Turn on location or allow permissions, then refresh page.");
+        if (err.code === 2) alert("Position unavailable. Refresh page and try again");
+        if (err.code === 3) alert("Timeout. Refresh page and try again");
+        // retry every 3s if error
+      },
+      { enableHighAccuracy: true, timeout: 60000, maximumAge: 0 }
+    );
+  };
 
-      }
-    },
-    (err) => {
-      if (err.code === 1) alert("Turn on location or allow permissions, then refresh page.");
-      if (err.code === 2) alert("Position unavailable. Refresh page and try again");
-      if (err.code === 3) alert("Timeout. Refresh page and try again");
-    },
-    { enableHighAccuracy: true, timeout: 60000, maximumAge: 0 }
-  );
+  startWatch();
 
-  return () => navigator.geolocation.clearWatch(watchId);
+  // Retry every 3s if location not pinned yet
+  retryInterval = setInterval(() => {
+    if (!location) startWatch();
+  }, 3000);
+
+  return () => {
+    if (watchId) navigator.geolocation.clearWatch(watchId);
+    if (retryInterval) clearInterval(retryInterval);
+  };
 }, []);
+
 
 
   return(
