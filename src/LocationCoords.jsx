@@ -31,14 +31,21 @@ export default function LocationCoords({locationValues}){
   
        navigator.geolocation.watchPosition(
           (pos) => {
+            setStat("Fetching location..");
+            if (pos.coords.accuracy <= 10) {
           const coords = {
             lat: pos.coords.latitude,
             lon: pos.coords.longitude,
           };
             setLocation(coords);
             locationValues(coords);
-            setStat(null);
+            //setStat("Location pinned");
             clearInterval(interval); // stop once location is fetched
+          }
+          else{
+            setStat("Inaccurate location. Still fetching");
+          }
+          
           },
           (err) => {
           if (err.code === 1) alert("Turn on location or allow permissions, then refresh page.");
@@ -63,7 +70,7 @@ export default function LocationCoords({locationValues}){
 
 <label style={{ fontWeight: "bold", display: "flex", alignItems: "center", gap: "5px" }}>
   <i className="bx bxs-circle" style={{ color: location ? "green" : "grey", fontSize: "15px" }} />
-  {location ? `Location pinned`: "Still fetching location..."}
+  {location ? `Location pinned`: stat}
 </label>
       
     
