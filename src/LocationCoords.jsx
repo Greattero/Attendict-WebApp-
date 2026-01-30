@@ -76,7 +76,7 @@ useEffect(() => {
 
 <label style={{ fontWeight: "bold", display: "flex", alignItems: "center", gap: "5px" }}>
   <i className="bx bxs-circle" style={{ color: location ? "green" : "grey", fontSize: "15px" }} />
-  {location ? `Location pinned`: stat}
+  {location ? `${location.lon}, ${location.lat}`: stat}
 </label>
       
     
