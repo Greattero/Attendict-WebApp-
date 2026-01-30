@@ -31,10 +31,11 @@ useEffect(() => {
     watchId = navigator.geolocation.watchPosition(
       (pos) => {
         if (pos.coords.accuracy <= 10) {
-          const coords = {
-            lat: pos.coords.latitude.toFixed(5),
-            lon: pos.coords.longitude.toFixed(5)
-          };
+        const coords = {
+           lat: Number(pos.coords.latitude.toFixed(5)),
+           lon: Number(pos.coords.longitude.toFixed(5))
+         };
+
           setLocation(coords);
           locationValues(coords);
           setStat("Location pinned");
