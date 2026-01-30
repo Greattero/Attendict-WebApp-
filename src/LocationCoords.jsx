@@ -31,7 +31,7 @@ export default function LocationCoords({locationValues}){
     (pos) => {
       setStat("Fetching location..");
 
-      if (pos.coords.accuracy <= 10) {
+      if (pos.coords.accuracy <= 7) {
         const coords = {
           lat: pos.coords.latitude,
           lon: pos.coords.longitude
@@ -39,6 +39,7 @@ export default function LocationCoords({locationValues}){
         setLocation(coords);
         locationValues(coords);
         setStat("Location pinned");
+        alert(`Location pinned (${pos.coords.accuracy.toFixed(1)} m)`);
 
         // stop watching once accurate
         navigator.geolocation.clearWatch(watchId);
