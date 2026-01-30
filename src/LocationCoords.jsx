@@ -19,7 +19,7 @@ const LocationWrapper = styled.div`
 export default function LocationCoords({locationValues}){
 
   const [location, setLocation] = useState(null);
-  const [stat, setStat] = useState(null);
+  const [stat, setStat] = useState("Fetching location..");
   
   useEffect(() => {
   if (!navigator.geolocation) {
