@@ -22,47 +22,41 @@ export default function LocationCoords({locationValues}){
   const [stat, setStat] = useState(null);
   
   useEffect(() => {
-    if (!navigator.geolocation) {
-      console.log("Geolocation not supported");
-      return;
-    }
+  if (!navigator.geolocation) {
+    console.log("Geolocation not supported");
+    return;
+  }
 
-    const interval = setInterval(() => {
-  
-       navigator.geolocation.watchPosition(
-          (pos) => {
-            setStat("Fetching location..");
-            if (pos.coords.accuracy <= 10) {
-          const coords = {
-            lat: pos.coords.latitude,
-            lon: pos.coords.longitude,
-          };
-            setLocation(coords);
-            locationValues(coords);
-            //setStat("Location pinned");
-            clearInterval(interval); // stop once location is fetched
-          }
-          else{
-            setStat("Inaccurate location. Still fetching");
-          }
-          
-          },
-          (err) => {
-          if (err.code === 1) alert("Turn on location or allow permissions, then refresh page.");
-          if (err.code === 2) alert("Position unavailable. Refresh page and try again");
-          if (err.code === 3) alert("Timeout. Refresh page and try again");
-        },
-    {
-      enableHighAccuracy: true,
-      timeout: 60000,
-      maximumAge: 0
-    }
-        );
-      }, 3000); // retry every 3s
-      return () => clearInterval(interval);
+  const watchId = navigator.geolocation.watchPosition(
+    (pos) => {
+      setStat("Fetching location..");
 
+      if (pos.coords.accuracy <= 10) {
+        const coords = {
+          lat: pos.coords.latitude,
+          lon: pos.coords.longitude
+        };
+        setLocation(coords);
+        locationValues(coords);
+        setStat("Location pinned");
 
+        // stop watching once accurate
+        navigator.geolocation.clearWatch(watchId);
+      } else {
+        setStat("Inaccurate location. Still fetching");
+      }
+    },
+    (err) => {
+      if (err.code === 1) alert("Turn on location or allow permissions, then refresh page.");
+      if (err.code === 2) alert("Position unavailable. Refresh page and try again");
+      if (err.code === 3) alert("Timeout. Refresh page and try again");
+    },
+    { enableHighAccuracy: true, timeout: 60000, maximumAge: 0 }
+  );
+
+  return () => navigator.geolocation.clearWatch(watchId);
 }, []);
+
 
   return(
 
