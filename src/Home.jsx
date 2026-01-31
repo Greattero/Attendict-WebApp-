@@ -213,7 +213,7 @@ function Home({onButtonClick, disabled, getWhoIAm}){
   
     useEffect(() => {
       // Check state first, else fallback to localStorage
-      setRole(getWhoIAm ?? localStorage.getItem("personType") ?? "");
+      setRole(getWhoIAm || localStorage.getItem("personType") || "");
     }, [getWhoIAm]);
   
     return(
@@ -250,6 +250,7 @@ function Home({onButtonClick, disabled, getWhoIAm}){
 
 
 export default Home;
+
 
 
 
