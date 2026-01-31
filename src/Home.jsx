@@ -207,7 +207,7 @@ const Notice = styled.label`
     width: 75%;
     margin-top: 5px;
     text-align: center;
-    //padding: 7px;
+    padding: 7px;
     // margin-left: -10.7rem;
   }
 `;
@@ -247,13 +247,7 @@ function Home({onButtonClick, disabled, getWhoIAm}){
       
     
             </Buttons>
-            <div style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center"
-            }}>
                 <Notice>⚠️Make sure location is on.</Notice>
-            </div>
         </HomePage>
     )
 
@@ -261,6 +255,7 @@ function Home({onButtonClick, disabled, getWhoIAm}){
 
 
 export default Home;
+
 
 
 
