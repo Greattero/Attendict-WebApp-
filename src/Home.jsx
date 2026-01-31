@@ -205,7 +205,7 @@ const Notice = styled.label`
   }
 `;
 
-function Home({onButtonClick, disabled, getWhoIam}){
+function Home({onButtonClick, disabled, getWhoIAm}){
 
     return(
         <HomePage>
@@ -224,7 +224,7 @@ function Home({onButtonClick, disabled, getWhoIam}){
                     <h2>CheckIn</h2>
                 </CheckIn>}
 
-              {getWhoIam === "rep" && <Remove onClick={!disabled ? () => onButtonClick("remove") : () => alert("A session is ongoing")}>
+              {getWhoIAm === "rep" && <Remove onClick={!disabled ? () => onButtonClick("remove") : () => alert("A session is ongoing")}>
                     <IconWrapper>
                     <i className='bx bx-block'></i>
                     </IconWrapper>
@@ -241,6 +241,7 @@ function Home({onButtonClick, disabled, getWhoIam}){
 
 
 export default Home;
+
 
 
 
