@@ -3,7 +3,10 @@ import styled from "styled-components";
 import 'boxicons/css/boxicons.min.css';
 
 const HomePage = styled.div`
+  display: flex;
+  
   @media screen and (max-width: 650px) {
+    flex-direction: column;
     min-height: 75svh;     /* mobile-safe height */
     display: flex;
     justify-content: center;
@@ -252,6 +255,7 @@ function Home({onButtonClick, disabled, getWhoIAm}){
 
 
 export default Home;
+
 
 
 
