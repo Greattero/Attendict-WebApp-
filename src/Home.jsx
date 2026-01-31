@@ -205,31 +205,31 @@ const Notice = styled.label`
   }
 `;
 
-function Home({onButtonClick, disabled}){
+function Home({onButtonClick, disabled, getWhoIam}){
 
     return(
         <HomePage>
             <Buttons>
-                <Host onClick={!disabled ? () => onButtonClick("host") : () => alert("A session is ongoing")}>
+              {getWhoIAm === "rep" && <Host onClick={!disabled ? () => onButtonClick("host") : () => alert("A session is ongoing")}>
                     <IconWrapper>
                     <i className='bx bxs-user'></i>
                     </IconWrapper>
                     <h2>Host</h2> 
-                </Host>
+                </Host>}
 
-                <CheckIn onClick={!disabled ? () => onButtonClick("checkin") : () => alert("Can't checkin when Host is in session")}>
+              {getWhoIAm === "member" && <CheckIn onClick={!disabled ? () => onButtonClick("checkin") : () => alert("Can't checkin when Host is in session")}>
                     <IconWrapper>
                     <i className='bx bxs-user-check'></i>
                     </IconWrapper>
                     <h2>CheckIn</h2>
-                </CheckIn>
+                </CheckIn>}
 
-               <Remove onClick={!disabled ? () => onButtonClick("remove") : () => alert("A session is ongoing")}>
+              {getWhoIam === "rep" && <Remove onClick={!disabled ? () => onButtonClick("remove") : () => alert("A session is ongoing")}>
                     <IconWrapper>
                     <i className='bx bx-block'></i>
                     </IconWrapper>
                     <h2>Remove Session</h2> 
-               </Remove>
+               </Remove>}
       
     
             </Buttons>
@@ -241,6 +241,7 @@ function Home({onButtonClick, disabled}){
 
 
 export default Home;
+
 
 
 
