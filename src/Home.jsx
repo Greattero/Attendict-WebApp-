@@ -9,7 +9,7 @@ const HomePage = styled.div`
   @media screen and (max-width: 650px) {
     min-height: 75svh;     /* mobile-safe height */
     display: flex;
-    justify-content: center;
+    //justify-content: center;
     align-items: flex-start; /* 👈 key */
     background-color: #dbdbdb;
     // padding-top: 1rem;     /* safe spacing */
@@ -253,6 +253,7 @@ function Home({onButtonClick, disabled, getWhoIAm}){
 
 
 export default Home;
+
 
 
 
