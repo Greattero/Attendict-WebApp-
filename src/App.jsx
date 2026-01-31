@@ -54,6 +54,8 @@ function App() {
 
   const [myLocation, setMyLocation] = useState();
 
+  const [person, setPerson] = useState("");
+
 
   // console.log("DDD:", programme);
 
@@ -229,7 +231,7 @@ function App() {
           alignItems: "center",   
           //paddingBottom: "50px",
       }}>
-        <Home onButtonClick={(type)=>handleButtonClick(type)} disabled={disable}/> {/* Remove all styles from Home */}
+        <Home onButtonClick={(type)=>handleButtonClick(type)} disabled={disable} getWhoIam={person}/> {/* Remove all styles from Home */}
         {showPop && (
           <>
             <Overlay isVisible={showPop} />
@@ -309,7 +311,10 @@ function App() {
       <Login 
         sendVisible={setVisible}
         sendFeedback={setFeedBack}
-        onLoginSuccess={()=>handleLoginSuccess()}/>
+        onLoginSuccess={()=>handleLoginSuccess()}
+        sendWhoIAm={setPerson}
+        />
+        
     </div>
     
   
