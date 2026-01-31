@@ -35,7 +35,7 @@ const Buttons = styled.div`
     justify-content: center;
     gap: 2rem;
     min-height: 45vh; /* 👈 KEY */
-    margin-top: -95px;
+    margin-top: -115px;
   }
 `;
 
@@ -253,6 +253,7 @@ function Home({onButtonClick, disabled, getWhoIAm}){
 
 
 export default Home;
+
 
 
 
