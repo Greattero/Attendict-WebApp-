@@ -232,7 +232,7 @@ function App() {
           alignItems: "center",   
           //paddingBottom: "50px",
       }}>
-        <Home onButtonClick={(type)=>handleButtonClick(type)} disabled={disable} getWhoIam={person}/> {/* Remove all styles from Home */}
+        <Home onButtonClick={(type)=>handleButtonClick(type)} disabled={disable} getWhoIAm={person}/> {/* Remove all styles from Home */}
         {showPop && (
           <>
             <Overlay isVisible={showPop} />
