@@ -29,7 +29,7 @@ const Buttons = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    //min-height: 60vh; /* 👈 KEY */
+    min-height: 60vh; /* 👈 KEY */
     margin-top: -25px;
   }
 `;
@@ -250,6 +250,7 @@ function Home({onButtonClick, disabled, getWhoIAm}){
 
 
 export default Home;
+
 
 
 
