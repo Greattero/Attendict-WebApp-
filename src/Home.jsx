@@ -205,7 +205,7 @@ const Notice = styled.label`
 
   @media screen and (max-width: 650px) {
     width: 75%;
-    margin-top: 290px;
+    margin-top: 10px;
     text-align: center;
     padding: 7px;
     // margin-left: -10.7rem;
@@ -255,6 +255,7 @@ function Home({onButtonClick, disabled, getWhoIAm}){
 
 
 export default Home;
+
 
 
 
