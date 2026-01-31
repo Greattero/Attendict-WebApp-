@@ -205,7 +205,7 @@ const Notice = styled.label`
 
   @media screen and (max-width: 650px) {
     width: 75%;
-    margin-top: 10px;
+    margin-top: 5px;
     text-align: center;
     padding: 7px;
     // margin-left: -10.7rem;
@@ -247,7 +247,13 @@ function Home({onButtonClick, disabled, getWhoIAm}){
       
     
             </Buttons>
-            <Notice>⚠️Make sure location is on.</Notice>
+            <div style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
+            }}>
+                <Notice>⚠️Make sure location is on.</Notice>
+            </div>
         </HomePage>
     )
 
@@ -255,6 +261,7 @@ function Home({onButtonClick, disabled, getWhoIAm}){
 
 
 export default Home;
+
 
 
 
