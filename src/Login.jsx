@@ -233,7 +233,7 @@ const PersonType = styled.div`
 //     }
 // `
 
-function Login({onLoginSuccess, sendFeedback, sendVisible}){
+function Login({onLoginSuccess, sendFeedback, sendVisible, sendWhoIAm}){
 
     const [loading, setLoading] = useState(false);
 
@@ -335,7 +335,8 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
                             
                         }}>
                             <label
-                                onClick={()=>setPerson("rep")}
+                                onClick={()=>{setPerson("rep");
+                                             sendWhoIAm("rep");}}
                                 style={{
                                 padding: "5px",
 color : person === "rep" ? "white" : "black",
@@ -348,7 +349,8 @@ fontWeight: "bold",
                                 Course rep
                             </label>
                             <label 
-                                onClick={()=>setPerson("member")}
+                                onClick={()=>{setPerson("member");
+                                             sendWhoIAm("member");}}
                                 style={{
                                 padding: "5px",
                                 border: "2px solid #d9d9d9",
@@ -394,6 +396,7 @@ fontWeight: "bold",
 }
 
 export default Login;
+
 
 
 
