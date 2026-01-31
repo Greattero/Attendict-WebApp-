@@ -29,7 +29,7 @@ const Buttons = styled.div`
     align-items: center;
     //justify-content: center;
     //gap: 2rem;
-    margin-top: -5px;
+    margin-top: -25px;
     background-color: red;
     min-height: 60vh; /* 👈 KEY */
     
@@ -245,6 +245,7 @@ function Home({onButtonClick, disabled, getWhoIAm}){
 
 
 export default Home;
+
 
 
 
