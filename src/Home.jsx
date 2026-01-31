@@ -5,6 +5,7 @@ import 'boxicons/css/boxicons.min.css';
 const HomePage = styled.div`
   display: flex;
   flex-direction: column;
+  background-color: blue;
   
   @media screen and (max-width: 650px) {
     min-height: 75svh;     /* mobile-safe height */
@@ -252,6 +253,7 @@ function Home({onButtonClick, disabled, getWhoIAm}){
 
 
 export default Home;
+
 
 
 
