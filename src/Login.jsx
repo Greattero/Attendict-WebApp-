@@ -260,6 +260,11 @@ function Login({onLoginSuccess, sendFeedback, sendVisible, sendWhoIAm}){
     const handleLogin = async (e) => {
         e.preventDefault();
 
+        if(!loginData.username || !loginData.password || !loginData.person ==""){
+            alert("Please fill all fields");
+            return;
+        }
+
           setLoading(true); // Start loading
 
         try{
@@ -396,6 +401,7 @@ fontWeight: "bold",
 }
 
 export default Login;
+
 
 
 
