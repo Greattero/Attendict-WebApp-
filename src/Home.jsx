@@ -201,7 +201,7 @@ const Notice = styled.label`
   color: black;
   width: 75%; /* or whatever fits */
   max-width: 600px; /* optional to prevent it from being too wide */
-  padding: 10px;
+  padding: 3px;
 `;
 
 
@@ -240,7 +240,7 @@ function Home({onButtonClick, disabled, getWhoIAm}){
       
     
             </Buttons>
-                <Notice>⚠️Make sure location is on.</Notice>
+                <Notice>⚠️Make sure location is on</Notice>
         </HomePage>
     )
 
@@ -248,6 +248,7 @@ function Home({onButtonClick, disabled, getWhoIAm}){
 
 
 export default Home;
+
 
 
 
