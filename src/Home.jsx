@@ -31,11 +31,11 @@ const Buttons = styled.div`
 
   @media screen and (max-width: 650px) {
     flex-direction: column;
-    //align-items: center;
+    align-items: center;
     justify-content: center;
     gap: 2rem;
     min-height: 45vh; /* 👈 KEY */
-    margin-top: -115px;
+    margin-top: 0px;
   }
 `;
 
@@ -253,6 +253,7 @@ function Home({onButtonClick, disabled, getWhoIAm}){
 
 
 export default Home;
+
 
 
 
