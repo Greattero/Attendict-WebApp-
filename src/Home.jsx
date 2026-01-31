@@ -188,7 +188,8 @@ const IconWrapper = styled.div`
 `;
 
 const Notice = styled.label`
-  position: absolute;
+  //position: absolute;
+  display: flex;
   text-align: center;
   font-size: 18px;
   border: 2px solid #ffe4bd;
@@ -251,6 +252,7 @@ function Home({onButtonClick, disabled, getWhoIAm}){
 
 
 export default Home;
+
 
 
 
