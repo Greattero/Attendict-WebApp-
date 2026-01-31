@@ -14,7 +14,7 @@ const HomePage = styled.div`
     background-color: #dbdbdb;
     // padding-top: 1rem;     /* safe spacing */
     width: 100%;
-    margin-top: -40px;
+    margin-top: 10px;
   }
 
 `;
@@ -253,6 +253,7 @@ function Home({onButtonClick, disabled, getWhoIAm}){
 
 
 export default Home;
+
 
 
 
