@@ -208,6 +208,8 @@ const Notice = styled.label`
     margin-top: 5px;
     text-align: center;
     padding: 7px;
+    align-items: center;
+    justify-content: center;
     // margin-left: -10.7rem;
   }
 `;
@@ -255,6 +257,7 @@ function Home({onButtonClick, disabled, getWhoIAm}){
 
 
 export default Home;
+
 
 
 
