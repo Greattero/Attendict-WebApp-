@@ -201,7 +201,11 @@ const Notice = styled.label`
   color: black;
   width: 75%; /* or whatever fits */
   max-width: 600px; /* optional to prevent it from being too wide */
-  padding: 3px;
+  padding: 10px;
+
+  @media screen and (max-width: 650px) {
+    margin-top: -100px;
+  }
 `;
 
 
@@ -248,6 +252,7 @@ function Home({onButtonClick, disabled, getWhoIAm}){
 
 
 export default Home;
+
 
 
 
