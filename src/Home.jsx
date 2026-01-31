@@ -28,6 +28,7 @@ const Buttons = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 2rem;
+    //min-height: 60vh; /* 👈 KEY */
     margin-top: -25px;
   }
 `;
@@ -207,24 +208,26 @@ const Notice = styled.label`
 
 function Home({onButtonClick, disabled, getWhoIAm}){
 
+    const role = getWhoIAm ?? localStorage.getItem("personType") ?? "";
+
     return(
         <HomePage>
             <Buttons>
-              {getWhoIAm === "rep" && <Host onClick={!disabled ? () => onButtonClick("host") : () => alert("A session is ongoing")}>
+              {role === "rep" && <Host onClick={!disabled ? () => onButtonClick("host") : () => alert("A session is ongoing")}>
                     <IconWrapper>
                     <i className='bx bxs-user'></i>
                     </IconWrapper>
                     <h2>Host</h2> 
                 </Host>}
 
-              {getWhoIAm === "member" && <CheckIn onClick={!disabled ? () => onButtonClick("checkin") : () => alert("Can't checkin when Host is in session")}>
+              {role === "member" && <CheckIn onClick={!disabled ? () => onButtonClick("checkin") : () => alert("Can't checkin when Host is in session")}>
                     <IconWrapper>
                     <i className='bx bxs-user-check'></i>
                     </IconWrapper>
                     <h2>CheckIn</h2>
                 </CheckIn>}
 
-              {getWhoIAm === "rep" && <Remove onClick={!disabled ? () => onButtonClick("remove") : () => alert("A session is ongoing")}>
+              {role === "rep" && <Remove onClick={!disabled ? () => onButtonClick("remove") : () => alert("A session is ongoing")}>
                     <IconWrapper>
                     <i className='bx bx-block'></i>
                     </IconWrapper>
@@ -241,3 +244,4 @@ function Home({onButtonClick, disabled, getWhoIAm}){
 
 
 export default Home;
+
