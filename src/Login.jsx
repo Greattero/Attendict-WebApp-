@@ -334,7 +334,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible}){
                             justifyContent: "center",
                             
                         }}>
-                            <button
+                            <label
                                 onClick={()=>setPerson("rep")}
                                 style={{
                                 padding: "5px",
@@ -346,8 +346,8 @@ fontWeight: "bold",
                                 fontSize: "15px",
                             }}>
                                 Course rep
-                            </button>
-                            <button 
+                            </label>
+                            <label 
                                 onClick={()=>setPerson("member")}
                                 style={{
                                 padding: "5px",
@@ -359,7 +359,7 @@ color : person === "member" ? "white" : "black",
 fontWeight: "bold",
                             }}>
                                 Class member
-                            </button>
+                            </label>
                         </div>
                     </PersonType>
                     <Button type="submit" className="btn" onClick={(e)=>handleLogin(e)} disabled={loading}>
@@ -394,6 +394,7 @@ fontWeight: "bold",
 }
 
 export default Login;
+
 
 
 
