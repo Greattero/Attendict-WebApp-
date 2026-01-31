@@ -27,7 +27,7 @@ const Buttons = styled.div`
   @media screen and (max-width: 650px) {
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    //justify-content: center;
     //gap: 2rem;
     margin-top: -5px;
     background-color: red;
@@ -245,6 +245,7 @@ function Home({onButtonClick, disabled, getWhoIAm}){
 
 
 export default Home;
+
 
 
 
