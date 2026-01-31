@@ -29,7 +29,7 @@ const Buttons = styled.div`
     align-items: center;
     justify-content: center;
     gap: 2rem;
-    margin-top: -25px;
+    margin-top: -5px;
     
   }
 `;
@@ -243,6 +243,7 @@ function Home({onButtonClick, disabled, getWhoIAm}){
 
 
 export default Home;
+
 
 
 
