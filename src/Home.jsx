@@ -208,8 +208,13 @@ const Notice = styled.label`
 
 function Home({onButtonClick, disabled, getWhoIAm}){
 
-    const role = getWhoIAm ?? localStorage.getItem("personType") ?? "";
-
+    const [role, setRole] = useState("");
+  
+    useEffect(() => {
+      // Check state first, else fallback to localStorage
+      setRole(getWhoIAm ?? localStorage.getItem("personType") ?? "");
+    }, [getWhoIAm]);
+  
     return(
         <HomePage>
             <Buttons>
@@ -244,4 +249,5 @@ function Home({onButtonClick, disabled, getWhoIAm}){
 
 
 export default Home;
+
 
