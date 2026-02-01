@@ -77,12 +77,12 @@ export default function LocationCoords({ locationValues }) {
         },
         (err) => {
           if (err.code === 1) {
-            alert("Turn on location or allow permissions");
+            setStat("Turn on location or\nallow permissions");
             navigator.geolocation.clearWatch(watchId);
             watchId = null;
           }
           if (err.code === 3) {
-            alert("Timeout. Refresh page and try again");
+            setStat("Timeout. Refresh page");
             navigator.geolocation.clearWatch(watchId);
             watchId = null;
           }
