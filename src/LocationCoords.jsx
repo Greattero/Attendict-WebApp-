@@ -113,7 +113,7 @@ export default function LocationCoords({ locationValues }) {
           display: "flex",
           alignItems: "center",
           gap: "5px",
-          fontSize: stat[0]==="T" && "15px",
+          fontSize: stat.startsWith("Turn") ? "10px" : "15px",
         }}
       >
         <i
