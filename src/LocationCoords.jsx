@@ -114,6 +114,7 @@ export default function LocationCoords({ locationValues }) {
           alignItems: "center",
           gap: "5px",
           fontSize: stat.startsWith("Turn") ? "13px" : "16px",
+          textAlign: "center"
         }}
       >
         <i
