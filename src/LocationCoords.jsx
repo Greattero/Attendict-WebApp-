@@ -14,7 +14,7 @@ const LocationWrapper = styled.div`
 
 export default function LocationCoords({ locationValues }) {
   const [location, setLocation] = useState(null);
-  const [stat, setStat] = useState("Fetching location..");
+  const [stat, setStat] = useState("Fetching location...");
 
   // 🔁 rotating messages
   const messages = [
@@ -53,6 +53,7 @@ export default function LocationCoords({ locationValues }) {
 
     const startWatch = () => {
       if (watchId !== null) return;
+      setStat("Fetching location...");
 
       watchId = navigator.geolocation.watchPosition(
         (pos) => {
