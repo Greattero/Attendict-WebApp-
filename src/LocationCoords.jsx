@@ -78,7 +78,7 @@ export default function LocationCoords({ locationValues }) {
         },
         (err) => {
           if (err.code === 1) {
-            setStat("Turn on location or allow permissions");
+            setStat("Turn on location or allow browser permissions");
             navigator.geolocation.clearWatch(watchId);
             watchId = null;
           }
