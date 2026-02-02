@@ -26,6 +26,7 @@ export default function LocationCoords({ locationValues }) {
 
   const messageIndex = useRef(0);
   const messageInterval = useRef(null);
+  const prevLoc = useRef(Infinity);
 
   useEffect(() => {
     if (!navigator.geolocation) return;
@@ -57,7 +58,7 @@ export default function LocationCoords({ locationValues }) {
 
       watchId = navigator.geolocation.watchPosition(
         (pos) => {
-          if (pos.coords.accuracy <= 20) {
+          if (pos.coords.accuracy <= 20 && pos.coords.accuracy < prevLoc.current) {
             const coords = {
               lat: Number(pos.coords.latitude.toFixed(5)),
               lon: Number(pos.coords.longitude.toFixed(5)),
@@ -65,6 +66,7 @@ export default function LocationCoords({ locationValues }) {
 
             setLocation(coords);
             locationValues(coords);
+            prevLoc.current = pos.coords.accuracy;
             setStat("Location pinned");
             alert(`Location pinned ${pos.coords.accuracy}`);
 
