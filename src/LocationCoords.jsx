@@ -68,7 +68,7 @@ export default function LocationCoords({ locationValues }) {
             locationValues(coords);
             prevLoc.current = pos.coords.accuracy;
             setStat("Location pinned");
-            alert(`Location pinned ${pos.coords.accuracy}`);
+            //alert(`Location pinned ${pos.coords.accuracy}`);
 
             stopMessageRotation();
 
