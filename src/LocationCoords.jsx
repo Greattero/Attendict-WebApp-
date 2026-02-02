@@ -57,7 +57,7 @@ export default function LocationCoords({ locationValues }) {
 
       watchId = navigator.geolocation.watchPosition(
         (pos) => {
-          if (pos.coords.accuracy >= 5 && pos.coords.accuracy <= 20) {
+          if (pos.coords.accuracy <= 20) {
             const coords = {
               lat: Number(pos.coords.latitude.toFixed(5)),
               lon: Number(pos.coords.longitude.toFixed(5)),
@@ -66,6 +66,7 @@ export default function LocationCoords({ locationValues }) {
             setLocation(coords);
             locationValues(coords);
             setStat("Location pinned");
+            alert(`Location pinned ${pos.coords.accuracy}`);
 
             stopMessageRotation();
 
