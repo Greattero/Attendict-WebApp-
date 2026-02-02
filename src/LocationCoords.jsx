@@ -29,6 +29,7 @@ export default function LocationCoords({ locationValues }) {
 
   useEffect(() => {
     if (!navigator.geolocation) return;
+    if (location) return;
 
     let watchId = null;
     let retryInterval = null;
