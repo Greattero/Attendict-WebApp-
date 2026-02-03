@@ -223,7 +223,7 @@ app.post("/api/checkin-details", async (req, res) => {
     }
 
     let inspect = "0";
-    if (distance > 0.035 && distance <= 0.060) inspect = "1";
+    if (distance > 0.035 && distance <= 0.090) inspect = "1";
 
 
     // Save the new student
