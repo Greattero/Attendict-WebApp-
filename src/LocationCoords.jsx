@@ -58,7 +58,7 @@ export default function LocationCoords({ locationValues }) {
 
       watchId = navigator.geolocation.watchPosition(
         (pos) => {
-          if (pos.coords.accuracy <= 40 && pos.coords.accuracy < prevLoc.current) {
+          if (pos.coords.accuracy <= 60 && pos.coords.accuracy < prevLoc.current) {
             const coords = {
               lat: Number(pos.coords.latitude.toFixed(5)),
               lon: Number(pos.coords.longitude.toFixed(5)),
