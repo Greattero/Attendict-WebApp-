@@ -397,7 +397,7 @@ const submitData = async()=>{
         };
 
 
- // console.log("Sending data:", formData);
+ alert(`${location.lat}, ${location.lon}`);
 
   try {
     const response = await fetch("https://attendict.onrender.com/api/checkin-details", {
