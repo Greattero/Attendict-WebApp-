@@ -388,7 +388,7 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
         type="text"
         value={formData.name}
         onChange={(e)=>handleName(e)}
-        placeholder="Ex. Jessica Sedinam" />
+        placeholder="Ex. Maame Esi" />
 
         <Label>Index Number </Label>
         <Input type="text" 
