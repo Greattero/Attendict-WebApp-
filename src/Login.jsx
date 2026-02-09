@@ -329,7 +329,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible, sendWhoIAm}){
                     {/* <Forget className="forgot-link">
                         <label>Recommended browser: Google Chrome</label>
                     </Forget> */}
-                    {loginData.username.startsWith("LEC") && <PersonType>
+                    {!loginData.username.startsWith("LEC") && <PersonType>
                         <label>
                         I am..
                         </label>
@@ -402,6 +402,7 @@ fontWeight: "bold",
 }
 
 export default Login;
+
 
 
 
