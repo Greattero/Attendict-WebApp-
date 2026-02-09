@@ -257,6 +257,10 @@ function Login({onLoginSuccess, sendFeedback, sendVisible, sendWhoIAm}){
         )
     }
 
+     if(loginData.username?.startsWith("LECTURER")){
+        sendWhoIAm("rep");
+    }
+
     const handleLogin = async (e) => {
         e.preventDefault();
 
@@ -402,60 +406,6 @@ fontWeight: "bold",
 }
 
 export default Login;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
