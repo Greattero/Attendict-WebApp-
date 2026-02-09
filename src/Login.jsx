@@ -260,10 +260,10 @@ function Login({onLoginSuccess, sendFeedback, sendVisible, sendWhoIAm}){
     const handleLogin = async (e) => {
         e.preventDefault();
 
-        if(!loginData.username || !loginData.password || person ==""){
-            alert("Please fill all fields");
-            return;
-        }
+    if((!loginData.username || !loginData.password || person == "") && !loginData.username?.startsWith("LECTURER")) { 
+       alert("Please fill all fields"); 
+       return; 
+    }
 
           setLoading(true); // Start loading
 
@@ -329,7 +329,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible, sendWhoIAm}){
                     {/* <Forget className="forgot-link">
                         <label>Recommended browser: Google Chrome</label>
                     </Forget> */}
-                    <PersonType>
+                    {loginData.username.startsWith("LEC") && <PersonType>
                         <label>
                         I am..
                         </label>
@@ -369,7 +369,7 @@ fontWeight: "bold",
                                 Class member
                             </label>
                         </div>
-                    </PersonType>
+                    </PersonType>}
                     <Button type="submit" className="btn" onClick={(e)=>handleLogin(e)} disabled={loading}>
                         {loading ? (
                             <img src={loader} alt="Loading" style={{ width: "24px", height: "24px" }} />
@@ -402,6 +402,7 @@ fontWeight: "bold",
 }
 
 export default Login;
+
 
 
 
