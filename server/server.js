@@ -384,7 +384,7 @@ app.post("/api/login-details", async (req, res)=>{
 
     const departmentalCodesArray = ["002","003","005","007","006","008","010","024","028"];
 
-    const isSpecialUser = schoolCode === "901";
+    const isSpecialUser = schoolCode === "901" || schoolCode === "LEC";
 
 
 
@@ -494,6 +494,7 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 
 });
+
 
 
 
