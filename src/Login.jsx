@@ -283,7 +283,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible, sendWhoIAm}){
         const data = await res.json();
         if (data.success){
             localStorage.setItem("username",loginData.username);
-            localStorage.setItem("personType",person);
+            localStorage.setItem("personType", person || "rep");
             //alert("Login Successful🎉");
             sendVisible(true);
             sendFeedback("correctLogs");
