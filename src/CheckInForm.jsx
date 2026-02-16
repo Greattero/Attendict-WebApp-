@@ -319,7 +319,7 @@ useEffect(()=>{
 
     if(!pendingSubmit) return;
 
-    if(hostCoords.lat){
+    if(distance != null){
       setPendingSubmit(false);
       submitData();
       return; // 👈 stop here
@@ -512,6 +512,7 @@ const submitData = async()=>{
 }
 
 export default CheckInForm;
+
 
 
 
