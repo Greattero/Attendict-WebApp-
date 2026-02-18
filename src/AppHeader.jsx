@@ -64,7 +64,7 @@ function AppHeader({onLogout,disableLogout}){
                   localStorage.removeItem("username");
                   onLogout();
                 } else {
-                  alert("📸 Chakam! Nice try 😂 Logout drops in 3 mins—cheaters no dey win!");
+                  alert("Logout will be available 1 minute after check-in. Hang tight!");
                 }
               }}>
                       <i className="bx bx-log-out"></i>
@@ -81,6 +81,7 @@ function AppHeader({onLogout,disableLogout}){
 
 
 export default AppHeader;
+
 
 
 
