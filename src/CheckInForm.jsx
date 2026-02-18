@@ -445,7 +445,7 @@ const submitData = async()=>{
       onClose(); // close the form so the countdown shows
 
       disableLogout(true);
-      localStorage.setItem("logoutDisabledUntil", Date.now() + 3 * 60 * 1000);
+      localStorage.setItem("logoutDisabledUntil", Date.now() + 1 * 60 * 1000);
 
       setTimeout(() => {
         disableLogout(false);
@@ -512,6 +512,7 @@ const submitData = async()=>{
 }
 
 export default CheckInForm;
+
 
 
 
