@@ -296,7 +296,7 @@ function Login({onLoginSuccess, sendFeedback, sendVisible, sendWhoIAm}){
         }
     }
     catch(err){
-        alert("No records found");
+        alert("Unstable internet connection. Please try again");
         console.log(err);
         setLoading(false);
     }
