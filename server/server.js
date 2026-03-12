@@ -18,7 +18,7 @@ dotenv.config();
 
 const corsOptions = {
 
-  origin: 'https://attendict.vercel.app',
+  origin: '*',
 
   methods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
 
