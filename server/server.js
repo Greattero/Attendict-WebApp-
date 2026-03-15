@@ -8,6 +8,11 @@ import dotenv from 'dotenv';
 
 import { ObjectId } from 'mongodb';
 
+import { generateDeviceFingerprint, generateSessionToken, validateFingerprint } from './fingerprint.js';
+
+// TODO: Import auth after Session model is created
+// import { validateToken, logout } from './auth.js';
+
 
 
 const app = express();
@@ -18,19 +23,23 @@ dotenv.config();
 
 const corsOptions = {
 
-  origin: '*',
+  origin: 'http://localhost:5173',
 
   methods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
 
-  allowedHeaders: ['Content-Type'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 
-  credentials: true,
+  credentials: false,
+
+  optionsSuccessStatus: 200
 
 };
 
 
 
 app.use(cors(corsOptions));      // ✅ Needed
+
+app.options('*', cors(corsOptions)); // Handle preflight requests
 
 app.use(express.json());         // ✅ Needed
 
@@ -80,6 +89,127 @@ const studentSchema = new mongoose.Schema({
 
 
 
+// Sessions Schema - Stores authentication tokens and device fingerprints
+const sessionSchema = new mongoose.Schema({
+
+    token: {
+        type: String,
+        required: true,
+        unique: true,
+        index: true
+    },
+
+    username: {
+        type: String,
+        required: true,
+        index: true
+    },
+
+    deviceFingerprint: {
+        type: String,
+        required: true,
+        index: true
+    },
+
+    ipAddress: String,
+
+    loginTime: {
+        type: Date,
+        default: Date.now
+    },
+
+    expiryTime: Date,
+
+    active: {
+        type: Boolean,
+        default: true
+    },
+
+    lastActivityTime: {
+        type: Date,
+        default: Date.now
+    }
+
+}, { timestamps: true });
+
+const Session = mongoose.model('Session', sessionSchema, 'sessions');
+
+// Middleware to validate authentication token
+const validateToken = async (req, res, next) => {
+    try {
+        // Get token from Authorization header
+        const authHeader = req.headers["authorization"];
+
+        if (!authHeader) {
+            return res.status(401).json({
+                success: false,
+                message: "No authorization token provided"
+            });
+        }
+
+        // Extract token from "Bearer <token>" format
+        const token = authHeader.startsWith("Bearer ")
+            ? authHeader.slice(7)
+            : authHeader;
+
+        if (!token) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid authorization header format"
+            });
+        }
+
+        // Find session in database
+        const session = await Session.findOne({
+            token: token,
+            active: true
+        });
+
+        if (!session) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid or expired token"
+            });
+        }
+
+        // Check if token has expired
+        if (session.expiryTime && new Date() > session.expiryTime) {
+            // Mark session as inactive
+            await Session.updateOne({ _id: session._id }, { active: false });
+
+            return res.status(401).json({
+                success: false,
+                message: "Token has expired. Please login again."
+            });
+        }
+
+        // Update last activity time
+        await Session.updateOne(
+            { _id: session._id },
+            { lastActivityTime: new Date() }
+        );
+
+        // Attach session info to request
+        req.session = {
+            token: token,
+            username: session.username,
+            deviceFingerprint: session.deviceFingerprint,
+            ipAddress: session.ipAddress
+        };
+
+        // Continue to next middleware/endpoint
+        next();
+    } catch (error) {
+        console.error("Token validation error:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Server error during token validation"
+        });
+    }
+};
+
+
+
 // // Define the model once at the top level
 
 // const Student = mongoose.model("Student", studentSchema);
@@ -116,7 +246,7 @@ const studentSchema = new mongoose.Schema({
 
 
 
-app.post("/api/host-details", async (req, res) => {
+app.post("/api/host-details", validateToken, async (req, res) => {
 
     try {
 
@@ -183,7 +313,7 @@ app.post("/api/host-details", async (req, res) => {
 
 
 
-app.post("/api/checkin-details", async (req, res) => {
+app.post("/api/checkin-details", validateToken, async (req, res) => {
 
   try {
 
@@ -325,7 +455,7 @@ app.get("/api/host-location", async (req, res) => {
 
 
 
-app.get("/api/student-list", async (req,res) =>{
+app.get("/api/student-list", validateToken, async (req,res) =>{
 
 
 
@@ -364,67 +494,119 @@ app.get("/api/student-list", async (req,res) =>{
 
 app.post("/api/login-details", async (req, res)=>{
 
-    
+    try {
+        const { username, password, deviceData } = req.body;
 
+        // Get client IP address
+        const clientIp = req.headers['x-forwarded-for']?.split(',')[0] ||
+                        req.socket.remoteAddress ||
+                        req.connection.remoteAddress ||
+                        'unknown';
 
+        // Validate credentials format
+        const usernameChecker = username.replace(/[.\s]/g,"");
+        const schoolCode = usernameChecker[0]==="S" ? usernameChecker.substring(0,5) : usernameChecker.substring(0,3);
+        const departmentalCode = usernameChecker.substring(5,8);
+        const departmentalCodesArray = ["002","003","005","007","006","008","010","024","028"];
+        const isSpecialUser = schoolCode === "901" || schoolCode === "LEC";
 
-    // const LoginModel = mongoose.models.Login || mongoose.model("Login", studentSchema, "Logins");
+        if ( !isSpecialUser && ( schoolCode !== "SRI41" || !departmentalCodesArray.includes(departmentalCode) || usernameChecker.length !== 13 )){
+            console.log("Invalid credentials format");
+            return res.status(401).json({success: false, message: "Invalid username format"});
+        }
 
+        // Generate device fingerprint from client data
+        const deviceFingerprint = generateDeviceFingerprint(deviceData || {}, clientIp);
 
+        if (!deviceFingerprint) {
+            return res.status(400).json({success: false, message: "Could not generate device fingerprint"});
+        }
 
-    const { username, password } = req.body;
+        // Check for existing active sessions from this device with different user
+        const existingSession = await Session.findOne({
+            deviceFingerprint: deviceFingerprint,
+            active: true
+        });
 
-    const usernameChecker = username.replace(/[.\s]/g,"");
+        if (existingSession && existingSession.username !== username) {
+            console.log(`Concurrent login attempt: Device ${deviceFingerprint} has active session for ${existingSession.username}, trying to login as ${username}`);
 
-    const schoolCode = usernameChecker[0]==="S" ? usernameChecker.substring(0,5) : usernameChecker.substring(0,3);
+            // Return error - prevent concurrent logins from same device
+            return res.status(409).json({
+                success: false,
+                message: "Another user is already logged in on this device. Please logout first.",
+                existingUsername: existingSession.username
+            });
+        }
 
-    const departmentalCode = usernameChecker.substring(5,8);
+        // If same user logging in again, invalidate old session
+        if (existingSession && existingSession.username === username) {
+            await Session.updateOne(
+                { _id: existingSession._id },
+                { active: false }
+            );
+            console.log(`Invalidated old session for ${username}`);
+        }
 
-    const schoolYear = usernameChecker.slice(-2);
+        // Create new session token
+        const sessionToken = generateSessionToken();
+        console.log("Session token generated:", sessionToken ? "YES" : "NO");
 
-    const departmentalCodesArray = ["002","003","005","007","006","008","010","024","028"];
+        // Set expiry time to 10 minutes from now (matching session duration)
+        const expiryTime = new Date();
+        expiryTime.setMinutes(expiryTime.getMinutes() + 10);
 
-    const isSpecialUser = schoolCode === "901" || schoolCode === "LEC";
+        // Save session to database
+        const newSession = new Session({
+            token: sessionToken,
+            username: username,
+            deviceFingerprint: deviceFingerprint,
+            ipAddress: clientIp,
+            expiryTime: expiryTime,
+            active: true
+        });
 
+        const savedSession = await newSession.save();
+        console.log(`New session created for ${username}, token: ${sessionToken.substring(0, 10)}...`);
 
+        // Return success with token (NOT username/password)
+        const response = {
+            success: true,
+            token: sessionToken,
+            message: "Login successful",
+            expiresIn: 600000 // 10 minutes in milliseconds
+        };
 
-    if ( !isSpecialUser && ( schoolCode !== "SRI41" || !departmentalCodesArray.includes(departmentalCode) || usernameChecker.length !== 13 )){
+        console.log("Login response about to send:", { success: response.success, hasToken: !!response.token });
+        return res.json(response);
 
-        console.log("nooooooooooooooooooo");
-
-        return res.json({success: false});
-
+    } catch (error) {
+        console.error("Login error:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Server error during login"
+        });
     }
 
+})
 
-
-    // const user = await LoginModel.findOne({ username, password });
-
-
-
-    else{
-
-        console.log("Workingggg");
-
-        return res.json({success: true});
-
+// Logout endpoint - Invalidates session token
+app.post("/api/logout", validateToken, async (req, res) => {
+    try {
+        const token = req.headers['authorization']?.slice(7);
+        if (!token) {
+            return res.status(400).json({ success: false, message: "No token provided" });
+        }
+        await Session.updateOne({ token: token }, { active: false });
+        res.json({ success: true, message: "Logged out successfully" });
+    } catch (error) {
+        console.error("Logout error:", error);
+        res.status(500).json({ success: false, message: "Server error during logout" });
     }
-
-    // else{
-
-    //     console.log("nooooooooooooooooooo");
-
-    //     return res.json({success: false});
+});
 
 
 
-    // }
-
-}
-
-
-
-)
 
 
 
@@ -487,9 +669,9 @@ app.delete("/api/delete-collection",async(req,res)=> {
 
 
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3001;
 
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, 'localhost', () => {
 
   console.log(`Server running on port ${PORT}`);
 

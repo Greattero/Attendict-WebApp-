@@ -1,35 +1,33 @@
 import Home from "./Home.jsx";
-import HostForm from "./HostForm.jsx"
-import React, {useState, useEffect} from "react"
+import HostForm from "./HostForm.jsx";
+import React, { useState, useEffect } from "react";
 import CheckInForm from "./CheckInForm.jsx";
 import CountdownTimer from "./CountdownTimer.jsx";
 import Login from "./Login.jsx";
 import AppHeader from "./AppHeader.jsx";
 import RemoveForm from "./RemoveForm.jsx";
 import LocationCoords from "./LocationCoords.jsx";
-import './index.css';
+import "./index.css";
 import "./myStyling.css";
+import { apiDelete } from "./apiClient";
 
-
-
-
-const Overlay = ({ isVisible }) => (
+const Overlay = ({ isVisible }) =>
   isVisible ? (
-    <div style={{
-      margin: "0",
-      top: "0",
-      left: "0",
-      right: "0",
-      bottom: "0",
-      backgroundColor: "var(--black-op)",
-      zIndex: "1000",
-      position: "fixed",
-      width: "100%",
-      height: "100vh",
-    }} />
-  ) : null
-);
-
+    <div
+      style={{
+        margin: "0",
+        top: "0",
+        left: "0",
+        right: "0",
+        bottom: "0",
+        backgroundColor: "var(--black-op)",
+        zIndex: "1000",
+        position: "fixed",
+        width: "100%",
+        height: "100vh",
+      }}
+    />
+  ) : null;
 
 function App() {
   const [login, setLogin] = useState(() => {
@@ -56,10 +54,17 @@ function App() {
 
   const [person, setPerson] = useState("");
 
-
   // console.log("DDD:", programme);
 
-  const successFeedbacks = ["hostedSucessfully", "correctLogs", "checkedinCorrectly", "sessionExists", "alreadyCheckedin", "removeSession", "noSession"];
+  const successFeedbacks = [
+    "hostedSucessfully",
+    "correctLogs",
+    "checkedinCorrectly",
+    "sessionExists",
+    "alreadyCheckedin",
+    "removeSession",
+    "noSession",
+  ];
 
   const isSuccess = successFeedbacks.includes(feedback);
 
@@ -68,30 +73,27 @@ function App() {
   const storedVersion = localStorage.getItem("app_version");
 
   if (storedVersion !== APP_VERSION) {
-  localStorage.setItem("isLoggedIn", "false"); // force logout
-  localStorage.setItem("app_version", APP_VERSION);
-  setLogin(false);
-  window.location.reload();
-}
+    localStorage.setItem("isLoggedIn", "false"); // force logout
+    localStorage.setItem("app_version", APP_VERSION);
+    setLogin(false);
+    window.location.reload();
+  }
 
+  useEffect(() => {
+    if (!visible) return;
 
+    // Slide in
+    setToastY(20);
 
-    useEffect(() => {
-        if (!visible) return;
+    const timer = setTimeout(() => {
+      // Slide out
+      setToastY(-100);
+      // Hide after animation
+      setTimeout(() => setVisible(false), 500);
+    }, 2000);
 
-        // Slide in
-        setToastY(20);
-
-        const timer = setTimeout(() => {
-            // Slide out
-            setToastY(-100);
-            // Hide after animation
-            setTimeout(() => setVisible(false), 500); 
-        }, 2000);
-
-        return () => clearTimeout(timer);
-    }, [visible]);
-
+    return () => clearTimeout(timer);
+  }, [visible]);
 
   React.useEffect(() => {
     const interval = setInterval(async () => {
@@ -113,14 +115,12 @@ function App() {
         if (Date.now() - Number(time) < FIVE_MIN) return;
 
         try {
-          await fetch("https://attendict.onrender.com/api/delete-collection", {
-            method: "DELETE",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ collection_name: programme }),
+          await apiDelete("/api/delete-collection", {
+            collection_name: programme,
           });
 
           // remove ONLY the processed item
-          const updated = parsed.filter(v => v !== item);
+          const updated = parsed.filter((v) => v !== item);
           localStorage.setItem("pendingDeletes", JSON.stringify(updated));
           // console.log("App did it");
 
@@ -134,22 +134,21 @@ function App() {
     return () => clearInterval(interval);
   }, []);
 
-
   const handleLock = () => {
     setDisable(true);
-  }
+  };
   const handleUnlock = () => {
     setDisable(false);
-  }
+  };
 
   const handleButtonClick = (type) => {
     setShowPop(true);
     setForm(type);
-  }
+  };
 
-  const closeForm = ()=>{
+  const closeForm = () => {
     setShowPop(false);
-  }
+  };
 
   const handleLoginSuccess = () => {
     localStorage.setItem("isLoggedIn", "true");
@@ -161,17 +160,16 @@ function App() {
     setLogin(false);
   };
 
-
   return login ? (
-    <div style={{
-      display: "flex", 
-      width: "100vw", // Use vw instead of % for full viewport width
-      height: "100vh",
-              flexDirection: "column", 
-
-      
-    }}>
-       {/* <div style={{ // New wrapper div
+    <div
+      style={{
+        display: "flex",
+        width: "100vw", // Use vw instead of % for full viewport width
+        height: "100vh",
+        flexDirection: "column",
+      }}
+    >
+      {/* <div style={{ // New wrapper div
         flex: 1,
         display: "flex",
         flexDirection: "column",
@@ -186,63 +184,85 @@ function App() {
         <Sidebar/>
       </div> */}
 
-    {visible && (
-    <div
-        className="toast"
-        style={{
+      {visible && (
+        <div
+          className="toast"
+          style={{
             transform: `translateY(${toastY}px)`,
-            transition: 'transform 0.5s ease',
+            transition: "transform 0.5s ease",
+          }}
+        >
+          {!isSuccess ? "❌" : "✅"}
+          <label
+            style={{
+              marginLeft: "15px",
+              marginTop: "2px",
+            }}
+          >
+            {feedback === "hostedSucessfully"
+              ? "Created session successfully"
+              : feedback === "correctLogs"
+                ? "Logged in successfully"
+                : feedback === "checkedinCorrectly"
+                  ? "Checked in successfully"
+                  : feedback === "sessionExists"
+                    ? "Session already exists"
+                    : feedback === "alreadyCheckedin"
+                      ? "You've already checked in"
+                      : feedback === "removeSession"
+                        ? "Session removed successfully"
+                        : feedback === "noSession"
+                          ? "Session doesn't exist"
+                          : feedback === "newGoogleSignUp"
+                            ? "Account created successfully"
+                            : feedback === "googleAlreadyExists"
+                              ? "Logged in successfully"
+                              : feedback === "passwordResetLinkSent"
+                                ? "Password reset not successful"
+                                : feedback === "emailAlreadyRegistered"
+                                  ? "Account already exists"
+                                  : null}
+          </label>
+        </div>
+      )}
+
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
         }}
-    >
-
-        {!isSuccess ? "❌" : "✅"}
-        <label style={{
-            marginLeft: "15px",
-            marginTop: "2px",
-        }}>
-                    {feedback === "hostedSucessfully" ? "Created session successfully" 
-                    : feedback === "correctLogs" ? "Logged in successfully"
-                    : feedback === "checkedinCorrectly" ? "Checked in successfully" 
-                    : feedback === "sessionExists" ? "Session already exists"
-                    : feedback === "alreadyCheckedin" ? "You've already checked in"
-                    : feedback === "removeSession" ? "Session removed successfully"
-                    : feedback === "noSession" ? "Session doesn't exist"
-                    : feedback === "newGoogleSignUp" ? "Account created successfully"
-                    : feedback === "googleAlreadyExists" ? "Logged in successfully"
-                    : feedback === "passwordResetLinkSent" ? "Password reset not successful"
-                    : feedback === "emailAlreadyRegistered" ? "Account already exists"
-                    : null}
-        </label>
-    </div>
-    )}
-
-      <div style={{
-        display: "flex",
-        flexDirection: "column", 
-        justifyContent: "center", 
-        alignItems: "center", 
-      }}>
-                <LocationCoords locationValues={setMyLocation}/>        
+      >
+        <LocationCoords locationValues={setMyLocation} />
       </div>
-      
-      <div style={{ // New wrapper div
-          flex: 1, 
-          display: "flex", 
-          justifyContent: "center", 
-          alignItems: "center",   
+
+      <div
+        style={{
+          // New wrapper div
+          flex: 1,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
           //paddingBottom: "50px",
-      }}>
-        <Home onButtonClick={(type)=>handleButtonClick(type)} disabled={disable} getWhoIAm={person}/> {/* Remove all styles from Home */}
+        }}
+      >
+        <Home
+          onButtonClick={(type) => handleButtonClick(type)}
+          disabled={disable}
+          getWhoIAm={person}
+        />{" "}
+        {/* Remove all styles from Home */}
         {showPop && (
           <>
             <Overlay isVisible={showPop} />
-        
+
             {/* HostForm popup */}
             {form === "host" && !disable && (
-              <HostForm 
-                onClose={closeForm} 
+              <HostForm
+                onClose={closeForm}
                 getLocation={myLocation}
-                setHostTime={setHostTime} 
+                setHostTime={setHostTime}
                 setProgramme={setProgramme}
                 sendVisible={setVisible}
                 sendFeedback={setFeedBack}
@@ -250,75 +270,79 @@ function App() {
             )}
 
             {form === "remove" && !disable && (
-              <RemoveForm 
+              <RemoveForm
                 onClose={closeForm}
                 sendVisible={setVisible}
                 sendFeedback={setFeedBack}
               />
             )}
-        
+
             {/* CheckInForm popup */}
             {form === "checkin" && (
               <CheckInForm
                 getLocation={myLocation}
                 sendVisible={setVisible}
                 sendFeedback={setFeedBack}
-                onClose={closeForm} 
-                disableLogout={setLogoutDisable} 
+                onClose={closeForm}
+                disableLogout={setLogoutDisable}
               />
             )}
           </>
         )}
       </div>
-      <div style= {{
-        position: "absolute",
-        width: "100%",
-        top: 0,
-      }}>
-            <AppHeader onLogout={()=>handleLogoutSuccess()} disableLogout={logoutDisable}/>
-      </div>
-
-      <div style= {{
-        position: "absolute",
-        top: "-10px",
-        right: "20px",
-        zIndex: 1000,
-        paddingRight: "70px",
-        paddingTop: "19px",
-      }}
-      
+      <div
+        style={{
+          position: "absolute",
+          width: "100%",
+          top: 0,
+        }}
       >
-        <CountdownTimer 
-        key={hostTime} 
-        hostTime={hostTime} 
-        setHostTime={setHostTime} 
-        lockCheckin={()=>handleLock()}
-        unLockCheckin={()=>handleUnlock()}
-        programme={programme}
-        resetProgramme={setProgramme}
+        <AppHeader
+          onLogout={() => handleLogoutSuccess()}
+          disableLogout={logoutDisable}
         />
       </div>
 
-    </div> 
-    ) :
-    <div style ={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      minHeight: "100vh",
-      boxShadow: "0px 0px 30px hsla(0, 41.9%, 42.5%, 0.87)",
-      borderRadius: "30px"
-      }}>
-      <Login 
+      <div
+        style={{
+          position: "absolute",
+          top: "-10px",
+          right: "20px",
+          zIndex: 1000,
+          paddingRight: "70px",
+          paddingTop: "19px",
+        }}
+      >
+        <CountdownTimer
+          key={hostTime}
+          hostTime={hostTime}
+          setHostTime={setHostTime}
+          lockCheckin={() => handleLock()}
+          unLockCheckin={() => handleUnlock()}
+          programme={programme}
+          resetProgramme={setProgramme}
+        />
+      </div>
+    </div>
+  ) : (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+        boxShadow: "0px 0px 30px hsla(0, 41.9%, 42.5%, 0.87)",
+        borderRadius: "30px",
+      }}
+    >
+      <Login
         sendVisible={setVisible}
         sendFeedback={setFeedBack}
-        onLoginSuccess={()=>handleLoginSuccess()}
+        onLoginSuccess={() => handleLoginSuccess()}
         sendWhoIAm={setPerson}
-        />
-        
+      />
     </div>
-    
-  
+  );
 }
 
 export default App;

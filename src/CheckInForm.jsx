@@ -1,18 +1,18 @@
 import styled from "styled-components";
-import React, { useEffect, useRef, useState } from 'react';
-import loader from './assets/rolling.svg';
-import 'boxicons/css/boxicons.min.css';
-
+import React, { useEffect, useRef, useState } from "react";
+import loader from "./assets/rolling.svg";
+import "boxicons/css/boxicons.min.css";
+import { apiGet, apiPost } from "./apiClient";
 
 const Checkin = styled.div`
   border: none;
   position: fixed;
-  top:50%;
-  left:50%;
+  top: 50%;
+  left: 50%;
   width: 25rem;
   height: auto;
   border-radius: 5px;
-  background-color:white;
+  background-color: white;
   padding: 2rem;
   display: flex;
   flex-direction: column;
@@ -23,9 +23,7 @@ const Checkin = styled.div`
     position: absolute;
     width: 70%;
     height: auto;
-
-}
-  
+  }
 `;
 
 const Input = styled.input`
@@ -46,34 +44,32 @@ const Select1 = styled.select`
 `;
 
 const Button = styled.button`
-    width: 13rem;
-    height: 2rem;
-    margin-left: 100px;
-    margin-top: 20px;
-    padding: 25px;
-    border: none;
-    background-color: seagreen;
-    color: white;
-    font-size: 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.25s ease;
+  width: 13rem;
+  height: 2rem;
+  margin-left: 100px;
+  margin-top: 20px;
+  padding: 25px;
+  border: none;
+  background-color: seagreen;
+  color: white;
+  font-size: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.25s ease;
 
-    &:hover{
+  &:hover {
     background-color: #276c47;
-    }
+  }
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  
-        @media screen and (max-width: 650px) {
-        width: 70%;
-        height: 8px;
-        margin-left: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-
-    }
+  @media screen and (max-width: 650px) {
+    width: 70%;
+    height: 8px;
+    margin-left: 40px;
+  }
 `;
 
 const Header = styled.label`
@@ -90,17 +86,17 @@ const Header = styled.label`
   gap: 25;
 
   @media screen and (max-width: 650px) {
-  margin-left: 60px;  
+    margin-left: 60px;
   }
 `;
 
 const Label = styled.label`
   color: seagreen;
-  font-size:13px;
+  font-size: 13px;
 
   @media screen and (max-width: 650px) {
-  margin-top: -6px;
-    }
+    margin-top: -6px;
+  }
 `;
 
 const LabelHint = styled.label`
@@ -110,16 +106,18 @@ const LabelHint = styled.label`
   font-style: italic;
 `;
 
-
-function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible, getLocation}) {
-
+function CheckInForm({
+  onClose,
+  disableLogout,
+  sendFeedback,
+  sendVisible,
+  getLocation,
+}) {
   const [loading, setLoading] = useState(false);
-  
-  const popupRef = useRef(null);  // Create ref for the popup container
-  const [location, setLocation] = useState({lat:null,lon:null});
+
+  const popupRef = useRef(null); // Create ref for the popup container
+  const [location, setLocation] = useState({ lat: null, lon: null });
   const [pendingSubmit, setPendingSubmit] = useState(null);
-
-
 
   const [ip, setIP] = useState("");
 
@@ -127,40 +125,38 @@ function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible, getLocat
     if (getLocation?.lat != null && getLocation?.lon != null) {
       setLocation(getLocation);
     }
-  },[getLocation]);
+  }, [getLocation]);
 
-  useEffect(()=>{
+  useEffect(() => {
     fetch("https://api.ipify.org?format=json")
       .then((res) => res.json())
       .then((data) => setIP(data.ip))
-      .catch((err) => console.log(err))
-  },[]);
-  
-
+      .catch((err) => console.log(err));
+  }, []);
 
   const [formData, setFormData] = useState({
-    name:"",
-    index_no:"",
-    programme:"",
-    level:"",
-    myip:"",
+    name: "",
+    index_no: "",
+    programme: "",
+    level: "",
+    myip: "",
     checkedTime: new Date().toLocaleTimeString(),
-  })
+  });
   const [distance, setDistance] = useState(null);
 
   // Add click-outside handler
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (popupRef.current && !popupRef.current.contains(e.target)) {
-        onClose();  // Close popup
+        onClose(); // Close popup
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [onClose]);  // Re-run if `onClose` changes
+  }, [onClose]); // Re-run if `onClose` changes
 
-  const [hostCoords, setHostCoords] = useState({lat:null, lon: null})
+  const [hostCoords, setHostCoords] = useState({ lat: null, lon: null });
 
   useEffect(() => {
     // Clear any previously valid coordinates when programme changes
@@ -185,14 +181,16 @@ function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible, getLocat
       }
 
       try {
-        const response = await fetch(`https://attendict.onrender.com/api/host-location?programme=${currentProg}`);
-        const data = await response.json();
+        const response = await apiGet(
+          `/api/host-location?programme=${currentProg}`,
+        );
+        const data = response.data;
 
         if (data?.location?.lat && data?.location?.lon) {
           setHostCoords({
-  lat: Number(data?.location.lat),
-  lon: Number(data?.location.lon),
-});
+            lat: Number(data?.location.lat),
+            lon: Number(data?.location.lon),
+          });
 
           clearInterval(intervalId);
         } else {
@@ -230,16 +228,14 @@ function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible, getLocat
     return () => clearInterval(intervalId);
   }, [formData.programme]);
 
-
-
-
   // ✅ NEW: useEffect to track updated hostCoords
   useEffect(() => {
     if (hostCoords.lat !== null && hostCoords.lon !== null) {
-      console.log(`✅ Updated Host lat: ${hostCoords.lat}, lon: ${hostCoords.lon}`);
+      console.log(
+        `✅ Updated Host lat: ${hostCoords.lat}, lon: ${hostCoords.lon}`,
+      );
     }
   }, [hostCoords]);
-
 
   const { lat: hostLat, lon: hostLon } = hostCoords;
 
@@ -258,133 +254,113 @@ function CheckInForm({onClose,disableLogout, sendFeedback, sendVisible, getLocat
       myip: ip,
       index_no: username,
     }));
-  }, [location,ip]);
+  }, [location, ip]);
 
-const { lat: checkinLat, lon: checkinLon } = location || {};
+  const { lat: checkinLat, lon: checkinLon } = location || {};
 
-useEffect(() => {
-  if (
-    checkinLat != null &&
-    checkinLon != null &&
-    hostLat != null &&
-    hostLon != null
-  ) 
-  {
-    const R = 6371;
-    const toRad = angle => angle * (Math.PI / 180);
-    const dLat = toRad(checkinLat - hostLat);
-    const dLon = toRad(checkinLon - hostLon);
+  useEffect(() => {
+    if (
+      checkinLat != null &&
+      checkinLon != null &&
+      hostLat != null &&
+      hostLon != null
+    ) {
+      const R = 6371;
+      const toRad = (angle) => angle * (Math.PI / 180);
+      const dLat = toRad(checkinLat - hostLat);
+      const dLon = toRad(checkinLon - hostLon);
 
-    const a =
-      Math.sin(dLat / 2) ** 2 +
-      Math.cos(toRad(hostLat)) * Math.cos(toRad(checkinLat)) *
-      Math.sin(dLon / 2) ** 2;
+      const a =
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(toRad(hostLat)) *
+          Math.cos(toRad(checkinLat)) *
+          Math.sin(dLon / 2) ** 2;
 
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-    setDistance(R * c);
-  }
-}, [checkinLat, checkinLon, hostLat, hostLon]);
-
+      setDistance(R * c);
+    }
+  }, [checkinLat, checkinLon, hostLat, hostLon]);
 
   const handleName = (e) => {
-    setFormData(
-      (prev) => ({...prev, name: e.target.value})
-    )
-  }
+    setFormData((prev) => ({ ...prev, name: e.target.value }));
+  };
 
   const handleIndexNo = () => {
     const username = localStorage.getItem("username");
-    setFormData(
-      (prev) => ({...prev, index_no: username})
-    )
-  }
+    setFormData((prev) => ({ ...prev, index_no: username }));
+  };
 
   const handleProgramme = (e) => {
-    const val = e.target.value.replace(/[.\s]/g,"").toUpperCase();
-    setFormData(
-      (prev) => ({...prev, programme: val})
-    )
-  }
+    const val = e.target.value.replace(/[.\s]/g, "").toUpperCase();
+    setFormData((prev) => ({ ...prev, programme: val }));
+  };
 
   const handleLevel = (e) => {
-    setFormData(
-      (prev) => ({...prev, level: e.target.value})
-    )
-  }
+    setFormData((prev) => ({ ...prev, level: e.target.value }));
+  };
 
-  const range = 0.100;
+  const range = 0.1;
 
-useEffect(()=>{
+  useEffect(() => {
+    if (!pendingSubmit) return;
 
-    if(!pendingSubmit) return;
-
-    if(distance != null){
+    if (distance != null) {
       setPendingSubmit(false);
       submitData();
       return; // 👈 stop here
-
     }
 
-    const t = setTimeout(()=>{
+    const t = setTimeout(() => {
       setPendingSubmit(false);
       submitData();
-    }, 50000)
+    }, 50000);
 
     return () => clearTimeout(t); // 👈 REQUIRED
+  }, [pendingSubmit, hostCoords.lat]);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // prevent default form behavior if used inside a <form>
 
-},[pendingSubmit, hostCoords.lat])
+    //console.log(`lat:${formData.location.lat} and long: ${formData.location.lon}`);
 
+    // Validate form fields
+    if (!formData.name || !formData.programme || !formData.level) {
+      alert("Please fill all required fields.");
+      return;
+    }
 
-const handleSubmit = async (e) => {
-  e.preventDefault(); // prevent default form behavior if used inside a <form>
+    if (!location?.lat || !location?.lon) {
+      alert("Location still fetching 😬. Please wait.");
+      return;
+    }
 
-  //console.log(`lat:${formData.location.lat} and long: ${formData.location.lon}`);
-
-  // Validate form fields
-  if (!formData.name || !formData.programme || !formData.level) {
-    alert("Please fill all required fields.");
-    return;
-  }
-
-if (!location?.lat || !location?.lon) {
-  alert("Location still fetching 😬. Please wait.");
-  return;
-}
-
-  if(formData.programme.length !== 5){
+    if (formData.programme.length !== 5) {
       alert("Course code must be 5 characters");
       return;
-  }
+    }
 
-  setLoading(true); // Start loading
-  setPendingSubmit(true);
+    setLoading(true); // Start loading
+    setPendingSubmit(true);
+  };
 
- 
-};
-
-const submitData = async()=>{
-  // Check location distance range
-    if (
-    distance == null ||
-    hostCoords.lat == null ||
-    hostCoords.lon == null
-  ) 
-  {
-    alert("Couldn't fetch course rep/lecturer's location. Please checkin again");
-    //console.log("Couldn't get Host location. Try again");
-    //console.log(distance);
-    setLoading(false); // Stop loading
-    return;
-  }
-  else if( distance > range){
-    alert(`You are out of range 😭.Refresh and try again ${distance}`);
-    //console.log("You are out of range.");
-    //console.log(distance);
-    setLoading(false); // Stop loading
-    return;
-  }
+  const submitData = async () => {
+    // Check location distance range
+    if (distance == null || hostCoords.lat == null || hostCoords.lon == null) {
+      alert(
+        "Couldn't fetch course rep/lecturer's location. Please checkin again",
+      );
+      //console.log("Couldn't get Host location. Try again");
+      //console.log(distance);
+      setLoading(false); // Stop loading
+      return;
+    } else if (distance > range) {
+      alert(`You are out of range 😭.Refresh and try again ${distance}`);
+      //console.log("You are out of range.");
+      //console.log(distance);
+      setLoading(false); // Stop loading
+      return;
+    }
 
     // setFormData((prev) => ({
     //   ...prev,
@@ -392,160 +368,122 @@ const submitData = async()=>{
     // }));
 
     const dataToSend = {
-          ...formData,
-          distance,  // send distance
-        };
+      ...formData,
+      distance, // send distance
+    };
 
+    //alert(`${location.lat}, ${location.lon}`);
 
- //alert(`${location.lat}, ${location.lon}`);
+    try {
+      const response = await apiPost("/api/checkin-details", dataToSend);
+      const data = response.data;
 
-  try {
-    const response = await fetch("https://attendict.onrender.com/api/checkin-details", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(dataToSend),
-    });
+      if (data.dbAvailable) {
+        //alert("Session doesn't exist");
+        sendVisible(true);
+        sendFeedback("noSession");
+        setLoading(false);
+        //console.log(`Was it: ${data.dbAvailable}`);
+        onClose();
+        return;
+      }
 
-    const data = await response.json();
+      if (data.available) {
+        //alert("You've already checked in");
+        sendVisible(true);
+        sendFeedback("alreadyCheckedin");
+        setLoading(false); // Stop loading
+        onClose();
+        return;
+      }
 
-    if (data.dbAvailable) {
-      //alert("Session doesn't exist");
-      sendVisible(true);
-      sendFeedback("noSession");
-      setLoading(false);
-      //console.log(`Was it: ${data.dbAvailable}`);
-      onClose();
-      return;
-    }
+      if (!response.ok) {
+        //console.error("Server error:", data);
+        alert("Unstable internet connection. Try again😬");
+        setLoading(false); // Stop loading
+      } else {
+        alert(`Submitted Successfully🎉\nYou are ${distance}km away`);
+        //alert(`Submitted Successfully🎉\nYou are ${distance.toFixed(3)}km away`);
+        sendVisible(true);
+        sendFeedback("checkedinCorrectly");
+        //console.log(distance);
+        setLoading(false); // Stop loading
+        onClose(); // close the form so the countdown shows
 
-    if(data.available){
-      //alert("You've already checked in");
-      sendVisible(true);
-      sendFeedback("alreadyCheckedin")
+        disableLogout(true);
+        localStorage.setItem("logoutDisabledUntil", Date.now() + 1 * 60 * 1000);
+
+        setTimeout(
+          () => {
+            disableLogout(false);
+            localStorage.removeItem("logoutDisabledUntil");
+          },
+          3 * 60 * 1000,
+        );
+      }
+    } catch (err) {
+      console.log("Fetch error:", err);
       setLoading(false); // Stop loading
-      onClose();
-      return;
     }
-
-    if (!response.ok) {
-      //console.error("Server error:", data);
-      alert("Unstable internet connection. Try again😬")
-      setLoading(false); // Stop loading
-      
-
-    } else {
-     alert(`Submitted Successfully🎉\nYou are ${distance}km away`);
-      //alert(`Submitted Successfully🎉\nYou are ${distance.toFixed(3)}km away`);
-      sendVisible(true);
-      sendFeedback("checkedinCorrectly");
-      //console.log(distance);
-      setLoading(false); // Stop loading
-      onClose(); // close the form so the countdown shows
-
-      disableLogout(true);
-      localStorage.setItem("logoutDisabledUntil", Date.now() + 1 * 60 * 1000);
-
-      setTimeout(() => {
-        disableLogout(false);
-        localStorage.removeItem("logoutDisabledUntil");
-      }, 3 * 60 * 1000);
-    }
-
-  } catch (err) {
-    console.log("Fetch error:", err);
-    setLoading(false); // Stop loading
-
-  }
-
-};
-
-
+  };
 
   return (
-    <Checkin ref= {popupRef}>
-        <Header>
-          Check-In 
-          <i className='bx bx-x-circle' 
-            onClick={()=>onClose()}
-            style={{ color: '#628245', marginTop: "3px" }}/>
-        </Header>
-        <LabelHint>(for class members)</LabelHint>
-        <Label>Full name </Label>
-        <Input type="text"
+    <Checkin ref={popupRef}>
+      <Header>
+        Check-In
+        <i
+          className="bx bx-x-circle"
+          onClick={() => onClose()}
+          style={{ color: "#628245", marginTop: "3px" }}
+        />
+      </Header>
+      <LabelHint>(for class members)</LabelHint>
+      <Label>Full name </Label>
+      <Input
+        type="text"
         value={formData.name}
-        onChange={(e)=>handleName(e)}
-        placeholder="Ex: Maame Esi" />
+        onChange={(e) => handleName(e)}
+        placeholder="Ex: Maame Esi"
+      />
 
-        <Label>Index Number </Label>
-        <Input type="text"
+      <Label>Index Number </Label>
+      <Input
+        type="text"
         value={formData.index_no}
-        onChange={()=>handleIndexNo()}
-        disabled/>
+        onChange={() => handleIndexNo()}
+        disabled
+      />
 
-        <Label>Course Code</Label>
-        <Input type="text"
+      <Label>Course Code</Label>
+      <Input
+        type="text"
         value={formData.programme}
-        onChange={(e)=>handleProgramme(e)}
-        placeholder="Ex: CE123" />
+        onChange={(e) => handleProgramme(e)}
+        placeholder="Ex: CE123"
+      />
 
-        <Select1 value={formData.level} 
-        onChange={(e)=>handleLevel(e)}>
-            <option value="" disabled>Select level</option>
-            <option value="Level 100">Level 100</option>
-            <option value="Level 200">Level 200</option>
-            <option value="Level 300">Level 300</option>
-            <option value="Level 400">Level 400</option>
-        </Select1>
-        <Button onClick={(e) => handleSubmit(e)} disabled={loading}>
-          {loading ? (
-            <img src={loader} alt="Loading" style={{ width: "24px", height: "24px" }} />
-          ) : (
-            "Submit"
-          )}
-        </Button>
-
-
+      <Select1 value={formData.level} onChange={(e) => handleLevel(e)}>
+        <option value="" disabled>
+          Select level
+        </option>
+        <option value="Level 100">Level 100</option>
+        <option value="Level 200">Level 200</option>
+        <option value="Level 300">Level 300</option>
+        <option value="Level 400">Level 400</option>
+      </Select1>
+      <Button onClick={(e) => handleSubmit(e)} disabled={loading}>
+        {loading ? (
+          <img
+            src={loader}
+            alt="Loading"
+            style={{ width: "24px", height: "24px" }}
+          />
+        ) : (
+          "Submit"
+        )}
+      </Button>
     </Checkin>
   );
 }
 
 export default CheckInForm;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

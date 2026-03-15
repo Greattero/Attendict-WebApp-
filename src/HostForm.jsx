@@ -1,32 +1,29 @@
 import styled from "styled-components";
-import React, { useEffect, useRef, useState} from 'react';
-import loader from './assets/rolling.svg';
-import 'boxicons/css/boxicons.min.css';
-
-
+import React, { useEffect, useRef, useState } from "react";
+import loader from "./assets/rolling.svg";
+import "boxicons/css/boxicons.min.css";
+import { apiPost, apiDelete } from "./apiClient";
 
 const Hosting = styled.div`
   border: none;
   position: fixed;
-  top:50%;
-  left:50%;
+  top: 50%;
+  left: 50%;
   width: 25rem;
   height: auto;
   border-radius: 5px;
-  background-color:white;
+  background-color: white;
   padding: 2rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
   transform: translate(-50%, -50%);
   z-index: 1001; /* Higher than overlay */
-      @media screen and (max-width: 650px) {
-        position: absolute;
-        width: 70%;
-        height: auto;
-
-    }
-  
+  @media screen and (max-width: 650px) {
+    position: absolute;
+    width: 70%;
+    height: auto;
+  }
 `;
 
 const Input = styled.input`
@@ -55,34 +52,32 @@ const Select2 = styled.select`
 `;
 
 const Button = styled.button`
-    width: 13rem;
-    height: 2rem;
-    margin-left: 100px;
-    margin-top: 20px;
-    padding: 25px;
-    border: none;
-    background-color: seagreen;
-    color: white;
-    font-size: 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.25s ease;
+  width: 13rem;
+  height: 2rem;
+  margin-left: 100px;
+  margin-top: 20px;
+  padding: 25px;
+  border: none;
+  background-color: seagreen;
+  color: white;
+  font-size: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.25s ease;
 
-    &:hover{
+  &:hover {
     background-color: #276c47;
-    }
+  }
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-        @media screen and (max-width: 650px) {
-        width: 70%;
-        height: 8px;
-        margin-left: 40px;
-
-
-    }
+  @media screen and (max-width: 650px) {
+    width: 70%;
+    height: 8px;
+    margin-left: 40px;
+  }
 `;
 
 const Header = styled.label`
@@ -99,19 +94,17 @@ const Header = styled.label`
   gap: 25;
 
   @media screen and (max-width: 650px) {
-  margin-left: 85px;  
+    margin-left: 85px;
   }
-  
 `;
 
 const Label = styled.label`
   color: seagreen;
-  font-size:13px;
+  font-size: 13px;
 
   @media screen and (max-width: 650px) {
-  margin-top: -6px;
-    }
-
+    margin-top: -6px;
+  }
 `;
 
 const LabelHint = styled.label`
@@ -121,203 +114,185 @@ const LabelHint = styled.label`
   font-style: italic;
 `;
 
-
-function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible, getLocation}) {
-
-
+function HostForm({
+  onClose,
+  setHostTime,
+  setProgramme,
+  sendFeedback,
+  sendVisible,
+  getLocation,
+}) {
   const [loading, setLoading] = useState(false);
 
-  const popupRef = useRef(null);  // Create ref for the popup container
+  const popupRef = useRef(null); // Create ref for the popup container
 
   // Add click-outside handler
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (popupRef.current && !popupRef.current.contains(e.target)) {
-        onClose();  // Close popup
+        onClose(); // Close popup
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [onClose]);  // Re-run if `onClose` changes
+  }, [onClose]); // Re-run if `onClose` changes
 
+  // Check if there are some pending deletions to be made
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      const raw = localStorage.getItem("pendingDeletes");
+      if (!raw || raw === "undefined") return;
 
-      // Check if there are some pending deletions to be made
-      useEffect(() => {
-        const interval = setInterval(async () => {
-          const raw = localStorage.getItem("pendingDeletes");
-          if (!raw || raw === "undefined") return;
+      const parsed = JSON.parse(raw); // ARRAY
 
-          const parsed = JSON.parse(raw); // ARRAY
+      //console.log("hosss: ", parsed);
 
-          //console.log("hosss: ", parsed);
+      if (!Array.isArray(parsed) || parsed.length === 0) return;
 
-          if (!Array.isArray(parsed) || parsed.length === 0) return;
+      const ONE_MIN = 1 * 60 * 1000; // 60,000 ms
 
-          const ONE_MIN = 1 * 60 * 1000; // 60,000 ms
+      for (const item of parsed) {
+        const [programme, time] = item.split("|");
 
-          for (const item of parsed) {
-            const [programme, time] = item.split("|");
+        // ⏱️ not yet time
+        if (Date.now() - Number(time) < ONE_MIN) return;
 
-            // ⏱️ not yet time
-            if (Date.now() - Number(time) < ONE_MIN) return;
+        try {
+          await apiDelete("/api/delete-collection", {
+            collection_name: programme,
+          });
 
-            try {
-              await fetch("https://attendict.onrender.com/api/delete-collection", {
-                method: "DELETE",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ collection_name: programme }),
-              });
+          // remove ONLY the processed item
+          const updated = parsed.filter((v) => v !== item);
+          localStorage.setItem("pendingDeletes", JSON.stringify(updated));
 
-              // remove ONLY the processed item
-              const updated = parsed.filter(v => v !== item);
-              localStorage.setItem("pendingDeletes", JSON.stringify(updated));
+          // console.log("HostForm")
 
-              // console.log("HostForm")
+          // console.log("HostForm check did it:", programme);
+        } catch (err) {
+          // console.log("Hmmm:", err);
+        }
+      }
+    }, 2000);
 
-             // console.log("HostForm check did it:", programme);
-            } catch (err) {
-             // console.log("Hmmm:", err);
-            }
-          }
-        }, 2000);
+    return () => clearInterval(interval);
+  }, []);
 
-        return () => clearInterval(interval);
-      }, []);
-
-
-
-
-  const [location, setLocation] = useState({lon:null,lat:null});
+  const [location, setLocation] = useState({ lon: null, lat: null });
 
   const [ip, setIP] = useState("");
 
   const [myTime, setMyTime] = useState("");
 
-    useEffect(() => {
-        setLocation(getLocation)
-      }
-    ,[getLocation]);
+  useEffect(() => {
+    setLocation(getLocation);
+  }, [getLocation]);
 
-
-  useEffect(()=>{
+  useEffect(() => {
     fetch("https://api.ipify.org?format=json")
       .then((res) => res.json())
       .then((data) => setIP(data.ip))
-      .catch((err) => console.log(err))
-  },[]);
-
-
-  useEffect(()=>{
-    setMyTime(new Date().toLocaleTimeString());
-  },[])
-  
-  const [formData,setFormData] = useState({
-    name:"",
-    index_no:"",
-    programme:"",
-    level:"",
-    duration: "",
-    myip: "",
-    location:{
-      lat:null,
-      lon: null,
-    }
-  });
-
-  
-//   useEffect(() => {
-//     setLocation(getLocation)
-//   }
-// ,[getLocation]);
-
+      .catch((err) => console.log(err));
+  }, []);
 
   useEffect(() => {
-  const username = localStorage.getItem("username");
-  setFormData((prev) => ({
-    ...prev,
+    setMyTime(new Date().toLocaleTimeString());
+  }, []);
+
+  const [formData, setFormData] = useState({
+    name: "",
+    index_no: "",
+    programme: "",
+    level: "",
+    duration: "",
+    myip: "",
     location: {
-      lat: location?.lat,
-      lon: location?.lon,
+      lat: null,
+      lon: null,
     },
-    myip: ip,
-    index_no: username,
-    checkedTime: myTime
-  }));
-}, [location,ip,myTime]);
+  });
+
+  //   useEffect(() => {
+  //     setLocation(getLocation)
+  //   }
+  // ,[getLocation]);
+
+  useEffect(() => {
+    const username = localStorage.getItem("username");
+    setFormData((prev) => ({
+      ...prev,
+      location: {
+        lat: location?.lat,
+        lon: location?.lon,
+      },
+      myip: ip,
+      index_no: username,
+      checkedTime: myTime,
+    }));
+  }, [location, ip, myTime]);
 
   const handleName = (e) => {
-    setFormData((prev) => ({...prev, name: e.target.value}))
+    setFormData((prev) => ({ ...prev, name: e.target.value }));
   };
 
   const handleIndexNo = () => {
-    setFormData(
-      (prev) => ({...prev, index_no: username})
-    )
-  }
+    setFormData((prev) => ({ ...prev, index_no: username }));
+  };
 
   const handleProgramme = (e) => {
     const val = e.target.value.replace(/[.\s]/g, "").toUpperCase();
-    setFormData(
-      (prev) => ({...prev, programme: val})
-    )
+    setFormData((prev) => ({ ...prev, programme: val }));
   };
 
   const handleLevel = (e) => {
-    setFormData((prev) => ({...prev, level: e.target.value}))
+    setFormData((prev) => ({ ...prev, level: e.target.value }));
   };
 
-
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     //console.log(`lat:${formData.location.lat} and long: ${formData.location.lon}`);
-    
-    
-    if (!formData.name || !formData.programme || !formData.level || !formData.duration) {
+
+    if (
+      !formData.name ||
+      !formData.programme ||
+      !formData.level ||
+      !formData.duration
+    ) {
       alert("Please fill all required fields.");
       return;
     }
 
-    if(formData.programme.length !== 5){
-        alert("Course code must be 5 characters");
-        return;
+    if (formData.programme.length !== 5) {
+      alert("Course code must be 5 characters");
+      return;
     }
 
-   if (
+    if (
       !formData.location ||
       formData.location.lat == null ||
       formData.location.lon == null
-    )
-   {
+    ) {
       alert("Location still fetching 😬. Please wait.");
       return;
     }
 
     setLoading(true); // Start loading
 
-   // console.log(`lat:${formData.location.lat} and long: ${formData.location.lon}`);
+    // console.log(`lat:${formData.location.lat} and long: ${formData.location.lon}`);
     //console.log(`Your IP is ${ip}`);
     console.log("Sending data:", formData);
 
-   
-
     try {
-      const response = await fetch("https://attendict.onrender.com/api/host-details", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
+      const response = await apiPost("/api/host-details", formData);
+      const data = response.data;
 
       if (data.dbAvailable) {
         //alert("Session already exists.");
         sendVisible(true);
         sendFeedback("sessionExists");
-        
+
         setLoading(false);
         //console.log(`Was it: ${data.dbAvailable}`);
         onClose();
@@ -332,30 +307,24 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
       } else {
         sendVisible(true);
         sendFeedback("hostedSucessfully");
-  
+
         setHostTime(null);
         setTimeout(() => {
-        setHostTime(formData?.duration);
-        setProgramme(formData?.programme);
+          setHostTime(formData?.duration);
+          setProgramme(formData?.programme);
         }, 0);
-        
 
         const time = Date.now();
         const raw = localStorage.getItem("pendingDeletes");
 
-        const parsed = raw && raw.startsWith("[")
-          ? JSON.parse(raw)
-          : [];
+        const parsed = raw && raw.startsWith("[") ? JSON.parse(raw) : [];
 
         // add course code if not already there
-        if (!parsed.some(v => v.startsWith(formData?.programme + "|"))) {
+        if (!parsed.some((v) => v.startsWith(formData?.programme + "|"))) {
           parsed.push(`${formData?.programme}|${time}`);
         }
 
-        localStorage.setItem(
-          "pendingDeletes",
-          JSON.stringify(parsed)
-        );
+        localStorage.setItem("pendingDeletes", JSON.stringify(parsed));
 
         localStorage.setItem("backup", formData?.programme);
 
@@ -370,134 +339,78 @@ function HostForm({onClose, setHostTime, setProgramme, sendFeedback, sendVisible
     }
   };
 
-
-
-
   return (
-    <Hosting ref= {popupRef}>
-        <Header>
-            HOST
-            <i className='bx bx-x-circle' 
-              onClick={()=>onClose()}
-              style={{ color: '#628245', marginTop: "3px" }}/>
-        </Header>
+    <Hosting ref={popupRef}>
+      <Header>
+        HOST
+        <i
+          className="bx bx-x-circle"
+          onClick={() => onClose()}
+          style={{ color: "#628245", marginTop: "3px" }}
+        />
+      </Header>
 
-        <LabelHint>(for Lecturers/class reps only)</LabelHint>
-        <Label>Full name </Label>
-        <Input 
+      <LabelHint>(for Lecturers/class reps only)</LabelHint>
+      <Label>Full name </Label>
+      <Input
         type="text"
         value={formData.name}
-        onChange={(e)=>handleName(e)}
-        placeholder="Ex. Maame Esi" />
+        onChange={(e) => handleName(e)}
+        placeholder="Ex. Maame Esi"
+      />
 
-        <Label>Index Number </Label>
-        <Input type="text" 
+      <Label>Index Number </Label>
+      <Input
+        type="text"
         value={formData.index_no}
-        onChange={()=>handleIndexNo()}
-        disabled  />
+        onChange={() => handleIndexNo()}
+        disabled
+      />
 
-        <Label>Course Code</Label>
-        <Input type="text" 
+      <Label>Course Code</Label>
+      <Input
+        type="text"
         value={formData.programme}
-        onChange = {(e)=>handleProgramme(e)}
-        placeholder="Ex. CE123" />
+        onChange={(e) => handleProgramme(e)}
+        placeholder="Ex. CE123"
+      />
 
-        <Select1 value = {formData.level}
-        onChange={(e)=> handleLevel(e)}>
-            <option value="" disabled>Select level</option>
-            <option value = "Level 100">Level 100</option>
-            <option value = "Level 200">Level 200</option>
-            <option value = "Level 300">Level 300</option>
-            <option value = "Level 400">Level 400</option>
-        </Select1>
-        <Select2
-          value={formData.duration}
-          onChange={(e) =>
-            setFormData((prev) => ({ ...prev, duration: e.target.value }))
-          }
-        >
-          <option value="" disabled>Select duration</option> {/* this one is key */}
-          <option value="5">5 min</option>
-          <option value="10">10 min</option>
-        </Select2>
+      <Select1 value={formData.level} onChange={(e) => handleLevel(e)}>
+        <option value="" disabled>
+          Select level
+        </option>
+        <option value="Level 100">Level 100</option>
+        <option value="Level 200">Level 200</option>
+        <option value="Level 300">Level 300</option>
+        <option value="Level 400">Level 400</option>
+      </Select1>
+      <Select2
+        value={formData.duration}
+        onChange={(e) =>
+          setFormData((prev) => ({ ...prev, duration: e.target.value }))
+        }
+      >
+        <option value="" disabled>
+          Select duration
+        </option>{" "}
+        {/* this one is key */}
+        <option value="5">5 min</option>
+        <option value="10">10 min</option>
+      </Select2>
 
-        <Button onClick={(e) => handleSubmit(e)} disabled={loading}>
-          {loading ? (
-            <img src={loader} alt="Loading" style={{ width: "24px", height: "24px" }} />
-          ) : (
-            "Submit"
-          )}
-        </Button>
-
+      <Button onClick={(e) => handleSubmit(e)} disabled={loading}>
+        {loading ? (
+          <img
+            src={loader}
+            alt="Loading"
+            style={{ width: "24px", height: "24px" }}
+          />
+        ) : (
+          "Submit"
+        )}
+      </Button>
     </Hosting>
   );
 }
 
-
 export default HostForm;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

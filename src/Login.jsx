@@ -1,43 +1,42 @@
 import styled from "styled-components";
-import 'boxicons/css/boxicons.min.css';
-import React, {useState, useEffect} from "react";
-import loader from './assets/rolling.svg';
+import "boxicons/css/boxicons.min.css";
+import React, { useState, useEffect } from "react";
+import loader from "./assets/rolling.svg";
+import { apiPost } from "./apiClient";
 
 const LogBody = styled.div`
-    position: relative;
-    width: 850px;
-    height: 550px;
-    background-color: #fff;
-    box-shadow: 0 0 30px hsla(0, 2.30%, 42.50%, 0.74);  // ← shadow added here
+  position: relative;
+  width: 850px;
+  height: 550px;
+  background-color: #fff;
+  box-shadow: 0 0 30px hsla(0, 2.3%, 42.5%, 0.74); // ← shadow added here
 
+  p {
+    font-size: 14.5px;
+    margin: 15px 0;
+  }
 
-    p{
-        font-size: 14.5px;
-        margin: 15px 0;
-    }
-
-
-@media screen and (max-width: 650px){
+  @media screen and (max-width: 650px) {
     height: 100vh;
     //margin-top: -20px;
   }
-`
+`;
 
 const FormBox = styled.form`
-    position: absolute;
-    right: 0;
-    width: 50%;
-    height: 100%;
-    background: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: #333;
-    text-align: center;
-    z-index: 2;
+  position: absolute;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  text-align: center;
+  z-index: 2;
 
-    @media screen and (max-width: 650px){
+  @media screen and (max-width: 650px) {
     display: flex;
     background: white;
     width: 100%;
@@ -47,14 +46,14 @@ const FormBox = styled.form`
     justify-content: flex-start;
     //background-color: red;
   }
-`
+`;
 const Form = styled.div`
-    width: 100%;
+  width: 100%;
 
-    h1{
+  h1 {
     font-size: 36px;
     margin: -10px 0;
-    }
+  }
 
   @media screen and (max-width: 650px) {
     // position: absolute;
@@ -63,122 +62,110 @@ const Form = styled.div`
     border-radius: 60px 60px 0 0;
     //padding-top: 115px;
 
-    h1{
-        font-size: 36px;
-
+    h1 {
+      font-size: 36px;
     }
-
-    
   }
-    
-`
+`;
 
 const Input = styled.div`
+  input {
+    position: relative;
+    margin: 20px 0;
+    width: 300px;
+    padding: 13px 50px 13px 20px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    background: #eee;
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
 
-    input{
-        position: relative;
-        margin: 20px 0;
-        width: 300px;
-        padding: 13px 50px 13px 20px;
-        border-radius: 8px;
-        border: none;
-        outline: none;
-        background: #eee;
-        font-size: 16px;
-        color: #333;
-        font-weight: 500;
-
-        &::placeholder{
-        color: #888;
-        }
+    &::placeholder {
+      color: #888;
     }
+  }
 
-    i{
+  i {
     position: absolute;
     right: 50px;
     margin-top: 30px;
     font-size: 20px;
     color: #888;
-    }
-
-  @media screen and (max-width: 650px) {
-    input{
-    width: 50%;
-    }
-
-    i{
-    margin-top: 35px;
-    right: 70px;
-    }
   }
 
-`
+  @media screen and (max-width: 650px) {
+    input {
+      width: 50%;
+    }
+
+    i {
+      margin-top: 35px;
+      right: 70px;
+    }
+  }
+`;
 
 const Forget = styled.div`
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 
-    label{
-        font-size: 17px;
-        color: #FF0000;
-        text-decoration: none;
-        margin-top: 15px;
-    }
-
-`
+  label {
+    font-size: 17px;
+    color: #ff0000;
+    text-decoration: none;
+    margin-top: 15px;
+  }
+`;
 
 const Button = styled.button`
-    width: 86%;
-    height: 48px;
-    background: #7494ec;
-    border: none;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, -1);
-    cursor: pointer;
-    font-size: 16px;
-    color: white;
-    font-weight: 600;
-    margin-top: 10px;
+  width: 86%;
+  height: 48px;
+  background: #7494ec;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, -1);
+  cursor: pointer;
+  font-size: 16px;
+  color: white;
+  font-weight: 600;
+  margin-top: 10px;
 
   @media screen and (max-width: 650px) {
-  width: 64%;
-
+    width: 64%;
   }
-    
-
-
-`
+`;
 
 const Social = styled.div`
-    font-size: 30px;
+  font-size: 30px;
 
-    a{
-        display: inline-flex;
-        border: 2px solid white;
-        border-radius: 4px;
-        padding: 10px;
-        font-size: 24px;
-        color: #333;
-        text-decoration: none;
-    }
-`
+  a {
+    display: inline-flex;
+    border: 2px solid white;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 24px;
+    color: #333;
+    text-decoration: none;
+  }
+`;
 
 const Welcome = styled.div`
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: seagreen;
+  color: white;
+  border-radius: 0px 150px 150px 0px;
 
-    position: absolute;
-    width: 50%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    background-color: seagreen;
-    color: white;
-    border-radius: 0px 150px 150px 0px;
-
-    p{
+  p {
     font-size: 20px;
     margin-bottom: 20px;
-    }
+  }
 
   @media screen and (max-width: 650px) {
     //position: absolute;
@@ -198,12 +185,8 @@ const Welcome = styled.div`
       margin-bottom: 10px;
     }
   }
-
-`
-const PersonType = styled.div`
-
-    
-`
+`;
+const PersonType = styled.div``;
 
 // const Input2 = styled.div`
 //     input{
@@ -233,190 +216,212 @@ const PersonType = styled.div`
 //     }
 // `
 
-function Login({onLoginSuccess, sendFeedback, sendVisible, sendWhoIAm}){
+function Login({ onLoginSuccess, sendFeedback, sendVisible, sendWhoIAm }) {
+  const [loading, setLoading] = useState(false);
 
-    const [loading, setLoading] = useState(false);
+  const [person, setPerson] = useState("");
 
-    const [person, setPerson] = useState("");
+  const [loginData, setLoginData] = useState({
+    username: "",
+    password: "",
+  });
 
+  const handleUsername = (e) => {
+    setLoginData((prev) => ({
+      ...prev,
+      username: e.target.value.toUpperCase(),
+    }));
+  };
 
-    const [loginData, setLoginData] = useState({
-        username:"",
-        password:"",
-    });
+  const handlePassword = (e) => {
+    setLoginData((prev) => ({
+      ...prev,
+      password: e.target.value.toUpperCase(),
+    }));
+  };
 
-    const handleUsername = (e) => {
-        setLoginData(
-            (prev) => ({...prev, username:e.target.value.toUpperCase()})
-        )
+  if (loginData.username?.startsWith("LECTURER")) {
+    sendWhoIAm("rep");
+  }
+
+  const getDeviceData = () => {
+    return {
+      userAgent: navigator.userAgent,
+      screenResolution: `${window.screen.width}x${window.screen.height}`,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      language: navigator.language,
+      platform: navigator.platform,
+    };
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    if (
+      (!loginData.username || !loginData.password || person == "") &&
+      !loginData.username?.startsWith("LECTURER")
+    ) {
+      alert("Please fill all fields");
+      return;
     }
 
-    const handlePassword = (e) => {
-        setLoginData(
-            (prev) => ({...prev, password: e.target.value.toUpperCase()})
-        )
-    }
+    setLoading(true); // Start loading
 
-     if(loginData.username?.startsWith("LECTURER")){
-        sendWhoIAm("rep");
-    }
+    try {
+      // Collect device data for fingerprinting
+      const deviceData = getDeviceData();
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
+      const response = await apiPost("/api/login-details", {
+        ...loginData,
+        deviceData: deviceData,
+      });
 
-    if((!loginData.username || !loginData.password || person == "") && !loginData.username?.startsWith("LECTURER")) { 
-       alert("Please fill all fields"); 
-       return; 
-    }
+      const data = response.data;
+      console.log("Login response:", data); // Debug log
 
-          setLoading(true); // Start loading
-
-        try{
-        const res = await fetch("https://attendict.onrender.com/api/login-details",{
-            method: "POST",
-            headers:{
-            "Content-Type": "application/json"
-            },
-            body: JSON.stringify(loginData),
-        })
-
-        const data = await res.json();
-        if (data.success){
-            localStorage.setItem("username",loginData.username);
-            localStorage.setItem("personType", person || "rep");
-            //alert("Login Successful🎉");
-            sendVisible(true);
-            sendFeedback("correctLogs");
-            onLoginSuccess();
-        }
-        else{
-            alert("Invalid Username or password🥲");
-            setLoading(false); // Stop loading
-
-        }
-    }
-    catch(err){
-        alert("Unstable internet connection. Please try again");
-        console.log(err);
+      if (data.token) {
+        // Store token instead of username/password
+        localStorage.setItem("authToken", data.token);
+        localStorage.setItem("personType", person || "rep");
+        console.log("Login successful, token saved:", data.token);
+        sendVisible(true);
+        sendFeedback("correctLogs");
+        onLoginSuccess();
+      } else if (data.success && !data.token) {
+        // Success but no token - backend issue
+        console.error("Backend returned success but no token:", data);
+        alert("Login error: No session token received. Please try again.");
         setLoading(false);
+      } else {
+        const errorMsg = data.message || "Invalid Username or password";
+        alert(errorMsg + " Please try again.");
+        setLoading(false);
+      }
+    } catch (err) {
+      alert("Unstable internet connection. Please try again");
+      console.log(err);
+      setLoading(false);
     }
-    }
+  };
 
+  return (
+    <LogBody className="container">
+      <Welcome className="toggle-box">
+        <h1>Welcome To Attendict!</h1>
 
-
-    return(
-        <LogBody className="container">
-            <Welcome className="toggle-box">
-                <h1>Welcome To Attendict!</h1>
-
-                <p>Take control of your classroom <br/>attendance effortlessly.</p>
-            </Welcome>
-            <FormBox className="form-box Login">
-                <Form>
-                    <h1>Login</h1>
-                    <Input className="input-box">
-                        <input type="text" 
-                        placeholder="Enter Index Number"
-                        value={loginData.username}
-                        onChange={(e)=>handleUsername(e)}
-                        required/>
-                        <i className='bx  bxs-user' ></i> 
-                    </Input>
-                    <Input className="input-box">
-                        <input type="password" 
-                        placeholder="Enter password"
-                        value={loginData.password}
-                        onChange={(e)=>handlePassword(e)}
-                        required/>
-                        <i className='bx  bxs-lock'></i> 
-                    </Input>
-                    {/* <Forget className="forgot-link">
+        <p>
+          Take control of your classroom <br />
+          attendance effortlessly.
+        </p>
+      </Welcome>
+      <FormBox className="form-box Login">
+        <Form>
+          <h1>Login</h1>
+          <Input className="input-box">
+            <input
+              type="text"
+              placeholder="Enter Index Number"
+              value={loginData.username}
+              onChange={(e) => handleUsername(e)}
+              required
+            />
+            <i className="bx  bxs-user"></i>
+          </Input>
+          <Input className="input-box">
+            <input
+              type="password"
+              placeholder="Enter password"
+              value={loginData.password}
+              onChange={(e) => handlePassword(e)}
+              required
+            />
+            <i className="bx  bxs-lock"></i>
+          </Input>
+          {/* <Forget className="forgot-link">
                         <label>Recommended browser: Google Chrome</label>
                     </Forget> */}
-                    {!loginData.username.startsWith("LEC") && <PersonType>
-                        <label>
-                        I am..
-                        </label>
-                        <div style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            gap: "60px",
-                            justifyContent: "center",
-                            
-                        }}>
-                            <label
-                                onClick={()=>{setPerson("rep");
-                                             sendWhoIAm("rep");}}
-                                style={{
-                                padding: "5px",
-color : person === "rep" ? "white" : "black",
-fontWeight: "bold",
-                                backgroundColor: person === "rep" ? "seagreen" : "white",
-                                border: "2px solid #d9d9d9",
-                                borderRadius: "10px",
-                                fontSize: "15px",
-                            }}>
-                                Course rep
-                            </label>
-                            <label 
-                                onClick={()=>{setPerson("member");
-                                             sendWhoIAm("member");}}
-                                style={{
-                                padding: "5px",
-                                border: "2px solid #d9d9d9",
-                                borderRadius: "10px",
-                                fontSize: "15px",
-                                backgroundColor: person === "member" ? "seagreen" : "white",
-color : person === "member" ? "white" : "black",
-fontWeight: "bold",
-                            }}>
-                                Class member
-                            </label>
-                        </div>
-                    </PersonType>}
-                    <Button type="submit" className="btn" onClick={(e)=>handleLogin(e)} disabled={loading}>
-                        {loading ? (
-                            <img src={loader} alt="Loading" style={{ width: "24px", height: "24px" }} />
-                        ) : (
-                            "Login"
-                        )}
-                    </Button>
-                    <Forget className="forgot-link">
-                        <label>Recommended browser: Google Chrome</label>
-                    </Forget>
-                    {/* <p>Or login with social platforms</p>
+          {!loginData.username.startsWith("LEC") && (
+            <PersonType>
+              <label>I am..</label>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: "60px",
+                  justifyContent: "center",
+                }}
+              >
+                <label
+                  onClick={() => {
+                    setPerson("rep");
+                    sendWhoIAm("rep");
+                  }}
+                  style={{
+                    padding: "5px",
+                    color: person === "rep" ? "white" : "black",
+                    fontWeight: "bold",
+                    backgroundColor: person === "rep" ? "seagreen" : "white",
+                    border: "2px solid #d9d9d9",
+                    borderRadius: "10px",
+                    fontSize: "15px",
+                  }}
+                >
+                  Course rep
+                </label>
+                <label
+                  onClick={() => {
+                    setPerson("member");
+                    sendWhoIAm("member");
+                  }}
+                  style={{
+                    padding: "5px",
+                    border: "2px solid #d9d9d9",
+                    borderRadius: "10px",
+                    fontSize: "15px",
+                    backgroundColor: person === "member" ? "seagreen" : "white",
+                    color: person === "member" ? "white" : "black",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Class member
+                </label>
+              </div>
+            </PersonType>
+          )}
+          <Button
+            type="submit"
+            className="btn"
+            onClick={(e) => handleLogin(e)}
+            disabled={loading}
+          >
+            {loading ? (
+              <img
+                src={loader}
+                alt="Loading"
+                style={{ width: "24px", height: "24px" }}
+              />
+            ) : (
+              "Login"
+            )}
+          </Button>
+          <Forget className="forgot-link">
+            <label>Recommended browser: Google Chrome</label>
+          </Forget>
+          {/* <p>Or login with social platforms</p>
                     <Social className="social_icons">
                         <a href="#"><i className='bx  bxl-google'></i></a>
 
                     </Social> */}
-                </Form>
-            </FormBox>
+        </Form>
+      </FormBox>
 
-
-            {/* <Welcome className="toggle-box">
+      {/* <Welcome className="toggle-box">
                 <h1>Welcome To Attendict!</h1>
 
                 <p>Take control of your classroom <br/>attendance effortlessly.</p>
             </Welcome> */}
-        
-        
-        </LogBody>
-        
-    )
+    </LogBody>
+  );
 }
 
 export default Login;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
