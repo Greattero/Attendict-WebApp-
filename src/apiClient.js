@@ -3,7 +3,7 @@
  * Handles all API requests with automatic token inclusion
  */
 
-const API_BASE_URL = "http://localhost:3001";
+const API_BASE_URL = "https://attendict.vercel.app";
 
 // For production:
 // const API_BASE_URL = "https://attendict.onrender.com";
