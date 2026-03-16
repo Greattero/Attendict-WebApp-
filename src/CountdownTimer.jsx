@@ -167,9 +167,9 @@ const CountdownTimer = ({
   };
 
   // Only show timer when there's an active session
-  if (timeLeft === 0 && !isLoading) {
-    return null;
-  }
+  // if (timeLeft === 0 && !isLoading) {
+  //   return null;
+  // }
 
   return (
     <div>
