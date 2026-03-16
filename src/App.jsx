@@ -2,7 +2,6 @@ import Home from "./Home.jsx";
 import HostForm from "./HostForm.jsx";
 import React, { useState, useEffect } from "react";
 import CheckInForm from "./CheckInForm.jsx";
-import CountdownTimer from "./CountdownTimer.jsx";
 import Login from "./Login.jsx";
 import AppHeader from "./AppHeader.jsx";
 import RemoveForm from "./RemoveForm.jsx";
@@ -300,29 +299,17 @@ function App() {
         <AppHeader
           onLogout={() => handleLogoutSuccess()}
           disableLogout={logoutDisable}
-        />
-      </div>
-
-      <div
-        style={{
-          position: "absolute",
-          top: "-10px",
-          right: "20px",
-          zIndex: 1000,
-          paddingRight: "70px",
-          paddingTop: "19px",
-        }}
-      >
-        <CountdownTimer
-          key={hostTime}
           hostTime={hostTime}
           setHostTime={setHostTime}
           lockCheckin={() => handleLock()}
           unLockCheckin={() => handleUnlock()}
           programme={programme}
           resetProgramme={setProgramme}
+          userRole={person}
         />
       </div>
+
+      {/* Removed separate CountdownTimer div - now integrated in AppHeader */}
     </div>
   ) : (
     <div
