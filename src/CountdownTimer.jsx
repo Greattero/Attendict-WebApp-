@@ -160,6 +160,14 @@ const CountdownTimer = ({
     };
   }, [hostTime, programme]);
 
+// Check if we actually have a saved session in progress
+const hasSavedSession = localStorage.getItem("endTime") !== null;
+
+// Only hide if there's no time left AND no loading AND no session waiting to resume
+if (timeLeft === 0 && !isLoading && !hasSavedSession) {
+  return null;
+}
+
   const formatTime = (seconds) => {
     const m = String(Math.floor(seconds / 60)).padStart(2, "0");
     const s = String(seconds % 60).padStart(2, "0");
