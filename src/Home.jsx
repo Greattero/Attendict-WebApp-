@@ -212,6 +212,8 @@ function Home({ onButtonClick, disabled, getWhoIAm }) {
     setRole(getWhoIAm || localStorage.getItem("personType") || "");
   }, [getWhoIAm]);
 
+  console.log("whyyy",role);
+
   const handleClick = (action, blockedMsg) => {
     if (disabled) {
       alert(blockedMsg);
