@@ -383,6 +383,7 @@ function Login({ onLoginSuccess, sendFeedback, sendVisible, sendWhoIAm }) {
       });
       const data = response.data;
       if (data.token) {
+        localStorage.setItem("username",loginData.username);
         localStorage.setItem("authToken", data.token);
         localStorage.setItem("personType", person || "rep");
         sendVisible(true);
