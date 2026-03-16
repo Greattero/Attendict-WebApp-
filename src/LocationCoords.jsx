@@ -1,15 +1,25 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import 'boxicons/css/boxicons.min.css';
+import "boxicons/css/boxicons.min.css";
 
 const LocationWrapper = styled.div`
   margin-top: 75px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid rgba(141, 138, 138, 1);
+  border: 1px solid rgba(46, 139, 87, 0.2);
   border-radius: 50px;
-  padding: 5px 20px;
+  padding: 8px 20px;
+  background: linear-gradient(
+    135deg,
+    rgba(46, 139, 87, 0.05),
+    rgba(46, 139, 87, 0.02)
+  );
+  font-family: "Nunito", sans-serif;
+  font-weight: 600;
+  color: #3aab6a;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 8px rgba(46, 139, 87, 0.1);
 `;
 
 export default function LocationCoords({ locationValues }) {
@@ -21,7 +31,7 @@ export default function LocationCoords({ locationValues }) {
     "Almost locked in… hang tight 📍",
     "Getting a clearer signal…",
     "We’re close — don’t move 😅",
-    "Final touches on your location…"
+    "Final touches on your location…",
   ];
 
   const messageIndex = useRef(0);
@@ -39,8 +49,7 @@ export default function LocationCoords({ locationValues }) {
 
       messageInterval.current = setInterval(() => {
         setStat(messages[messageIndex.current]);
-        messageIndex.current =
-          (messageIndex.current + 1) % messages.length;
+        messageIndex.current = (messageIndex.current + 1) % messages.length;
       }, 2000);
     };
 
@@ -58,7 +67,10 @@ export default function LocationCoords({ locationValues }) {
 
       watchId = navigator.geolocation.watchPosition(
         (pos) => {
-          if (pos.coords.accuracy <= 70 && pos.coords.accuracy < prevLoc.current) {
+          if (
+            pos.coords.accuracy <= 70 &&
+            pos.coords.accuracy < prevLoc.current
+          ) {
             const coords = {
               lat: Number(pos.coords.latitude.toFixed(5)),
               lon: Number(pos.coords.longitude.toFixed(5)),
@@ -91,7 +103,7 @@ export default function LocationCoords({ locationValues }) {
             watchId = null;
           }
         },
-        { enableHighAccuracy: true, timeout: 120000, maximumAge: 0 }
+        { enableHighAccuracy: true, timeout: 120000, maximumAge: 0 },
       );
     };
 
@@ -117,7 +129,7 @@ export default function LocationCoords({ locationValues }) {
           alignItems: "center",
           gap: "2px",
           fontSize: stat.startsWith("Turn") ? "13px" : "16px",
-          textAlign: "center"
+          textAlign: "center",
         }}
       >
         <i
@@ -128,4 +140,4 @@ export default function LocationCoords({ locationValues }) {
       </label>
     </LocationWrapper>
   );
-        }
+}

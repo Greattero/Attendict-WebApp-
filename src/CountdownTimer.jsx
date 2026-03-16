@@ -1,16 +1,31 @@
 import Papa from "papaparse";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import loader from './assets/downloadRoller.svg';
+import loader from "./assets/downloadRoller.svg";
+import { apiGet, apiDelete } from "./apiClient";
 
 const Timer = styled.label`
-  font-family: 'Roboto Mono', monospace;
-  color: black;
+  font-family: "Nunito", sans-serif;
+  color: #1f2937;
   padding-top: 45px;
-  font-size: 25px;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+
+  @media (max-width: 650px) {
+    padding-top: 0;
+    font-size: clamp(1.2rem, 4vw, 28px);
+  }
 `;
 
-const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,programme, resetProgramme}) => {
+const CountdownTimer = ({
+  hostTime,
+  setHostTime,
+  lockCheckin,
+  unLockCheckin,
+  programme,
+  resetProgramme,
+}) => {
   const [timeLeft, setTimeLeft] = useState(0);
   const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -24,33 +39,22 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
 
   // console.log("KKKK: ", programme);
 
-  const getAllNames = async (programme) =>{
-    try{
-      const response = await fetch(`https://attendict.onrender.com/api/student-list?programme=${programme}`);
-      const students = await response.json();
-      return students;
+  const getAllNames = async (programme) => {
+    try {
+      const response = await apiGet(`/api/student-list?programme=${programme}`);
+      return response.data;
+    } catch (err) {
+      // console.log(`Couldn't get names: ${err}`)
     }
-    catch(err){
-     // console.log(`Couldn't get names: ${err}`)
-    }
-  }
+  };
 
   const deleteCollection = async (programme) => {
-
-    try{
-      const delResponse = await fetch("https://attendict.onrender.com/api/delete-collection",{
-        method:"DELETE",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({collection_name: programme}),
-      });
-
-      const result = await delResponse.json();
-      //console.log(result.message);
-    }
-    catch(err){
+    try {
+      await apiDelete("/api/delete-collection", { collection_name: programme });
+    } catch (err) {
       //console.log(err);
     }
-  }
+  };
 
   useEffect(() => {
     let endTime = localStorage.getItem("endTime");
@@ -78,47 +82,51 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
         setTimeLeft(0);
         setIsLoading(true);
         unLockCheckin();
-        getAllNames(programme).then(students => {
+        getAllNames(programme).then((students) => {
           if (students === undefined || students === null) {
             deleteCollection(programme);
             setIsLoading(false);
             localStorage.setItem("backup", null);
             resetProgramme("");
-            return alert("Document couldn't be saved. Check internet connection and try again");
+            return alert(
+              "Document couldn't be saved. Check internet connection and try again",
+            );
           }
-        
+
           const date = new Date();
-        
+
           // ✅ Sort students alphabetically by name
           students.sort((a, b) => a.name.localeCompare(b.name));
-        
+
           // Prepare data for CSV
           const csvData = students.map((student, index) => [
-            index + 1, 
-            student.name, 
-            "'" + student.index_no, 
-            student.checkedTime, 
-            student.doubtChecker === "1" ? "Check if in class" : "Present"
+            index + 1,
+            student.name,
+            "'" + student.index_no,
+            student.checkedTime,
+            student.doubtChecker === "1" ? "Check if in class" : "Present",
           ]);
 
           //console.log("TTTTTTTTTTTTT",programme, csvData);
-        
+
           // Create CSV with custom headers
           const csv = Papa.unparse({
             fields: ["S/N", "Name", "Index Number", "Checked Time", "Status"],
-            data: csvData
+            data: csvData,
           });
 
           const safeDate = date.toISOString().split("T")[0]; // 2025-08-13
 
-          const finalCsv = `${programme} - ${safeDate}\n${csv}`
-        
+          const finalCsv = `${programme} - ${safeDate}\n${csv}`;
+
           // Download CSV
-          const blob = new Blob([finalCsv], { type: "text/csv;charset=utf-8;" });
+          const blob = new Blob([finalCsv], {
+            type: "text/csv;charset=utf-8;",
+          });
           const url = URL.createObjectURL(blob);
           const a = document.createElement("a");
           a.href = url;
-          
+
           a.download = `${programme}_${safeDate}.csv`;
           a.click();
           URL.revokeObjectURL(url);
@@ -132,7 +140,6 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
           setStudents([]);
           localStorage.setItem("backup", null);
           resetProgramme("");
-
         });
         localStorage.removeItem("endTime");
         clearInterval(interval);
@@ -140,20 +147,18 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
     }, 1000);
 
     const fetchNames = setInterval(() => {
-      getAllNames(programme).then(fetchedStudents => {
+      getAllNames(programme).then((fetchedStudents) => {
         if (fetchedStudents) {
           setStudents(fetchedStudents);
         }
       });
     }, 5000);
 
-    return () =>{ 
+    return () => {
       clearInterval(interval);
       clearInterval(fetchNames);
-      
     };
   }, [hostTime, programme]);
-
 
   const formatTime = (seconds) => {
     const m = String(Math.floor(seconds / 60)).padStart(2, "0");
@@ -161,19 +166,22 @@ const CountdownTimer = ({ hostTime, setHostTime, lockCheckin, unLockCheckin,prog
     return `${m}:${s}`;
   };
 
+  // Only show timer when there's an active session
+  if (timeLeft === 0 && !isLoading) {
+    return null;
+  }
+
   return (
     <div>
       <Timer>
-        {isLoading === false ? formatTime(timeLeft) : <img src={loader} alt="loading" style={{width: 30, height: 30}}/>}
+        {isLoading === false ? (
+          formatTime(timeLeft)
+        ) : (
+          <img src={loader} alt="loading" style={{ width: 30, height: 30 }} />
+        )}
       </Timer>
     </div>
   );
 };
 
 export default CountdownTimer;
-
-
-
-
-
-
