@@ -134,6 +134,13 @@ function AppHeader({
   resetProgramme,
   userRole,
 }) {
+    const [role, setRole] = useState("");
+  
+    useEffect(() => {
+      // Check state first, else fallback to localStorage
+      setRole(userRole || localStorage.getItem("personType") || "");
+    }, [userRole]);
+  
   const handleLogout = () => {
     if (!disableLogout) {
       localStorage.removeItem("username");
@@ -150,7 +157,7 @@ function AppHeader({
         <span>Attendict</span>
       </Brand>
 
-      {(userRole === "rep" || userRole === "lecturer") && (
+      {(role === "rep" || role === "lecturer") && (
         <TimerContainer>
           <CountdownTimer
             key={hostTime}
