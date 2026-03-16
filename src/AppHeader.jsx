@@ -1,3 +1,4 @@
+import React, { useState} from "react";
 import styled, { keyframes } from "styled-components";
 import CheckInForm from "./CheckInForm.jsx";
 import CountdownTimer from "./CountdownTimer.jsx";
