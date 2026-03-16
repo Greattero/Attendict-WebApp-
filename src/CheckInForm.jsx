@@ -271,21 +271,6 @@ function CheckInForm({
 
   useEffect(() => {
     let intervalId;
-    const checkCourse = async () => {
-        try {
-          const res = await apiGet(`/api/host-location?programme=${formData.programme}`);
-          if (res.data?.dbAvailable === false) {
-            alert("Course code not found");
-            onClose();           // or just clear programme field
-            return;
-          }
-          // else continue with polling...
-        } catch (err) {
-          // optional: silent or generic error
-        }
-      };
-    
-    checkCourse();
     const fetchHostCoords = async () => {
       const currentProg = formData.programme;
       let attempts = attemptsMapRef.current.get(currentProg) || 0;
@@ -293,13 +278,6 @@ function CheckInForm({
       try {
         const response = await apiGet(`/api/host-location?programme=${currentProg}`);
         const data = response.data;
-        
-        // if (data?.dbAvailable === false) {
-        //   clearInterval(intervalId);
-        //   alert("Course code not found");
-        //   return;
-        // }
-        
         if (data?.location?.lat && data?.location?.lon) {
           setHostCoords({ lat: Number(data.location.lat), lon: Number(data.location.lon) });
           clearInterval(intervalId);
@@ -412,10 +390,10 @@ function CheckInForm({
     try {
       const response = await apiPost("/api/checkin-details", { ...formData, distance });
       const data = response.data;
-      // if (data?.dbAvailable === false) {
-      //   sendVisible(true); sendFeedback("noSession");
-      //   setLoading(false); onClose(); return;
-      // }
+      if (data.dbAvailable) {
+        sendVisible(true); sendFeedback("noSession");
+        setLoading(false); onClose(); return;
+      }
       if (data.available) {
         sendVisible(true); sendFeedback("alreadyCheckedin");
         setLoading(false); onClose(); return;
