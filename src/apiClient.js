@@ -3,10 +3,10 @@
  * Handles all API requests with automatic token inclusion
  */
 
-const API_BASE_URL = "https://attendict.vercel.app";
+//const API_BASE_URL = "https://attendict.vercel.app";
 
 // For production:
-// const API_BASE_URL = "https://attendict.onrender.com";
+ const API_BASE_URL = "https://attendict.onrender.com";
 
 /**
  * Get stored authentication token
