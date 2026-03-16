@@ -278,6 +278,13 @@ function CheckInForm({
       try {
         const response = await apiGet(`/api/host-location?programme=${currentProg}`);
         const data = response.data;
+        
+        if (data?.dbAvailable === false) {
+          clearInterval(intervalId);
+          alert("Course code not found");
+          return;
+        }
+        
         if (data?.location?.lat && data?.location?.lon) {
           setHostCoords({ lat: Number(data.location.lat), lon: Number(data.location.lon) });
           clearInterval(intervalId);
@@ -390,10 +397,10 @@ function CheckInForm({
     try {
       const response = await apiPost("/api/checkin-details", { ...formData, distance });
       const data = response.data;
-      if (data?.dbAvailable === false) {
-        sendVisible(true); sendFeedback("noSession");
-        setLoading(false); onClose(); return;
-      }
+      // if (data?.dbAvailable === false) {
+      //   sendVisible(true); sendFeedback("noSession");
+      //   setLoading(false); onClose(); return;
+      // }
       if (data.available) {
         sendVisible(true); sendFeedback("alreadyCheckedin");
         setLoading(false); onClose(); return;
