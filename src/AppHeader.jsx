@@ -1,88 +1,175 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import CheckInForm from "./CheckInForm.jsx";
-import icon from './assets/newPic.png';
+import CountdownTimer from "./CountdownTimer.jsx";
+import icon from "./assets/newPic.png";
 
-const Heading = styled.div`
-  background-color: rgb(241, 239, 239);;
-  margin-top: -25px;
-  height: 80px;
+const fadeDown = keyframes`
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+`;
+
+const Heading = styled.header`
+  font-family: "Nunito", sans-serif;
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 68px;
+  background: #ffffff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.05);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
-  z-index: 9999;
-  box-shadow: 0.5px 0.5px 0.5px 0.5px grey;
+  padding: 0 1.5rem;
+  box-sizing: border-box;
+  animation: ${fadeDown} 0.4s ease both;
+  position: relative;
 
-
-  h1 {
-    margin: 0;
-    color: black;
-    font-size: 24px;
-    padding-top: 20px;
-    font-family: 'Poppins', sans-serif;
+  @media (max-width: 650px) {
+    height: auto;
+    padding: 0.75rem 1rem;
+    flex-wrap: wrap;
   }
-
-  button {
-    background-color: transparent;
-    color: #c30707;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    padding-top: 35px;
-    position: relative;
-    z-index: 9999;
-  }
-
-  i {
-    font-size: 30px;
-    margin-bottom: 18px;
-    cursor: pointer;
-  }
-
-
 `;
 
+const Brand = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
 
-function AppHeader({onLogout,disableLogout}){
+  img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(46, 139, 87, 0.2);
+  }
 
-    return(
+  span {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #1f2937;
+    letter-spacing: -0.4px;
+  }
 
-        <Heading>
-            <img src={icon}
-                  style={{
-                width: 75,
-                height: 75,
-                marginTop: 25,
-                marginRight: 10
-                  }}
-              />
-            <button onClick={() => {
-                if (!disableLogout) {
-                  localStorage.removeItem("username");
-                  onLogout();
-                } else {
-                  alert("Logout will be available 1 minute after check-in. Hang tight!");
-                }
-              }}>
-                      <i className="bx bx-log-out"></i>
+  @media (max-width: 650px) {
+    flex: 0 0 auto;
+    order: 1;
+  }
+`;
 
+const LogoutBtn = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(239, 68, 68, 0.07);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  border-radius: 10px;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  font-family: "Nunito", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  transition: all 0.2s ease;
 
-            </button>
+  i {
+    font-size: 18px;
+  }
 
-        </Heading>
-    )
+  &:hover {
+    background: rgba(239, 68, 68, 0.12);
+    border-color: rgba(239, 68, 68, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
+  }
 
+  &:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
 
+  @media (max-width: 400px) {
+    padding: 0.45rem 0.7rem;
+    font-size: 0;
 
+    i {
+      font-size: 20px;
+    }
+  }
+
+  @media (max-width: 650px) {
+    flex: 0 0 auto;
+    order: 3;
+  }
+`;
+
+const TimerContainer = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 650px) {
+    position: static;
+    transform: none;
+    flex: 1;
+    justify-content: center;
+    order: 2;
+    width: 100%;
+  }
+`;
+
+function AppHeader({
+  onLogout,
+  disableLogout,
+  hostTime,
+  setHostTime,
+  lockCheckin,
+  unLockCheckin,
+  programme,
+  resetProgramme,
+  userRole,
+}) {
+  const handleLogout = () => {
+    if (!disableLogout) {
+      localStorage.removeItem("username");
+      onLogout();
+    } else {
+      alert("Logout will be available 1 minute after check-in. Hang tight!");
+    }
+  };
+
+  return (
+    <Heading>
+      <Brand>
+        <img src={icon} alt="Attendict logo" />
+        <span>Attendict</span>
+      </Brand>
+
+      {(userRole === "rep" || userRole === "lecturer") && (
+        <TimerContainer>
+          <CountdownTimer
+            key={hostTime}
+            hostTime={hostTime}
+            setHostTime={setHostTime}
+            lockCheckin={lockCheckin}
+            unLockCheckin={unLockCheckin}
+            programme={programme}
+            resetProgramme={resetProgramme}
+          />
+        </TimerContainer>
+      )}
+
+      <LogoutBtn onClick={handleLogout}>
+        <i className="bx bx-log-out"></i>
+        Log out
+      </LogoutBtn>
+    </Heading>
+  );
 }
 
-
 export default AppHeader;
-
-
-
-
-

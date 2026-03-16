@@ -1,300 +1,401 @@
-import styled from "styled-components";
+import styled, { keyframes, createGlobalStyle } from "styled-components";
 import "boxicons/css/boxicons.min.css";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import loader from "./assets/rolling.svg";
+import newPic from "./assets/newPic.png";
 import { apiPost } from "./apiClient";
 
+const GlobalStyle = createGlobalStyle`
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&display=swap');
+`;
+
+const fadeIn = keyframes`
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+`;
+
+/* ── Outer shell ── */
 const LogBody = styled.div`
+  font-family: "Nunito", sans-serif;
   position: relative;
-  width: 850px;
-  height: 550px;
-  background-color: #fff;
-  box-shadow: 0 0 30px hsla(0, 2.3%, 42.5%, 0.74); // ← shadow added here
+  width: 860px;
+  height: 540px;
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.1),
+    0 4px 16px rgba(0, 0, 0, 0.06);
+  display: flex;
 
-  p {
-    font-size: 14.5px;
-    margin: 15px 0;
-  }
-
-  @media screen and (max-width: 650px) {
-    height: 100vh;
-    //margin-top: -20px;
+  @media (max-width: 900px) {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    flex-direction: column;
+    border-radius: 20px;
+    box-shadow:
+      0 20px 60px rgba(0, 0, 0, 0.1),
+      0 4px 16px rgba(0, 0, 0, 0.06);
   }
 `;
 
-const FormBox = styled.form`
-  position: absolute;
-  right: 0;
-  width: 50%;
-  height: 100%;
-  background: white;
+/* ── Left panel (brand) — desktop only ── */
+const Welcome = styled.div`
+  width: 44%;
+  background: linear-gradient(135deg, #2e8b57, #3aab6a);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #333;
-  text-align: center;
-  z-index: 2;
+  padding: 3rem 2rem;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
 
-  @media screen and (max-width: 650px) {
-    display: flex;
-    background: white;
-    width: 100%;
-    height: 65%;
-    //padding-top:45px;
-    margin-top: 250px;
-    justify-content: flex-start;
-    //background-color: red;
+  &::before {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    top: -80px;
+    right: -80px;
   }
-`;
-const Form = styled.div`
-  width: 100%;
+  &::after {
+    content: "";
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    bottom: -60px;
+    left: -60px;
+  }
+
+  .brand-icon {
+    width: 200px;
+    height: 120px;
+    border-radius: 16px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
 
   h1 {
-    font-size: 36px;
-    margin: -10px 0;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 800;
+    margin: 0 0 0.75rem;
+    letter-spacing: -0.5px;
+    text-align: center;
   }
 
-  @media screen and (max-width: 650px) {
-    // position: absolute;
-    width: 95%;
-    height: 30%;
-    border-radius: 60px 60px 0 0;
-    //padding-top: 115px;
+  p {
+    font-size: clamp(0.85rem, 2vw, 0.95rem);
+    opacity: 0.9;
+    text-align: center;
+    line-height: 1.6;
+    margin: 0;
+    font-weight: 500;
+  }
+
+  /* Hide entirely on mobile */
+  @media (max-width: 900px) {
+    display: none;
+  }
+`;
+
+/* ── Mobile logo — shown only on small screens ── */
+const MobileLogo = styled.div`
+  display: none;
+
+  @media (max-width: 900px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.5rem 2rem 0.5rem;
+
+    .brand-image {
+      width: 200px;
+      height: 120px;
+      border-radius: 16px;
+      object-fit: cover;
+    }
+
+    .text-wrap {
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
 
     h1 {
-      font-size: 36px;
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #1f2937;
+      margin: 0 0 0.5rem;
+      letter-spacing: -0.5px;
+    }
+
+    p {
+      font-size: 0.85rem;
+      color: #6b7280;
+      margin: 0;
+      font-weight: 500;
+      line-height: 1.5;
     }
   }
 `;
 
-const Input = styled.div`
-  input {
-    position: relative;
-    margin: 20px 0;
-    width: 300px;
-    padding: 13px 50px 13px 20px;
-    border-radius: 8px;
-    border: none;
-    outline: none;
-    background: #eee;
-    font-size: 16px;
-    color: #333;
+/* ── Right panel (form) ── */
+const FormBox = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 2rem;
+  background: #fff;
+  animation: ${fadeIn} 0.5s ease both;
+
+  @media (max-width: 900px) {
+    padding: 1.5rem 2rem 2.5rem;
+  }
+`;
+
+const Form = styled.form`
+  width: 100%;
+  max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+
+  .form-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #1f2937;
+    margin: 0 0 0.25rem;
+    letter-spacing: -0.5px;
+    text-align: center;
+
+    @media (max-width: 900px) {
+      text-align: center;
+      display: none;
+    }
+  }
+
+  .form-sub {
+    font-size: 0.85rem;
+    color: #9ca3af;
+    margin: 0 0 1.75rem;
     font-weight: 500;
+    text-align: center;
+
+    @media (max-width: 900px) {
+      text-align: center;
+      display: none;
+    }
+  }
+`;
+
+const InputGroup = styled.div`
+  position: relative;
+  margin-bottom: 1rem;
+
+  input {
+    width: 100%;
+    padding: 0.85rem 2.8rem 0.85rem 1rem;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+    font-size: 0.95rem;
+    font-family: "Nunito", sans-serif;
+    color: #1f2937;
+    font-weight: 500;
+    outline: none;
+    transition: all 0.2s;
+    box-sizing: border-box;
 
     &::placeholder {
-      color: #888;
+      color: #d1d5db;
+      font-weight: 400;
+    }
+
+    &:focus {
+      border-color: #3aab6a;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(58, 171, 106, 0.12);
     }
   }
 
   i {
     position: absolute;
-    right: 50px;
-    margin-top: 30px;
-    font-size: 20px;
-    color: #888;
-  }
-
-  @media screen and (max-width: 650px) {
-    input {
-      width: 50%;
-    }
-
-    i {
-      margin-top: 35px;
-      right: 70px;
-    }
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #b0b3c6;
+    pointer-events: none;
   }
 `;
 
-const Forget = styled.div`
-  margin-bottom: 20px;
+const RoleSection = styled.div`
+  margin-bottom: 1.25rem;
 
-  label {
-    font-size: 17px;
-    color: #ff0000;
-    text-decoration: none;
-    margin-top: 15px;
+  .role-label {
+    font-size: 0.82rem;
+    color: #6b7280;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .role-options {
+    display: flex;
+    gap: 0.75rem;
   }
 `;
 
-const Button = styled.button`
-  width: 86%;
-  height: 48px;
-  background: #7494ec;
-  border: none;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, -1);
+const RoleChip = styled.button`
+  flex: 1;
+  padding: 0.6rem 0.5rem;
+  border-radius: 10px;
+  border: 1px solid ${({ $active }) => ($active ? "#3aab6a" : "#e5e7eb")};
+  background: ${({ $active }) =>
+    $active ? "linear-gradient(135deg, #2e8b57, #3aab6a)" : "#f9fafb"};
+  color: ${({ $active }) => ($active ? "white" : "#6b7280")};
+  font-family: "Nunito", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
   cursor: pointer;
-  font-size: 16px;
-  color: white;
-  font-weight: 600;
-  margin-top: 10px;
-
-  @media screen and (max-width: 650px) {
-    width: 64%;
-  }
-`;
-
-const Social = styled.div`
-  font-size: 30px;
-
-  a {
-    display: inline-flex;
-    border: 2px solid white;
-    border-radius: 4px;
-    padding: 10px;
-    font-size: 24px;
-    color: #333;
-    text-decoration: none;
-  }
-`;
-
-const Welcome = styled.div`
-  position: absolute;
-  width: 50%;
-  height: 100%;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  background-color: seagreen;
-  color: white;
-  border-radius: 0px 150px 150px 0px;
+  gap: 0.4rem;
 
-  p {
-    font-size: 20px;
-    margin-bottom: 20px;
+  i {
+    font-size: 15px;
   }
 
-  @media screen and (max-width: 650px) {
-    //position: absolute;
-    display: flex;
-    width: 101%;
-    height: 25vh;
-    border-radius: 0px 0px 80px 80px;
-    padding-top: 20px;
-
-    p {
-      font-size: 14px;
-      margin: 10px 0;
-    }
-
-    h1 {
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
+  &:hover {
+    border-color: #3b82f6;
+    background: ${({ $active }) =>
+      $active
+        ? "linear-gradient(135deg, #2563eb, #3b82f6)"
+        : "rgba(59,130,246,0.05)"};
+    color: ${({ $active }) => ($active ? "white" : "#2563eb")};
   }
 `;
-const PersonType = styled.div``;
 
-// const Input2 = styled.div`
-//     input{
-//         position: relative;
-//         margin: 20px 0;
-//         width: 350px;
-//         padding: 13px 50px 13px 20px;
-//         border-radius: 8px;
-//         border: none;
-//         outline: none;
-//         background: #eee;
-//         font-size: 12px;
-//         color: #333;
-//         font-weight: 500;
+const LoginButton = styled.button`
+  width: 100%;
+  height: 50px;
+  background: linear-gradient(135deg, #2e8b57, #3aab6a);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: "Nunito", sans-serif;
+  font-size: 1rem;
+  color: white;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.25rem;
 
-//         &::placeholder{
-//         color: #888;
-//         }
-//     }
+  &:hover:not(:disabled) {
+    opacity: 0.95;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(46, 139, 87, 0.3);
+  }
+  &:active {
+    transform: translateY(0);
+  }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+`;
 
-//     i{
-//     position: absolute;
-//     right: 20px;
-//     margin-top: 30px;
-//     font-size: 20px;
-//     color: #888;
-//     }
-// `
+const FootNote = styled.p`
+  text-align: center;
+  font-size: 0.78rem;
+  color: #b0b3c6;
+  margin: 1rem 0 0;
 
+  i {
+    font-size: 13px;
+    vertical-align: middle;
+    margin-right: 3px;
+  }
+`;
+
+/* ── Component ── */
 function Login({ onLoginSuccess, sendFeedback, sendVisible, sendWhoIAm }) {
   const [loading, setLoading] = useState(false);
-
   const [person, setPerson] = useState("");
+  const [loginData, setLoginData] = useState({ username: "", password: "" });
 
-  const [loginData, setLoginData] = useState({
-    username: "",
-    password: "",
-  });
-
-  const handleUsername = (e) => {
+  const handleUsername = (e) =>
     setLoginData((prev) => ({
       ...prev,
       username: e.target.value.toUpperCase(),
     }));
-  };
 
-  const handlePassword = (e) => {
+  const handlePassword = (e) =>
     setLoginData((prev) => ({
       ...prev,
       password: e.target.value.toUpperCase(),
     }));
-  };
 
-  if (loginData.username?.startsWith("LECTURER")) {
-    sendWhoIAm("rep");
-  }
+  if (loginData.username?.startsWith("LECTURER")) sendWhoIAm("rep");
 
-  const getDeviceData = () => {
-    return {
-      userAgent: navigator.userAgent,
-      screenResolution: `${window.screen.width}x${window.screen.height}`,
-      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      language: navigator.language,
-      platform: navigator.platform,
-    };
-  };
+  const getDeviceData = () => ({
+    userAgent: navigator.userAgent,
+    screenResolution: `${window.screen.width}x${window.screen.height}`,
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    language: navigator.language,
+    platform: navigator.platform,
+  });
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     if (
-      (!loginData.username || !loginData.password || person == "") &&
+      (!loginData.username || !loginData.password || person === "") &&
       !loginData.username?.startsWith("LECTURER")
     ) {
       alert("Please fill all fields");
       return;
     }
-
-    setLoading(true); // Start loading
-
+    setLoading(true);
     try {
-      // Collect device data for fingerprinting
       const deviceData = getDeviceData();
-
       const response = await apiPost("/api/login-details", {
         ...loginData,
-        deviceData: deviceData,
+        deviceData,
       });
-
       const data = response.data;
-      console.log("Login response:", data); // Debug log
-
       if (data.token) {
-        // Store token instead of username/password
         localStorage.setItem("authToken", data.token);
         localStorage.setItem("personType", person || "rep");
-        console.log("Login successful, token saved:", data.token);
         sendVisible(true);
         sendFeedback("correctLogs");
         onLoginSuccess();
       } else if (data.success && !data.token) {
-        // Success but no token - backend issue
-        console.error("Backend returned success but no token:", data);
         alert("Login error: No session token received. Please try again.");
         setLoading(false);
       } else {
-        const errorMsg = data.message || "Invalid Username or password";
-        alert(errorMsg + " Please try again.");
+        alert(
+          (data.message || "Invalid Username or password") +
+            " Please try again.",
+        );
         setLoading(false);
       }
     } catch (err) {
@@ -304,123 +405,108 @@ function Login({ onLoginSuccess, sendFeedback, sendVisible, sendWhoIAm }) {
     }
   };
 
+  const isLecturer = loginData.username?.startsWith("LEC");
+
   return (
-    <LogBody className="container">
-      <Welcome className="toggle-box">
-        <h1>Welcome To Attendict!</h1>
+    <>
+      <GlobalStyle />
+      <LogBody>
+        {/* ── Left brand panel — desktop only ── */}
+        <Welcome>
+          <div className="brand-icon">
+            <img src={newPic} alt="Attendict Logo" />
+          </div>
+          <div className="text-wrap">
+            <h1>Attendict</h1>
+            <p>Take control of your classroom attendance effortlessly.</p>
+          </div>
+        </Welcome>
 
-        <p>
-          Take control of your classroom <br />
-          attendance effortlessly.
-        </p>
-      </Welcome>
-      <FormBox className="form-box Login">
-        <Form>
-          <h1>Login</h1>
-          <Input className="input-box">
-            <input
-              type="text"
-              placeholder="Enter Index Number"
-              value={loginData.username}
-              onChange={(e) => handleUsername(e)}
-              required
-            />
-            <i className="bx  bxs-user"></i>
-          </Input>
-          <Input className="input-box">
-            <input
-              type="password"
-              placeholder="Enter password"
-              value={loginData.password}
-              onChange={(e) => handlePassword(e)}
-              required
-            />
-            <i className="bx  bxs-lock"></i>
-          </Input>
-          {/* <Forget className="forgot-link">
-                        <label>Recommended browser: Google Chrome</label>
-                    </Forget> */}
-          {!loginData.username.startsWith("LEC") && (
-            <PersonType>
-              <label>I am..</label>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  gap: "60px",
-                  justifyContent: "center",
-                }}
-              >
-                <label
-                  onClick={() => {
-                    setPerson("rep");
-                    sendWhoIAm("rep");
-                  }}
-                  style={{
-                    padding: "5px",
-                    color: person === "rep" ? "white" : "black",
-                    fontWeight: "bold",
-                    backgroundColor: person === "rep" ? "seagreen" : "white",
-                    border: "2px solid #d9d9d9",
-                    borderRadius: "10px",
-                    fontSize: "15px",
-                  }}
-                >
-                  Course rep
-                </label>
-                <label
-                  onClick={() => {
-                    setPerson("member");
-                    sendWhoIAm("member");
-                  }}
-                  style={{
-                    padding: "5px",
-                    border: "2px solid #d9d9d9",
-                    borderRadius: "10px",
-                    fontSize: "15px",
-                    backgroundColor: person === "member" ? "seagreen" : "white",
-                    color: person === "member" ? "white" : "black",
-                    fontWeight: "bold",
-                  }}
-                >
-                  Class member
-                </label>
-              </div>
-            </PersonType>
-          )}
-          <Button
-            type="submit"
-            className="btn"
-            onClick={(e) => handleLogin(e)}
-            disabled={loading}
-          >
-            {loading ? (
-              <img
-                src={loader}
-                alt="Loading"
-                style={{ width: "24px", height: "24px" }}
+        {/* ── Logo — mobile only ── */}
+        <MobileLogo>
+          <img src={newPic} alt="Attendict Logo" className="brand-image" />
+          <div className="text-wrap">
+            <h1>Attendict</h1>
+            <p>Take control of your classroom attendance effortlessly.</p>
+          </div>
+        </MobileLogo>
+
+        {/* ── Form panel ── */}
+        <FormBox>
+          <Form onSubmit={handleLogin}>
+            <h2 className="form-title ">Sign in</h2>
+            <p className="form-sub">Enter your credentials to continue</p>
+
+            <InputGroup>
+              <input
+                type="text"
+                placeholder="Index Number"
+                value={loginData.username}
+                onChange={handleUsername}
+                required
               />
-            ) : (
-              "Login"
+              <i className="bx bxs-user" />
+            </InputGroup>
+
+            <InputGroup>
+              <input
+                type="password"
+                placeholder="Password"
+                value={loginData.password}
+                onChange={handlePassword}
+                required
+              />
+              <i className="bx bxs-lock" />
+            </InputGroup>
+
+            {!isLecturer && (
+              <RoleSection>
+                {/* <span className="role-label">I am a…</span> */}
+                <div className="role-options">
+                  <RoleChip
+                    type="button"
+                    $active={person === "rep"}
+                    onClick={() => {
+                      setPerson("rep");
+                      sendWhoIAm("rep");
+                    }}
+                  >
+                    <i className="bx bxs-user-badge" /> Course Rep
+                  </RoleChip>
+                  <RoleChip
+                    type="button"
+                    $active={person === "member"}
+                    onClick={() => {
+                      setPerson("member");
+                      sendWhoIAm("member");
+                    }}
+                  >
+                    <i className="bx bxs-group" /> Class Member
+                  </RoleChip>
+                </div>
+              </RoleSection>
             )}
-          </Button>
-          <Forget className="forgot-link">
-            <label>Recommended browser: Google Chrome</label>
-          </Forget>
-          {/* <p>Or login with social platforms</p>
-                    <Social className="social_icons">
-                        <a href="#"><i className='bx  bxl-google'></i></a>
 
-                    </Social> */}
-        </Form>
-      </FormBox>
+            <LoginButton type="submit" disabled={loading}>
+              {loading ? (
+                <img
+                  src={loader}
+                  alt="Loading"
+                  style={{ width: 24, height: 24 }}
+                />
+              ) : (
+                "Login"
+              )}
+            </LoginButton>
 
-      {/* <Welcome className="toggle-box">
-                <h1>Welcome To Attendict!</h1>
-
-                <p>Take control of your classroom <br/>attendance effortlessly.</p>
-            </Welcome> */}
-    </LogBody>
+            <FootNote>
+              <i className="bx bx-shield-quarter" />
+              Best viewed on Google Chrome
+            </FootNote>
+          </Form>
+        </FormBox>
+      </LogBody>
+    </>
   );
 }
 

@@ -5,10 +5,17 @@ import loader from "./assets/downloadRoller.svg";
 import { apiGet, apiDelete } from "./apiClient";
 
 const Timer = styled.label`
-  font-family: "Roboto Mono", monospace;
-  color: black;
+  font-family: "Nunito", sans-serif;
+  color: #1f2937;
   padding-top: 45px;
-  font-size: 25px;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+
+  @media (max-width: 650px) {
+    padding-top: 0;
+    font-size: clamp(1.2rem, 4vw, 28px);
+  }
 `;
 
 const CountdownTimer = ({
@@ -158,6 +165,11 @@ const CountdownTimer = ({
     const s = String(seconds % 60).padStart(2, "0");
     return `${m}:${s}`;
   };
+
+  // Only show timer when there's an active session
+  if (timeLeft === 0 && !isLoading) {
+    return null;
+  }
 
   return (
     <div>

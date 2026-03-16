@@ -1,33 +1,50 @@
-/* index.css or App.css */
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+/* index.css - Global Styles with Nunito Font */
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&display=swap");
 
 * {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Nunito", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 @font-face {
-  font-family: 'Consistance';
-  src: url('./assets/fonts/consistance.ttf') format('truetype');
+  font-family: "Consistance";
+  src: url("./assets/fonts/consistance.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
-
 :root {
-  --white: white;
-  --black: black;
-  --black-op: rgba(0, 0, 0, 0.557);
-  --border-white: hsla(0, 4%, 45%, 0.241);
+  --white: #ffffff;
+  --black: #1a1a1a;
+  --black-op: rgba(0, 0, 0, 0.4);
+  --border-white: hsla(0, 4%, 45%, 0.15);
 
+  /* Modern Color Palette */
+  --primary: #2e8b57;
+  --primary-light: #3aab6a;
+  --primary-dark: #1e7e34;
+  --success: #10b981;
+  --success-light: #6ee7b7;
+  --success-dark: #059669;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --neutral: #f3f4f6;
+  --neutral-light: #f9fafb;
+  --neutral-dark: #6b7280;
 }
 
-body{
+html {
+  scroll-behavior: smooth;
+}
+
+body {
   margin: 0;
-  background-color: #dbdbdb;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  backdrop-filter: blur(50rem);
+  padding: 0;
+  background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+  background-attachment: fixed;
+  color: #1f2937;
+  line-height: 1.6;
+  min-height: 100vh;
 }
-
-
