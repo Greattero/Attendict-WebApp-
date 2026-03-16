@@ -390,7 +390,7 @@ function CheckInForm({
     try {
       const response = await apiPost("/api/checkin-details", { ...formData, distance });
       const data = response.data;
-      if (data.dbAvailable) {
+      if (data?.dbAvailable === false) {
         sendVisible(true); sendFeedback("noSession");
         setLoading(false); onClose(); return;
       }
