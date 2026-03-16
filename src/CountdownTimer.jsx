@@ -56,129 +56,115 @@ const CountdownTimer = ({
     }
   };
 
-  useEffect(() => {
-    let endTime = localStorage.getItem("endTime");
-
-    if (!endTime && hostTime > 0) {
-      const hostSeconds = Number(hostTime);
-      if (!isNaN(hostSeconds)) {
-        endTime = Date.now() + hostSeconds * 60 * 1000;
-        localStorage.setItem("endTime", endTime);
-        setHostTime(0);
+    useEffect(() => {
+      let endTime = localStorage.getItem("endTime");
+  
+      if (!endTime && hostTime > 0) {
+        const hostSeconds = Number(hostTime);
+        if (!isNaN(hostSeconds)) {
+          endTime = Date.now() + hostSeconds * 60 * 1000;
+          localStorage.setItem("endTime", endTime);
+          setHostTime(0);
+        }
       }
-    }
-
-    // ❌ Don’t run timer if endTime is missing
-    if (!endTime) return;
-
-    const interval = setInterval(() => {
-      const savedEndTime = Number(localStorage.getItem("endTime"));
-      const remaining = Math.floor((savedEndTime - Date.now()) / 1000);
-
-      if (remaining > 0) {
-        lockCheckin();
-        setTimeLeft(remaining);
-      } else {
-        setTimeLeft(0);
-        setIsLoading(true);
-        unLockCheckin();
-        getAllNames(programme).then((students) => {
-          if (students === undefined || students === null) {
+  
+      // ❌ Don’t run timer if endTime is missing
+      if (!endTime) return;
+  
+      const interval = setInterval(() => {
+        const savedEndTime = Number(localStorage.getItem("endTime"));
+        const remaining = Math.floor((savedEndTime - Date.now()) / 1000);
+  
+        if (remaining > 0) {
+          lockCheckin();
+          setTimeLeft(remaining);
+        } else {
+          setTimeLeft(0);
+          setIsLoading(true);
+          unLockCheckin();
+          getAllNames(programme).then(students => {
+            if (students === undefined || students === null) {
+              deleteCollection(programme);
+              setIsLoading(false);
+              localStorage.setItem("backup", null);
+              resetProgramme("");
+              return alert("Document couldn't be saved. Check internet connection and try again");
+            }
+          
+            const date = new Date();
+          
+            // ✅ Sort students alphabetically by name
+            students.sort((a, b) => a.name.localeCompare(b.name));
+          
+            // Prepare data for CSV
+            const csvData = students.map((student, index) => [
+              index + 1, 
+              student.name, 
+              "'" + student.index_no, 
+              student.checkedTime, 
+              student.doubtChecker === "1" ? "Check if in class" : "Present"
+            ]);
+  
+            //console.log("TTTTTTTTTTTTT",programme, csvData);
+          
+            // Create CSV with custom headers
+            const csv = Papa.unparse({
+              fields: ["S/N", "Name", "Index Number", "Checked Time", "Status"],
+              data: csvData
+            });
+  
+            const safeDate = date.toISOString().split("T")[0]; // 2025-08-13
+  
+            const finalCsv = `${programme} - ${safeDate}\n${csv}`
+          
+            // Download CSV
+            const blob = new Blob([finalCsv], { type: "text/csv;charset=utf-8;" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            
+            a.download = `${programme}_${safeDate}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+            //console.log("Done");
+            //console.log(programme);
+            //console.log(students);
             deleteCollection(programme);
+            alert("Document saved successfully");
             setIsLoading(false);
+  
+            setStudents([]);
             localStorage.setItem("backup", null);
             resetProgramme("");
-            return alert(
-              "Document couldn't be saved. Check internet connection and try again",
-            );
-          }
-
-          const date = new Date();
-
-          // ✅ Sort students alphabetically by name
-          students.sort((a, b) => a.name.localeCompare(b.name));
-
-          // Prepare data for CSV
-          const csvData = students.map((student, index) => [
-            index + 1,
-            student.name,
-            "'" + student.index_no,
-            student.checkedTime,
-            student.doubtChecker === "1" ? "Check if in class" : "Present",
-          ]);
-
-          //console.log("TTTTTTTTTTTTT",programme, csvData);
-
-          // Create CSV with custom headers
-          const csv = Papa.unparse({
-            fields: ["S/N", "Name", "Index Number", "Checked Time", "Status"],
-            data: csvData,
+  
           });
-
-          const safeDate = date.toISOString().split("T")[0]; // 2025-08-13
-
-          const finalCsv = `${programme} - ${safeDate}\n${csv}`;
-
-          // Download CSV
-          const blob = new Blob([finalCsv], {
-            type: "text/csv;charset=utf-8;",
-          });
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-
-          a.download = `${programme}_${safeDate}.csv`;
-          a.click();
-          URL.revokeObjectURL(url);
-          //console.log("Done");
-          //console.log(programme);
-          //console.log(students);
-          deleteCollection(programme);
-          alert("Document saved successfully");
-          setIsLoading(false);
-
-          setStudents([]);
-          localStorage.setItem("backup", null);
-          resetProgramme("");
-        });
-        localStorage.removeItem("endTime");
-        clearInterval(interval);
-      }
-    }, 1000);
-
-    const fetchNames = setInterval(() => {
-      getAllNames(programme).then((fetchedStudents) => {
-        if (fetchedStudents) {
-          setStudents(fetchedStudents);
+          localStorage.removeItem("endTime");
+          clearInterval(interval);
         }
-      });
-    }, 5000);
-
-    return () => {
-      clearInterval(interval);
-      clearInterval(fetchNames);
+      }, 1000);
+  
+      const fetchNames = setInterval(() => {
+        getAllNames(programme).then(fetchedStudents => {
+          if (fetchedStudents) {
+            setStudents(fetchedStudents);
+          }
+        });
+      }, 5000);
+  
+      return () =>{ 
+        clearInterval(interval);
+        clearInterval(fetchNames);
+        
+      };
+    }, [hostTime, programme]);
+  
+  
+    const formatTime = (seconds) => {
+      const m = String(Math.floor(seconds / 60)).padStart(2, "0");
+      const s = String(seconds % 60).padStart(2, "0");
+      return `${m}:${s}`;
     };
-  }, [hostTime, programme]);
-
-// Check if we actually have a saved session in progress
-const hasSavedSession = localStorage.getItem("endTime") !== null;
-
-// Only hide if there's no time left AND no loading AND no session waiting to resume
-if (timeLeft === 0 && !isLoading && !hasSavedSession) {
-  return null;
-}
-
-  const formatTime = (seconds) => {
-    const m = String(Math.floor(seconds / 60)).padStart(2, "0");
-    const s = String(seconds % 60).padStart(2, "0");
-    return `${m}:${s}`;
-  };
-
-  // Only show timer when there's an active session
-  // if (timeLeft === 0 && !isLoading) {
-  //   return null;
-  // }
-
+  
   return (
     <div>
       <Timer>
