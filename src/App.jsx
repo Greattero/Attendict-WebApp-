@@ -79,6 +79,11 @@ function App() {
   }
 
   useEffect(() => {
+    const savedRole = localStorage?.getItem("personType") || "";
+    if (savedRole) setPerson(savedRole);
+  }, []);
+
+  useEffect(() => {
     if (!visible) return;
 
     // Slide in
