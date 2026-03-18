@@ -145,6 +145,8 @@ function AppHeader({
   const handleLogout = () => {
     if (!disableLogout) {
       localStorage.removeItem("username");
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("personType");
       onLogout();
     } else {
       alert("Logout will be available 1 minute after check-in. Hang tight!");
