@@ -48,9 +48,9 @@ export async function apiCall(endpoint, options = {}) {
 
     // If token expired, clear it and redirect to login
     if (response.status === 401 && data.message?.includes("expired")) {
-      localStorage.removeItem("authToken");
-      localStorage.removeItem("personType");
-      window.location.href = "/";
+      // localStorage.removeItem("authToken");
+      // localStorage.removeItem("personType");
+      // window.location.href = "/";
       return null;
     }
 
