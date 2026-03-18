@@ -78,10 +78,10 @@ function App() {
     window.location.reload();
   }
 
-  useEffect(() => {
-    const savedRole = localStorage?.getItem("personType") || "";
-    if (savedRole) setPerson(savedRole);
-  }, []);
+  // useEffect(() => {
+  //   const savedRole = localStorage?.getItem("personType") || "";
+  //   if (savedRole) setPerson(savedRole);
+  // }, []);
 
   useEffect(() => {
     if (!visible) return;
