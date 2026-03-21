@@ -159,15 +159,15 @@ const validateToken = async (req, res, next) => {
     }
 
     // Check if token has expired
-    if (session.expiryTime && new Date() > session.expiryTime) {
-      // Mark session as inactive
-      await Session.updateOne({ _id: session._id }, { active: false });
+    // if (session.expiryTime && new Date() > session.expiryTime) {
+    //   // Mark session as inactive
+    //   await Session.updateOne({ _id: session._id }, { active: false });
 
-      return res.status(401).json({
-        success: false,
-        message: "Token has expired. Please login again.",
-      });
-    }
+    //   return res.status(401).json({
+    //     success: false,
+    //     message: "Token has expired. Please login again.",
+    //   });
+    // }
 
     // Update last activity time
     await Session.updateOne(
@@ -456,18 +456,20 @@ app.post("/api/login-details", async (req, res) => {
       active: true,
     });
 
-    if (existingSession && existingSession.username !== username) {
-      console.log(
-        `Concurrent login attempt: Device ${deviceFingerprint} has active session for ${existingSession.username}, trying to login as ${username}`,
-      );
-
-      // Return error - prevent concurrent logins from same device
-      return res.status(409).json({
-        success: false,
-        message:
-          "Another user is already logged in on this device. Please logout first.",
-        existingUsername: existingSession.username,
-      });
+    if (existingSession && 
+        existingSession.expiryTime < new Date || 
+        existingSession.username !== username) {
+          console.log(
+            `Concurrent login attempt: Device ${deviceFingerprint} has active session for ${existingSession.username}, trying to login as ${username}`,
+          );
+    
+          // Return error - prevent concurrent logins from same device
+          return res.status(409).json({
+            success: false,
+            message:
+              "Can't login till previous user's token expires",
+            existingUsername: existingSession.username,
+          });
     }
 
     // If same user logging in again, invalidate old session
