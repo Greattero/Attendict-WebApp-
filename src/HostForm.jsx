@@ -331,7 +331,7 @@ function HostForm({
         return;
       }
       if (!response.ok) {
-        alert("Unstable internet connection. Try Again 😬");
+        alert("table internet connection. Try Again 😬");
         setLoading(false);
         onClose();
       } else {
@@ -354,7 +354,7 @@ function HostForm({
         onClose();
       }
     } catch (error) {
-      alert("Unstable, ",err);
+      alert("Unstable, ",error);
       setLoading(false);
       onClose();
     }
