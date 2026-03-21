@@ -354,7 +354,7 @@ function HostForm({
         onClose();
       }
     } catch (error) {
-      alert("Unstable connection. Try Again");
+      alert("Unstable, "err);
       setLoading(false);
       onClose();
     }
