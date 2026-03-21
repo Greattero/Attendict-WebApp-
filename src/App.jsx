@@ -67,12 +67,13 @@ function App() {
 
   const isSuccess = successFeedbacks.includes(feedback);
 
-  const APP_VERSION = "32"; // bump this to force logout
+  const APP_VERSION = "35"; // bump this to force logout
 
   const storedVersion = localStorage.getItem("app_version");
 
   if (storedVersion !== APP_VERSION) {
-    localStorage.setItem("isLoggedIn", "false"); // force logout
+    //localStorage.setItem("isLoggedIn", "false"); // force logout
+    localStorage.clear();
     localStorage.setItem("app_version", APP_VERSION);
     setLogin(false);
     window.location.reload();
