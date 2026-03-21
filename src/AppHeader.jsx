@@ -3,6 +3,8 @@ import styled, { keyframes } from "styled-components";
 import CheckInForm from "./CheckInForm.jsx";
 import CountdownTimer from "./CountdownTimer.jsx";
 import icon from "./assets/newPic.png";
+import { apiLogout } from "./apiClient";
+
 
 const fadeDown = keyframes`
   from { opacity: 0; transform: translateY(-10px); }
@@ -142,16 +144,23 @@ function AppHeader({
       setRole(userRole || localStorage.getItem("personType") || "");
     }, [userRole]);
   
-  const handleLogout = () => {
-    if (!disableLogout) {
-      localStorage.removeItem("username");
-      localStorage.removeItem("authToken");
-      localStorage.removeItem("personType");
-      onLogout();
-    } else {
-      alert("Logout will be available 1 minute after check-in. Hang tight!");
-    }
-  };
+    const handleLogout = async () => {
+      if (disableLogout) {
+        alert("Logout will be available 1 minute after check-in. Hang tight!");
+        return;
+      }
+
+      try {
+        await apiLogout(); // ← Calls API + clears localStorage
+        localStorage.removeItem("username"); 
+        onLogout(); // ← Redirect to login
+      } catch (err) {
+        console.error("Logout failed:", err);
+        // // Can still clear locally if preferred
+        // localStorage.removeItem("username");
+        // onLogout();
+      }
+    };
 
   return (
     <Heading>
