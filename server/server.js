@@ -534,7 +534,7 @@ app.post("/api/logout", validateToken, async (req, res) => {
         .status(400)
         .json({ success: false, message: "No token provided" });
     }
-    await Session.updateOne({ token: token }, { active: false });
+   // await Session.updateOne({ token: token }, { active: false });
     res.json({ success: true, message: "Logged out successfully" });
   } catch (error) {
     console.error("Logout error:", error);
