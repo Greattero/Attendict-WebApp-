@@ -458,7 +458,7 @@ app.post("/api/login-details", async (req, res) => {
 
     if (
       existingSession &&
-      (existingSession.expiryTime < new Date ||
+      (existingSession.expiryTime < new Date() ||
         existingSession.username !== username)
     ) {
           console.log(
