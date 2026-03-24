@@ -249,10 +249,7 @@ app.post("/api/host-details", validateToken, async (req, res) => {
       mongoose.models[programme] ||
       mongoose.model(programme, studentSchema, programme);
     
-    const deviceFingerprint = generateDeviceFingerprint(
-      deviceData || {},
-      clientIp,
-    );
+    const deviceFingerprint = req.session.deviceFingerprint;
 
     const existingSession = await Session.findOne({
       deviceFingerprint: deviceFingerprint,
@@ -313,10 +310,7 @@ app.post("/api/checkin-details", validateToken, async (req, res) => {
       mongoose.models[programme] ||
       mongoose.model(programme, studentSchema, programme);
 
-  const deviceFingerprint = generateDeviceFingerprint(
-      deviceData || {},
-      clientIp,
-    );
+    const deviceFingerprint = req.session.deviceFingerprint;
 
     const existingSession = await Session.findOne({
       deviceFingerprint: deviceFingerprint,
