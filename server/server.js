@@ -105,6 +105,11 @@ const sessionSchema = new mongoose.Schema(
 
     expiryTime: Date,
 
+    checkedIn: {
+  type: Boolean,
+  default: false
+    },
+
     active: {
       type: Boolean,
       default: true,
