@@ -67,7 +67,7 @@ function App() {
 
   const isSuccess = successFeedbacks.includes(feedback);
 
-  const APP_VERSION = "38"; // bump this to force logout
+  const APP_VERSION = "39"; // bump this to force logout
 
   const storedVersion = localStorage.getItem("app_version");
 
