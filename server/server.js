@@ -494,9 +494,9 @@ app.post("/api/login-details", async (req, res) => {
           });
     }
     else if (
-         existingSession &&
+         (existingSession &&
          new Date(existingSession.expiryTime) < new Date() &&
-         existingSession.username !== username
+         existingSession.username !== username) || existingSession.checkedIn === false)
      ) {
   // ✅ Expired + different user → deactivate old session
              await Session.updateOne(
