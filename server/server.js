@@ -244,6 +244,11 @@ app.post("/api/host-details", validateToken, async (req, res) => {
       mongoose.models[programme] ||
       mongoose.model(programme, studentSchema, programme);
 
+    const existingSession = await Session.findOne({
+      deviceFingerprint: deviceFingerprint,
+      active: true,
+    });
+
     // Save the data
 
     const newStudent = await Student.create({
@@ -266,6 +271,11 @@ app.post("/api/host-details", validateToken, async (req, res) => {
         minute: "2-digit",
       }),
     });
+
+    await Session.updateOne(
+         { _id: existingSession._id },
+         { $set: { checkedIn: true } }
+       );
 
     res.status(201).json(newStudent);
   } catch (err) {
@@ -293,6 +303,11 @@ app.post("/api/checkin-details", validateToken, async (req, res) => {
       mongoose.models[programme] ||
       mongoose.model(programme, studentSchema, programme);
 
+    const existingSession = await Session.findOne({
+      deviceFingerprint: deviceFingerprint,
+      active: true,
+    });
+    
     // Check if student already exists
 
     const user = await Student.findOne({ index_no });
@@ -328,6 +343,11 @@ app.post("/api/checkin-details", validateToken, async (req, res) => {
         minute: "2-digit",
       }),
     });
+
+    await Session.updateOne(
+         { _id: existingSession._id },
+         { $set: { checkedIn: true } }
+       );    
 
     res.status(201).json(newStudent);
   } catch (err) {
@@ -507,6 +527,7 @@ app.post("/api/login-details", async (req, res) => {
       ipAddress: clientIp,
       expiryTime: expiryTime,
       active: true,
+      checkedIn: false,
     });
 
     const savedSession = await newSession.save();
