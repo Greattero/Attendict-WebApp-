@@ -557,7 +557,13 @@ else if (
       message: "Login successful",
       expiresIn: 600000, // 10 minutes in milliseconds
     };
-    }
+    
+    console.log("Login response about to send:", {
+      success: response.success,
+      hasToken: !!response.token,
+    });
+    return res.json(response);
+}
     else{
       const expiryTime = new Date();
       expiryTime.setMinutes(expiryTime.getMinutes() + 10);
@@ -568,12 +574,6 @@ else if (
          );
 
     }
-
-    console.log("Login response about to send:", {
-      success: response.success,
-      hasToken: !!response.token,
-    });
-    return res.json(response);
   } catch (error) {
     console.error("Login error:", error);
     return res.status(500).json({
