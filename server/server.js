@@ -525,6 +525,7 @@ else if (
        !existingSession){
       if (existingSession && existingSession.username === username) {
         await Session.updateOne({ _id: existingSession._id }, { active: false });
+        await Session.deleteOne({ _id: existingSession._id });
         console.log(`Invalidated old session for ${username}`);
       }
   
