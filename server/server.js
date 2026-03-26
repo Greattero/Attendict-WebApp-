@@ -523,7 +523,8 @@ else if (
     if((existingSession && new Date(existingSession.expiryTime) < new Date()) || 
        (existingSession?.checkedIn === false && existingSession?.username !== username) || 
        !existingSession){
-      if (existingSession && existingSession.username === username) {
+      if ((existingSession && existingSession.username === username) || 
+          (existingSession && new Date(existingSession.expiryTime) < new Date())) {
         await Session.updateOne({ _id: existingSession._id }, { active: false });
         await Session.deleteOne({ _id: existingSession._id });
         console.log(`Invalidated old session for ${username}`);
