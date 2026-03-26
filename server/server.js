@@ -283,7 +283,7 @@ app.post("/api/host-details", validateToken, async (req, res) => {
 
     await Session.updateOne(
          { _id: existingSession._id },
-         { $set: { checkedIn: true } }
+         { $set: { checkedIn: true, expiryTime: expiryTime } }
        );
 
     res.status(201).json(newStudent);
@@ -357,7 +357,7 @@ app.post("/api/checkin-details", validateToken, async (req, res) => {
 
     await Session.updateOne(
          { _id: existingSession._id },
-         { $set: { checkedIn: true } }
+         { $set: { checkedIn: true, expiryTime: expiryTime } }
        );    
 
     res.status(201).json(newStudent);
