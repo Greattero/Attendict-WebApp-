@@ -487,37 +487,27 @@ app.post("/api/login-details", async (req, res) => {
       active: true,
     });
 
-    if (
-      existingSession &&
-      new Date(existingSession.expiryTime) > new Date() &&
-      existingSession.username !== username && existingSession?.checkedIn === true
-      )  {
-          console.log(
-            `Concurrent login attempt: Device ${deviceFingerprint} has active session for ${existingSession.username}, trying to login as ${username}`,
-          );
+    if (existingSession) {
+      const isExpired = new Date(existingSession.expiryTime) < new Date();
+      const isDifferentUser = existingSession.username !== username;
     
-          // Return error - prevent concurrent logins from same device
-          return res.status(409).json({
-            success: false,
-            message:
-              "Can't login till previous user's token expires",
-            existingUsername: existingSession.username,
-          });
+      // ❌ Active + not expired + different user → block
+      if (!isExpired && isDifferentUser && existingSession.checkedIn) {
+        return res.status(409).json({
+          success: false,
+          message: "Can't login till previous user's token expires",
+          existingUsername: existingSession.username,
+        });
+      }
+    
+      // ✅ Expired OR different user → deactivate old session
+      if (isExpired || isDifferentUser) {
+        await Session.updateOne(
+          { _id: existingSession._id },
+          { $set: { active: false } }
+        );
+      }
     }
-else if (
-    (existingSession &&
-    new Date(existingSession?.expiryTime) < new Date()) || 
-    (existingSession?.checkedIn === false &&
-    existingSession?.username !== username)
-)
- {
-  // ✅ Expired + different user → deactivate old session
-             await Session.updateOne(
-             { _id: existingSession._id },
-             { $set: { active: false } }
-           );
-    }
-
     // If same user logging in again, invalidate old session
 
     if((existingSession && new Date(existingSession.expiryTime) < new Date()) || 
