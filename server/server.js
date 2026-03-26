@@ -279,6 +279,8 @@ app.post("/api/host-details", validateToken, async (req, res) => {
       }),
     });
 
+    const expiryTime = new Date(Date.now() + 10 * 60 * 1000);
+
     await Session.updateOne(
          { _id: existingSession._id },
          { $set: { checkedIn: true } }
@@ -517,34 +519,47 @@ else if (
     }
 
     // If same user logging in again, invalidate old session
-    if (existingSession && existingSession.username === username) {
-      await Session.updateOne({ _id: existingSession._id }, { active: false });
-      console.log(`Invalidated old session for ${username}`);
+
+    if(existingSession && new Date(existingSession.expiryTime) < new Date()){
+      if (existingSession && existingSession.username === username) {
+        await Session.updateOne({ _id: existingSession._id }, { active: false });
+        console.log(`Invalidated old session for ${username}`);
+      }
+  
+      // Create new session token
+      const sessionToken = generateSessionToken();
+      console.log("Session token generated:", sessionToken ? "YES" : "NO");
+  
+      // Set expiry time to 10 minutes from now (matching session duration)
+      const expiryTime = new Date();
+      expiryTime.setMinutes(expiryTime.getMinutes() + 10);
+  
+      // Save session to database
+      const newSession = new Session({
+        token: sessionToken,
+        username: username,
+        deviceFingerprint: deviceFingerprint,
+        ipAddress: clientIp,
+        expiryTime: expiryTime,
+        active: true,
+        checkedIn: false,
+      });
+  
+      const savedSession = await newSession.save();
+      console.log(
+        `New session created for ${username}, token: ${sessionToken.substring(0, 10)}...`,
+      );
     }
+    else{
+      const expiryTime = new Date();
+      expiryTime.setMinutes(expiryTime.getMinutes() + 10);
+    
+      await Session.updateOne(
+           { _id: existingSession._id },
+           { $set: { expiryTime:expiryTime } }
+         );
 
-    // Create new session token
-    const sessionToken = generateSessionToken();
-    console.log("Session token generated:", sessionToken ? "YES" : "NO");
-
-    // Set expiry time to 10 minutes from now (matching session duration)
-    const expiryTime = new Date();
-    expiryTime.setMinutes(expiryTime.getMinutes() + 10);
-
-    // Save session to database
-    const newSession = new Session({
-      token: sessionToken,
-      username: username,
-      deviceFingerprint: deviceFingerprint,
-      ipAddress: clientIp,
-      expiryTime: expiryTime,
-      active: true,
-      checkedIn: false,
-    });
-
-    const savedSession = await newSession.save();
-    console.log(
-      `New session created for ${username}, token: ${sessionToken.substring(0, 10)}...`,
-    );
+    }
 
     // Return success with token (NOT username/password)
     const response = {
