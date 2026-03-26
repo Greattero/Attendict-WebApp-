@@ -520,7 +520,7 @@ else if (
 
     // If same user logging in again, invalidate old session
 
-    if(existingSession && new Date(existingSession.expiryTime) < new Date()){
+    if((existingSession && new Date(existingSession.expiryTime) < new Date()) || !existingSession){
       if (existingSession && existingSession.username === username) {
         await Session.updateOne({ _id: existingSession._id }, { active: false });
         console.log(`Invalidated old session for ${username}`);
