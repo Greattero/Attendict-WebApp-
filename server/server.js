@@ -549,6 +549,14 @@ else if (
       console.log(
         `New session created for ${username}, token: ${sessionToken.substring(0, 10)}...`,
       );
+
+    // Return success with token (NOT username/password)
+    const response = {
+      success: true,
+      token: sessionToken,
+      message: "Login successful",
+      expiresIn: 600000, // 10 minutes in milliseconds
+    };
     }
     else{
       const expiryTime = new Date();
@@ -560,14 +568,6 @@ else if (
          );
 
     }
-
-    // Return success with token (NOT username/password)
-    const response = {
-      success: true,
-      token: sessionToken,
-      message: "Login successful",
-      expiresIn: 600000, // 10 minutes in milliseconds
-    };
 
     console.log("Login response about to send:", {
       success: response.success,
