@@ -564,16 +564,24 @@ else if (
     });
     return res.json(response);
 }
-    else{
-      const expiryTime = new Date();
-      expiryTime.setMinutes(expiryTime.getMinutes() + 10);
-    
-      await Session.updateOne(
-           { _id: existingSession._id },
-           { $set: { expiryTime:expiryTime } }
-         );
+else {
+    // This handles the "Same User, Active Session" case
+    const newExpiry = new Date();
+    newExpiry.setMinutes(newExpiry.getMinutes() + 10);
 
-    }
+    await Session.updateOne(
+        { _id: existingSession._id },
+        { $set: { expiryTime: newExpiry } }
+    );
+
+    // CRITICAL: You must return a response here!
+    return res.json({
+        success: true,
+        token: existingSession.token, // Return the existing token
+        message: "Session extended",
+        expiresIn: 600000,
+    });
+}
   } catch (error) {
     console.error("Login error:", error);
     return res.status(500).json({
