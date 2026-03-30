@@ -312,12 +312,12 @@ app.post("/api/checkin-details", validateToken, async (req, res) => {
       mongoose.models[programme] ||
       mongoose.model(programme, studentSchema, programme);
 
-    const deviceFingerprint = req.session.deviceFingerprint;
+    // const deviceFingerprint = req.session.deviceFingerprint;
 
-    const existingSession = await Session.findOne({
-      deviceFingerprint: deviceFingerprint,
-      active: true,
-    });
+    // const existingSession = await Session.findOne({
+    //   deviceFingerprint: deviceFingerprint,
+    //   active: true,
+    // });
     
     // Check if student already exists
 
@@ -355,10 +355,10 @@ app.post("/api/checkin-details", validateToken, async (req, res) => {
       }),
     });
 
-    await Session.updateOne(
-         { _id: existingSession._id },
-         { $set: { checkedIn: true, expiryTime: expiryTime } }
-       );    
+    // await Session.updateOne(
+    //      { _id: existingSession._id },
+    //      { $set: { checkedIn: true, expiryTime: expiryTime } }
+    //    );    
 
     res.status(201).json(newStudent);
   } catch (err) {
