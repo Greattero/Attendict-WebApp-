@@ -306,6 +306,8 @@ app.post("/api/checkin-details", validateToken, async (req, res) => {
       return res.json({ dbAvailable: false });
     }
 
+    
+
     // Now safely define the model
 
     const Student =
@@ -318,6 +320,10 @@ app.post("/api/checkin-details", validateToken, async (req, res) => {
       deviceFingerprint: deviceFingerprint,
       active: true,
     });
+
+    if(existingSession.active===false){
+      return res.json({ impersonator: true });
+    }
     
     // Check if student already exists
 
@@ -347,7 +353,7 @@ app.post("/api/checkin-details", validateToken, async (req, res) => {
 
       inspect,
 
-      doubtChecker: ipCounter > 0 || inspect === "1" ? "1" : "0",
+      doubtChecker: inspect === "1" ? "1" : "0",
 
       checkedTime: new Date().toLocaleTimeString([], {
         hour: "2-digit",
