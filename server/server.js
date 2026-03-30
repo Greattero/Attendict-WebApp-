@@ -489,10 +489,9 @@ app.post("/api/login-details", async (req, res) => {
 
     if (existingSession) {
       const isExpired = new Date(existingSession.expiryTime) < new Date();
-      const isDifferentUser = existingSession.username !== username;
     
-      // ❌ Active + not expired + different user → block
-      if (!isExpired && isDifferentUser && existingSession.checkedIn) {
+      // Block if there's an active, non-expired session from a DIFFERENT user who already checked in
+      if (!isExpired && existingSession.username !== username && existingSession.checkedIn) {
         return res.status(409).json({
           success: false,
           message: "Can't login till previous user's token expires",
@@ -500,8 +499,8 @@ app.post("/api/login-details", async (req, res) => {
         });
       }
     
-      // ✅ Expired OR different user → deactivate old session
-      if (isExpired || isDifferentUser) {
+      // Invalidate old session (different user or expired)
+      if (existingSession.username !== username || isExpired) {
         await Session.updateOne(
           { _id: existingSession._id },
           { $set: { active: false } }
@@ -594,6 +593,12 @@ app.post("/api/logout", validateToken, async (req, res) => {
         .status(400)
         .json({ success: false, message: "No token provided" });
     }
+
+  // Properly invalidate the session
+      await Session.updateOne(
+        { token: token },
+        { $set: { active: false, checkedIn: false } }
+      );
    // await Session.updateOne({ token: token }, { active: false });
     res.json({ success: true, message: "Logged out successfully" });
   } catch (error) {
