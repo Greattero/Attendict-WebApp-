@@ -398,6 +398,11 @@ function CheckInForm({
         sendVisible(true); sendFeedback("alreadyCheckedin");
         setLoading(false); onClose(); return;
       }
+      if (data.impersonator === true) {
+        alert("Checkin on this device can be done only once. Logging out...");
+        localStorage.clear();
+        return;
+      }
       if (!response.ok) {
         alert("Unstable internet connection. Try again 😬");
         setLoading(false);
