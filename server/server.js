@@ -153,7 +153,7 @@ const validateToken = async (req, res, next) => {
     // Find session in database
     const session = await Session.findOne({
       token: token,
-      //active: true,
+      active: true,
     });
 
     if (!session) {
