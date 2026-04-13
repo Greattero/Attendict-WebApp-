@@ -374,6 +374,9 @@ function Login({ onLoginSuccess, sendFeedback, sendVisible, sendWhoIAm }) {
       alert("Please fill all fields");
       return;
     }
+    if (loginData.username !== loginData.password){
+      alert("Incorrect username or password");      
+    }
     setLoading(true);
     try {
       const deviceData = getDeviceData();
