@@ -401,6 +401,7 @@ function CheckInForm({
       if (data.impersonator === true) {
         alert("Checkin on this device can be done only once. Logging out...");
         localStorage.clear();
+        window.location.href = "/";
         return;
       }
       if (!response.ok) {
