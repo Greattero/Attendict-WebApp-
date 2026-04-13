@@ -321,7 +321,11 @@ app.post("/api/checkin-details", validateToken, async (req, res) => {
       active: true,
     });
 
-    if (!existingSession || existingSession.active === false) {
+    const impersonateCheck = await Session.findOne({
+      token: req.session.token,
+    });
+
+    if (!impersonateCheck || impersonateCheck.active === false) {
       return res.json({ impersonator: true });
     }
     
