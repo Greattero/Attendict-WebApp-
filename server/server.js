@@ -321,7 +321,7 @@ app.post("/api/checkin-details", validateToken, async (req, res) => {
       active: true,
     });
 
-    if(existingSession.active===false){
+    if (!existingSession || existingSession.active === false) {
       return res.json({ impersonator: true });
     }
     
