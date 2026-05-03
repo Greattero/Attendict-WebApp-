@@ -322,6 +322,8 @@ function CheckInForm({
   const { lat: checkinLat, lon: checkinLon } = location || {};
   const { lat: hostLat, lon: hostLon } = hostCoords;
 
+  console.log(`${lat} with ${lon} and ${hostLat} by ${hostLon}`);
+  
   useEffect(() => {
     if (checkinLat != null && checkinLon != null && hostLat != null && hostLon != null) {
       const R = 6371;
