@@ -278,6 +278,7 @@ function CheckInForm({
       try {
         const response = await apiGet(`/api/host-location?programme=${currentProg}`);
         const data = response.data;
+        console.log("truthhh ", data);
         if (data?.location?.lat && data?.location?.lon) {
           setHostCoords({ lat: Number(data.location.lat), lon: Number(data.location.lon) });
           clearInterval(intervalId);
