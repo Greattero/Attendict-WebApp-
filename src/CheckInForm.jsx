@@ -283,6 +283,10 @@ function CheckInForm({
         const response = await apiGet(`/api/host-location?programme=${currentProg}`);
         const data = response.data;
         console.log("truthhh ", data);
+        if(data?.dbAvailable === false){
+          alert("Course does not exists 😕");
+          clearInterval(intervalId);
+        }
         if (data?.location?.lat && data?.location?.lon) {
           setHostCoords({ lat: Number(data.location.lat), lon: Number(data.location.lon) });
           clearInterval(intervalId);
