@@ -282,7 +282,7 @@ function CheckInForm({
       try {
         const response = await apiGet(`/api/host-location?programme=${currentProg}`);
         const data = response.data;
-        console.log("truthhh ", data);
+        // console.log("truthhh ", data);
         if(data?.dbAvailable === false){
           alert("Course does not exists 😕");
           clearInterval(intervalId);
