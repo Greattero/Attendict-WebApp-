@@ -232,6 +232,8 @@ function CheckInForm({
   const [location, setLocation] = useState({ lat: null, lon: null });
   const [pendingSubmit, setPendingSubmit] = useState(null);
   const [ip, setIP] = useState("");
+  const [uniqueCode, setUniqueCode]  = useState("");
+
 
   useEffect(() => {
     if (getLocation?.lat != null && getLocation?.lon != null) {
@@ -254,7 +256,7 @@ function CheckInForm({
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (popupRef.current && !popupRef.current.contains(e.target)) onClose();
+      if (popupRef.current && !popupRef.current.contains(e.target)) { resetForm(); onClose(); }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -269,10 +271,12 @@ function CheckInForm({
   const triedProgrammesRef = useRef(new Set());
   const attemptsMapRef = useRef(new Map());
 
+  const fullProg = `${formData.programme}${uniqueCode}`;
+
   useEffect(() => {
     let intervalId;
     const fetchHostCoords = async () => {
-      const currentProg = formData.programme;
+      const currentProg = fullProg;
       let attempts = attemptsMapRef.current.get(currentProg) || 0;
       if (attempts >= 50) { clearInterval(intervalId); return; }
       try {
@@ -288,7 +292,7 @@ function CheckInForm({
           if (attempts >= 50) {
             clearInterval(intervalId);
             triedProgrammesRef.current.add(currentProg);
-            onClose();
+            onClose(); 
           }
         }
       } catch (err) {
@@ -300,12 +304,12 @@ function CheckInForm({
         }
       }
     };
-    const currentProg = formData.programme;
-    if (currentProg.length === 5 && !triedProgrammesRef.current.has(currentProg)) {
+    const currentProg = fullProg;
+     if (currentProg && uniqueCode.length === 4 && !triedProgrammesRef.current.has(currentProg)) {
       intervalId = setInterval(fetchHostCoords, 1000);
     }
     return () => clearInterval(intervalId);
-  }, [formData.programme]);
+  }, [fullProg]);
 
   useEffect(() => {
     const username = localStorage.getItem("username");
@@ -364,7 +368,7 @@ function CheckInForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.programme || !formData.level) {
+    if (!formData.name || !formData.programme || !formData.level || !uniqueCode) {
       alert("Please fill all required fields.");
       return;
     }
@@ -372,13 +376,20 @@ function CheckInForm({
       alert("Location still fetching 😬. Please wait.");
       return;
     }
-    if (formData.programme.length !== 5) {
-      alert("Course code must be 5 characters");
-      return;
-    }
+    // if (formData.programme.length !== 5) {
+    //   alert("Course code must be 5 characters");
+    //   return;
+    // }
     setLoading(true);
     setPendingSubmit(true);
   };
+
+  const resetForm = () => {
+  setUniqueCode("");
+  setFormData({ name: "", index_no: localStorage.getItem("username") || "", programme: "", level: "", myip: "", checkedTime: new Date().toLocaleTimeString() });
+  setDistance(null);
+  setHostCoords({ lat: null, lon: null });
+};
 
   const submitData = async () => {
     if (distance == null || hostCoords.lat == null || hostCoords.lon == null) {
@@ -390,16 +401,17 @@ function CheckInForm({
       setLoading(false);
       return;
     }
+    const dataToSend = { ...formData, programme: `${formData.programme}${uniqueCode}`, distance };
     try {
-      const response = await apiPost("/api/checkin-details", { ...formData, distance });
+      const response = await apiPost("/api/checkin-details", dataToSend);
       const data = response.data;
       if (data.dbAvailable) {
         sendVisible(true); sendFeedback("noSession");
-        setLoading(false); onClose(); return;
+        setLoading(false); resetForm(); onClose(); return;
       }
       if (data.available) {
         sendVisible(true); sendFeedback("alreadyCheckedin");
-        setLoading(false); onClose(); return;
+        setLoading(false); resetForm(); onClose(); return;
       }
       if (data.impersonator === true) {
         alert("Checkin on this device can be done only once. Logging out...");
@@ -413,7 +425,7 @@ function CheckInForm({
       } else {
         alert(`Submitted Successfully 🎉\nYou are ${distance}km away`);
         sendVisible(true); sendFeedback("checkedinCorrectly");
-        setLoading(false); onClose();
+        setLoading(false); resetForm(); onClose();
         disableLogout(true);
         localStorage.setItem("logoutDisabledUntil", Date.now() + 1 * 60 * 1000);
         setTimeout(() => {
@@ -478,7 +490,18 @@ function CheckInForm({
             value={formData.programme}
             onChange={handleProgramme}
             placeholder="e.g. CE123"
-            maxLength={5}
+            
+          />
+        </FieldGroup>
+
+        <FieldGroup>
+          <Label>Unique Code</Label>
+          <Input
+            type="text"
+            value={uniqueCode}
+            onChange={e => setUniqueCode(e.target.value.toUpperCase().replace(/\s/g, ""))}
+            placeholder="e.g. XXXX"
+            maxLength={4}
           />
         </FieldGroup>
 
