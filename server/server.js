@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 
 import dotenv from "dotenv";
+import { createClient } from "redis";
 
 import { ObjectId } from "mongodb";
 
@@ -38,6 +39,21 @@ app.use(cors(corsOptions)); // ✅ Needed
 app.options("*", cors(corsOptions)); // Handle preflight requests
 
 app.use(express.json()); // ✅ Needed
+
+const client = createClient({
+  url: process.env.REDIS_URL
+});
+
+const startRedis = async () => {
+  try {
+    await client.connect();
+    console.log("Redis connected");
+  } catch (err) {
+    console.log("Redis failed, continuing without cache");
+  }
+};
+
+startRedis();
 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
@@ -298,14 +314,14 @@ app.post("/api/checkin-details", validateToken, async (req, res) => {
 
     // Check if collection exists first
 
-    const collections = await mongoose.connection.db
-      .listCollections({ name: programme })
-      .toArray();
+    const cached = await client.get(`col_${programme}`).catch(() => null);
 
-    if (collections.length === 0) {
-      return res.json({ dbAvailable: false });
+    if (!cached) {
+      const collections = await mongoose.connection.db.listCollections({ name: programme }).toArray();
+      if (collections.length === 0) {
+        return res.json({ dbAvailable: false });
+      }
     }
-
     
 
     // Now safely define the model
@@ -387,13 +403,25 @@ app.get("/api/host-location", async (req, res) => {
     }
 
     // ✅ CHECK IF COLLECTION EXISTS FIRST
-    const collections = await mongoose.connection.db
-      .listCollections({ name: programme })
-      .toArray();
+    // const collections = await mongoose.connection.db
+    //   .listCollections({ name: programme })
+    //   .toArray();
 
-    // ❌ Course code does not exist in DB
-    if (collections.length === 0) {
-      return res.status(404).json({ error: "Course not found" });
+    // // ❌ Course code does not exist in DB
+    // if (collections.length === 0) {
+    //   return res.status(404).json({ error: "Course not found" });
+    // }
+
+    const colCached = await client.get(`col_${programme}`).catch(() => null);
+    if (!colCached) {
+      const collections = await mongoose.connection.db.listCollections({ name: programme }).toArray();
+      if (collections.length === 0) return res.json({ dbAvailable: false });
+    }
+
+    const uniqueId = programme;
+    const cached = await client.get(`location_${uniqueId}`).catch(() => null);
+    if(cached){
+      return res.json({ location: JSON.parse(cached) });
     }
 
     const Student =
