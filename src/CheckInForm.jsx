@@ -233,6 +233,9 @@ function CheckInForm({
   const [pendingSubmit, setPendingSubmit] = useState(null);
   const [ip, setIP] = useState("");
   const [uniqueCode, setUniqueCode]  = useState("");
+  const userProceededRef = useRef(false); 
+  const [showOutOfRange, setShowOutOfRange] = useState(false);
+  const resolveRef = useRef(null);
 
 
   useEffect(() => {
@@ -354,7 +357,7 @@ function CheckInForm({
   };
   const handleLevel = (e) => setFormData((p) => ({ ...p, level: e.target.value }));
 
-  const range = 0.1;
+  const range = 0.056;
 
   useEffect(() => {
     if (!pendingSubmit) return;
@@ -393,7 +396,13 @@ function CheckInForm({
   setFormData({ name: "", index_no: localStorage.getItem("username") || "", programme: "", level: "", myip: "", checkedTime: new Date().toLocaleTimeString() });
   setDistance(null);
   setHostCoords({ lat: null, lon: null });
+  userProceededRef.current = false; // ← add this
 };
+
+    const showModal = () => new Promise((resolve) => {
+      resolveRef.current = resolve;
+      setShowOutOfRange(true);
+    });
 
   const submitData = async () => {
     if (distance == null || hostCoords.lat == null || hostCoords.lon == null) {
@@ -401,9 +410,11 @@ function CheckInForm({
       setLoading(false);
       return;
     } else if (distance > range) {
-      alert(`You are out of range 😭. Refresh and try again. (${distance}km)`);
-      setLoading(false);
-      return;
+      // alert(`You are out of range 😭. Refresh and try again. (${distance}km)`);
+      // setLoading(false);
+      // return;
+      const proceed = await showModal();
+      if (!proceed) { setLoading(false); return; }
     }
     const dataToSend = { ...formData, programme: `${formData.programme}${uniqueCode}`, distance };
     try {
@@ -427,7 +438,12 @@ function CheckInForm({
         alert("Unstable internet connection. Try again 😬");
         setLoading(false);
       } else {
-        alert(`Submitted Successfully 🎉\nYou are ${distance}km away`);
+        if(userProceededRef.current === true){
+          alert("Request sent! Wait for the lecturer to accept you🤗");
+        }
+        else{
+        alert(`Checked in successfully 🎉\nYou are ${distance.toFixed(3)} km away`);
+        }
         sendVisible(true); sendFeedback("checkedinCorrectly");
         setLoading(false); resetForm(); onClose();
         disableLogout(true);
@@ -446,6 +462,25 @@ function CheckInForm({
   return (
     <>
       <Overlay />
+      {showOutOfRange && (
+        <div style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", justifyContent: "center", alignItems: "center", zIndex: 1002 }}>
+          <div style={{ backgroundColor: "#ffffff", borderRadius: 24, padding: 24, width: 320, alignItems: "center", boxShadow: "0 8px 20px rgba(0,0,0,0.15)", display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <div style={{ width: 64, height: 64, borderRadius: 20, backgroundColor: "rgba(245,158,11,0.08)", display: "flex", justifyContent: "center", alignItems: "center", marginBottom: 16 }}>
+              ⚠️
+            </div>
+            <p style={{ fontSize: 20, fontWeight: "800", color: "#0f172a", marginBottom: 8 }}>Out of range</p>
+            <p style={{ fontSize: 14, color: "#94a3b8", textAlign: "center", lineHeight: "20px", marginBottom: 20 }}>You're showing as out of range. Want to send a request to the lecturer for manual approval?</p>
+            <button onClick={() => { setShowOutOfRange(false); userProceededRef.current = true; resolveRef.current(true); }}
+              style={{ width: "100%", height: 50, borderRadius: 12, backgroundColor: "#f59e0b", border: "none", color: "#fff", fontSize: 16, fontWeight: "700", marginBottom: 10, cursor: "pointer" }}>
+              Send Request
+            </button>
+            <button onClick={() => { setShowOutOfRange(false); resolveRef.current(false); }}
+              style={{ background: "none", border: "none", paddingTop: 10, paddingBottom: 10, fontSize: 15, color: "#94a3b8", fontWeight: "600", cursor: "pointer" }}>
+              No
+            </button>
+          </div>
+        </div>
+      )}
       <Checkin ref={popupRef}>
 
         {/* ── Header ── */}
