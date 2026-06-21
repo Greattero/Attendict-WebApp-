@@ -342,7 +342,7 @@ const FootNote = styled.p`
 /* ── Component ── */
 function Login({ onLoginSuccess, sendFeedback, sendVisible, sendWhoIAm }) {
   const [loading, setLoading] = useState(false);
-  const [person, setPerson] = useState("");
+  const [person, setPerson] = useState("member");
   const [loginData, setLoginData] = useState({ username: "", password: "" });
 
   const handleUsername = (e) =>
@@ -357,7 +357,7 @@ function Login({ onLoginSuccess, sendFeedback, sendVisible, sendWhoIAm }) {
       password: e.target.value.toUpperCase(),
     }));
 
-  if (loginData.username?.startsWith("LECTURER")) sendWhoIAm("rep");
+  if (loginData.username?.startsWith("LEC")) sendWhoIAm("rep");
 
   const getDeviceData = () => ({
     userAgent: navigator.userAgent,
@@ -390,7 +390,8 @@ function Login({ onLoginSuccess, sendFeedback, sendVisible, sendWhoIAm }) {
       if (data.token) {
         localStorage.setItem("username",loginData.username);
         localStorage.setItem("authToken", data.token);
-        const hashed = await hashRole(person);
+        const roleToHash = loginData.username?.startsWith("LEC") ? "rep" : person;
+        const hashed = await hashRole(roleToHash);
         localStorage.setItem("personType", hashed);
         sendVisible(true);
         sendFeedback("correctLogs");
@@ -465,34 +466,6 @@ function Login({ onLoginSuccess, sendFeedback, sendVisible, sendWhoIAm }) {
               />
               <i className="bx bxs-lock" />
             </InputGroup>
-
-            {!isLecturer && (
-              <RoleSection>
-                {/* <span className="role-label">I am a…</span> */}
-                <div className="role-options">
-                  <RoleChip
-                    type="button"
-                    $active={person === "rep"}
-                    onClick={() => {
-                      setPerson("rep");
-                      sendWhoIAm("rep");
-                    }}
-                  >
-                    <i className="bx bxs-user-badge" /> Course Rep
-                  </RoleChip>
-                  <RoleChip
-                    type="button"
-                    $active={person === "member"}
-                    onClick={() => {
-                      setPerson("member");
-                      sendWhoIAm("member");
-                    }}
-                  >
-                    <i className="bx bxs-group" /> Class Member
-                  </RoleChip>
-                </div>
-              </RoleSection>
-            )}
 
             <LoginButton type="submit" disabled={loading}>
               {loading ? (
