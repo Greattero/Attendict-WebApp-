@@ -413,6 +413,7 @@ function CheckInForm({
       // alert(`You are out of range 😭. Refresh and try again. (${distance}km)`);
       // setLoading(false);
       // return;
+      console.log("eiiiiiiiiii");
       const proceed = await showModal();
                     console.log("userProceeded 3:", userProceededRef.current);
 
