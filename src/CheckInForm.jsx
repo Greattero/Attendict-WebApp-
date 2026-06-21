@@ -236,6 +236,7 @@ function CheckInForm({
   const userProceededRef = useRef(false); 
   const [showOutOfRange, setShowOutOfRange] = useState(false);
   const resolveRef = useRef(null);
+  const distanceRef = useRef(null);
 
 
   useEffect(() => {
@@ -359,19 +360,23 @@ function CheckInForm({
 
   const range = 0.056;
 
+  // useEffect(() => {
+  //   if (!pendingSubmit) return;
+  //   if (distance != null) {
+  //     setPendingSubmit(false);
+  //     submitData();
+  //     return;
+  //   }
+  //   const t = setTimeout(() => {
+  //     setPendingSubmit(false);
+  //     submitData();
+  //   }, 50000);
+  //   return () => clearTimeout(t);
+  // }, [pendingSubmit, distance]);
+
   useEffect(() => {
-    if (!pendingSubmit) return;
-    if (distance != null) {
-      setPendingSubmit(false);
-      submitData();
-      return;
-    }
-    const t = setTimeout(() => {
-      setPendingSubmit(false);
-      submitData();
-    }, 50000);
-    return () => clearTimeout(t);
-  }, [pendingSubmit, distance]);
+  distanceRef.current = distance;
+}, [distance]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -388,7 +393,8 @@ function CheckInForm({
     //   return;
     // }
     setLoading(true);
-    setPendingSubmit(true);
+    await submitData();
+    // setPendingSubmit(true);
   };
 
   const resetForm = () => {
@@ -405,11 +411,26 @@ function CheckInForm({
     });
 
   const submitData = async () => {
-    if (distance == null || hostCoords.lat == null || hostCoords.lon == null) {
+    if (distanceRef.current == null) {
+      await new Promise((resolve) => {
+        const t = setTimeout(resolve, 50000);
+        const interval = setInterval(() => {
+          if (distanceRef.current != null) {
+            clearInterval(interval);
+            clearTimeout(t);
+            resolve();
+          }
+        }, 200);
+      });
+    }
+  
+    const currentDistance = distanceRef.current;
+    
+    if (currentDistance == null || hostCoords.lat == null || hostCoords.lon == null) {
       alert("Couldn't fetch course rep/lecturer's location. Please check in again.");
       setLoading(false);
       return;
-    } else if (distance > range) {
+    } else if (currentDistance > range) {
       // alert(`You are out of range 😭. Refresh and try again. (${distance}km)`);
       // setLoading(false);
       // return;
