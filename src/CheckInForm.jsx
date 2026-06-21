@@ -478,11 +478,18 @@ function CheckInForm({
             </div>
             <p style={{ fontSize: 20, fontWeight: "800", color: "#0f172a", marginBottom: 8 }}>Out of range</p>
             <p style={{ fontSize: 14, color: "#94a3b8", textAlign: "center", lineHeight: "20px", marginBottom: 20 }}>You're showing as out of range. Want to send a request to the lecturer for manual approval?</p>
-            <button onClick={() => { setShowOutOfRange(false); userProceededRef.current = true; resolveRef.current(true); }}
+            <button onClick={() => {   
+                userProceededRef.current = true; 
+                resolveRef.current(true);   // ← resolve first
+                setShowOutOfRange(false);   // ← then re-render
+               }}
               style={{ width: "100%", height: 50, borderRadius: 12, backgroundColor: "#f59e0b", border: "none", color: "#fff", fontSize: 16, fontWeight: "700", marginBottom: 10, cursor: "pointer" }}>
               Send Request
             </button>
-            <button onClick={() => { setShowOutOfRange(false); resolveRef.current(false); }}
+            <button onClick={() => {  
+              resolveRef.current(false);  // ← resolve first
+              setShowOutOfRange(false);   // ← then re-render 
+            }}
               style={{ background: "none", border: "none", paddingTop: 10, paddingBottom: 10, fontSize: 15, color: "#94a3b8", fontWeight: "600", cursor: "pointer" }}>
               No
             </button>
