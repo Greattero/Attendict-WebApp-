@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import loader from "./assets/rolling.svg";
 import "boxicons/css/boxicons.min.css";
 import { apiGet, apiPost } from "./apiClient";
+import ReactDOM from "react-dom";
 
 const fadeIn = keyframes`
   from { opacity: 0; transform: translate(-50%, -48%) scale(0.97); }
@@ -470,7 +471,7 @@ function CheckInForm({
   return (
     <>
       <Overlay />
-      {showOutOfRange && (
+      {showOutOfRange && ReactDOM.createPortal(
         <div style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", justifyContent: "center", alignItems: "center", zIndex: 1002 }}>
           <div style={{ backgroundColor: "#ffffff", borderRadius: 24, padding: 24, width: 320, alignItems: "center", boxShadow: "0 8px 20px rgba(0,0,0,0.15)", display: "flex", flexDirection: "column", alignItems: "center" }}>
             <div style={{ width: 64, height: 64, borderRadius: 20, backgroundColor: "rgba(245,158,11,0.08)", display: "flex", justifyContent: "center", alignItems: "center", marginBottom: 16 }}>
@@ -494,7 +495,8 @@ function CheckInForm({
               No
             </button>
           </div>
-        </div>
+        </div>,
+       document.body
       )}
       <Checkin ref={popupRef}>
 
