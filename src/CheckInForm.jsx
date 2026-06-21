@@ -462,6 +462,8 @@ function CheckInForm({
   return (
     <>
       <Overlay />
+      <Checkin ref={popupRef}>
+
       {showOutOfRange && (
         <div style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", justifyContent: "center", alignItems: "center", zIndex: 1002 }}>
           <div style={{ backgroundColor: "#ffffff", borderRadius: 24, padding: 24, width: 320, alignItems: "center", boxShadow: "0 8px 20px rgba(0,0,0,0.15)", display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -481,7 +483,6 @@ function CheckInForm({
           </div>
         </div>
       )}
-      <Checkin ref={popupRef}>
 
         {/* ── Header ── */}
         <ModalHeader>
