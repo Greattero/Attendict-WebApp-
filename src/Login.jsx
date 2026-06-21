@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import loader from "./assets/rolling.svg";
 import newPic from "./assets/newPic.png";
 import { apiPost } from "./apiClient";
+import { hashRole } from "./utils";
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&display=swap');
@@ -337,6 +338,7 @@ const FootNote = styled.p`
   }
 `;
 
+
 /* ── Component ── */
 function Login({ onLoginSuccess, sendFeedback, sendVisible, sendWhoIAm }) {
   const [loading, setLoading] = useState(false);
@@ -388,7 +390,8 @@ function Login({ onLoginSuccess, sendFeedback, sendVisible, sendWhoIAm }) {
       if (data.token) {
         localStorage.setItem("username",loginData.username);
         localStorage.setItem("authToken", data.token);
-        localStorage.setItem("personType", person || "rep");
+        const hashed = await hashRole(person);
+        localStorage.setItem("personType", hashed);
         sendVisible(true);
         sendFeedback("correctLogs");
         onLoginSuccess();
