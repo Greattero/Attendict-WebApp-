@@ -236,7 +236,6 @@ function CheckInForm({
   const userProceededRef = useRef(false); 
   const [showOutOfRange, setShowOutOfRange] = useState(false);
   const resolveRef = useRef(null);
-  const distanceRef = useRef(null);
 
 
   useEffect(() => {
@@ -360,23 +359,19 @@ function CheckInForm({
 
   const range = 0.056;
 
-  // useEffect(() => {
-  //   if (!pendingSubmit) return;
-  //   if (distance != null) {
-  //     setPendingSubmit(false);
-  //     submitData();
-  //     return;
-  //   }
-  //   const t = setTimeout(() => {
-  //     setPendingSubmit(false);
-  //     submitData();
-  //   }, 50000);
-  //   return () => clearTimeout(t);
-  // }, [pendingSubmit, distance]);
-
   useEffect(() => {
-  distanceRef.current = distance;
-}, [distance]);
+    if (!pendingSubmit) return;
+    if (distance != null) {
+      setPendingSubmit(false);
+      submitData();
+      return;
+    }
+    const t = setTimeout(() => {
+      setPendingSubmit(false);
+      submitData();
+    }, 50000);
+    return () => clearTimeout(t);
+  }, [pendingSubmit, distance]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -393,8 +388,7 @@ function CheckInForm({
     //   return;
     // }
     setLoading(true);
-    await submitData();
-    // setPendingSubmit(true);
+    setPendingSubmit(true);
   };
 
   const resetForm = () => {
@@ -411,37 +405,17 @@ function CheckInForm({
     });
 
   const submitData = async () => {
-    if (distanceRef.current == null) {
-      await new Promise((resolve) => {
-        const t = setTimeout(resolve, 50000);
-        const interval = setInterval(() => {
-          if (distanceRef.current != null) {
-            clearInterval(interval);
-            clearTimeout(t);
-            resolve();
-          }
-        }, 200);
-      });
-    }
-  
-    const currentDistance = distanceRef.current;
-    
-    if (currentDistance == null || hostCoords.lat == null || hostCoords.lon == null) {
+    if (distance == null || hostCoords.lat == null || hostCoords.lon == null) {
       alert("Couldn't fetch course rep/lecturer's location. Please check in again.");
       setLoading(false);
       return;
-    } else if (currentDistance > range) {
+    } else if (distance > range) {
       // alert(`You are out of range 😭. Refresh and try again. (${distance}km)`);
       // setLoading(false);
       // return;
-      console.log("eiiiiiiiiii");
       const proceed = await showModal();
-                    console.log("userProceeded 3:", userProceededRef.current);
-
       if (!proceed) { setLoading(false); return; }
     }
-                  console.log("userProceeded 2:", userProceededRef.current);
-
     const dataToSend = { ...formData, programme: `${formData.programme}${uniqueCode}`, distance };
     try {
       const response = await apiPost("/api/checkin-details", dataToSend);
@@ -460,13 +434,10 @@ function CheckInForm({
         window.location.href = "/";
         return;
       }
-              console.log("userProceeded 2:", userProceededRef.current);
-
       if (!response.ok) {
         alert("Unstable internet connection. Try again 😬");
         setLoading(false);
       } else {
-        console.log("userProceeded:", userProceededRef.current)
         if(userProceededRef.current === true){
           alert("Request sent! Wait for the lecturer to accept you🤗");
         }
@@ -499,18 +470,11 @@ function CheckInForm({
             </div>
             <p style={{ fontSize: 20, fontWeight: "800", color: "#0f172a", marginBottom: 8 }}>Out of range</p>
             <p style={{ fontSize: 14, color: "#94a3b8", textAlign: "center", lineHeight: "20px", marginBottom: 20 }}>You're showing as out of range. Want to send a request to the lecturer for manual approval?</p>
-            <button onClick={() => {   
-                userProceededRef.current = true; 
-                resolveRef.current(true);   // ← resolve first
-                setShowOutOfRange(false);   // ← then re-render
-               }}
+            <button onClick={() => { setShowOutOfRange(false); userProceededRef.current = true; resolveRef.current(true); }}
               style={{ width: "100%", height: 50, borderRadius: 12, backgroundColor: "#f59e0b", border: "none", color: "#fff", fontSize: 16, fontWeight: "700", marginBottom: 10, cursor: "pointer" }}>
               Send Request
             </button>
-            <button onClick={() => {  
-              resolveRef.current(false);  // ← resolve first
-              setShowOutOfRange(false);   // ← then re-render 
-            }}
+            <button onClick={() => { setShowOutOfRange(false); resolveRef.current(false); }}
               style={{ background: "none", border: "none", paddingTop: 10, paddingBottom: 10, fontSize: 15, color: "#94a3b8", fontWeight: "600", cursor: "pointer" }}>
               No
             </button>
