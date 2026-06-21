@@ -438,6 +438,7 @@ function CheckInForm({
         alert("Unstable internet connection. Try again 😬");
         setLoading(false);
       } else {
+        console.log("userProceeded:", userProceededRef.current)
         if(userProceededRef.current === true){
           alert("Request sent! Wait for the lecturer to accept you🤗");
         }
