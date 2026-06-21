@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled, { keyframes, createGlobalStyle } from "styled-components";
 import "boxicons/css/boxicons.min.css";
+import { hashRole } from "./utils";
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&display=swap');
@@ -209,7 +210,15 @@ function Home({ onButtonClick, disabled, getWhoIAm }) {
   const [role, setRole] = useState("");
 
   useEffect(() => {
-    setRole(getWhoIAm || localStorage.getItem("personType") || "");
+    const checkRole = async () => {
+      const stored = localStorage.getItem("personType");
+      const repHash = await hashRole("rep");
+      const memberHash = await hashRole("member");
+      if (stored === repHash) setRole("rep");
+      else if (stored === memberHash) setRole("member");
+      else setRole(getWhoIAm || "");
+    };
+    checkRole();
   }, [getWhoIAm]);
 
   const handleClick = (action, blockedMsg) => {
