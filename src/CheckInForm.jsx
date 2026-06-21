@@ -434,6 +434,8 @@ function CheckInForm({
         window.location.href = "/";
         return;
       }
+              console.log("userProceeded 2:", userProceededRef.current);
+
       if (!response.ok) {
         alert("Unstable internet connection. Try again 😬");
         setLoading(false);
