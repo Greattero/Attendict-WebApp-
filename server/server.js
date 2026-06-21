@@ -356,8 +356,12 @@ app.post("/api/checkin-details", validateToken, async (req, res) => {
     }
 
     let inspect = "0";
-    if (distance > 0.085 && distance <= 0.1) inspect = "1";
-
+    if (distance > 0.040 && distance < 0.056){ 
+      inspect = "1"
+    }
+    else if(distance > 0.056){
+      inspect = "-1";
+    }
     // Save the new student
 
     const newStudent = await Student.create({
@@ -373,7 +377,7 @@ app.post("/api/checkin-details", validateToken, async (req, res) => {
 
       inspect,
 
-      doubtChecker: inspect === "1" ? "1" : "0",
+      doubtChecker: inspect === "-1" ? "-1" : inspect === "1" ? "1" : "0",
 
       checkedTime: new Date().toLocaleTimeString([], {
         hour: "2-digit",
