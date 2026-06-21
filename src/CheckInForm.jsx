@@ -414,8 +414,12 @@ function CheckInForm({
       // setLoading(false);
       // return;
       const proceed = await showModal();
+                    console.log("userProceeded 3:", userProceededRef.current);
+
       if (!proceed) { setLoading(false); return; }
     }
+                  console.log("userProceeded 2:", userProceededRef.current);
+
     const dataToSend = { ...formData, programme: `${formData.programme}${uniqueCode}`, distance };
     try {
       const response = await apiPost("/api/checkin-details", dataToSend);
