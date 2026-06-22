@@ -22,9 +22,10 @@ const HomePage = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
   padding: 2rem 1rem;
+  padding-top: 5rem;
   gap: 2.5rem;
   box-sizing: border-box;
 
@@ -32,7 +33,10 @@ const HomePage = styled.div`
     padding: 1.25rem 1rem;
     gap: 1.75rem;
     min-height: 100dvh;
-    justify-content: center;
+    height: 100dvh;
+    overflow: hidden;
+    justify-content: flex-start;
+    padding-top: 3rem;
   }
 `;
 
