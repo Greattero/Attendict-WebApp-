@@ -172,6 +172,7 @@ function App() {
         width: "100vw", // Use vw instead of % for full viewport width
         height: "100vh",
         flexDirection: "column",
+        overflow: "hidden"
       }}
     >
       {/* <div style={{ // New wrapper div
