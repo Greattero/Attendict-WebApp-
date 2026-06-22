@@ -20,10 +20,13 @@ const pulse = keyframes`
 const HomePage = styled.div`
   font-family: "Nunito", sans-serif;
   min-height: 100dvh;
+  height: 100dvh;        /* ← add this */
+  overflow: hidden;      /* ← add this */
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-top: 5rem;
   background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
   padding: 2rem 1rem;
   gap: 2.5rem;
@@ -33,7 +36,10 @@ const HomePage = styled.div`
     padding: 1.25rem 1rem;
     gap: 1.75rem;
     min-height: 100dvh;
-    justify-content: center;
+    height: 100dvh;        /* ← add this */
+    overflow: hidden;      /* ← add this */
+    justify-content: flex-start;
+    padding-top:  3rem; 
   }
 `;
 
