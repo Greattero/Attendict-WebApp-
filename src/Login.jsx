@@ -343,7 +343,7 @@ const FootNote = styled.p`
 function Login({ onLoginSuccess, sendFeedback, sendVisible, sendWhoIAm }) {
   const [loading, setLoading] = useState(false);
   const [person, setPerson] = useState("member");
-  const [loginData, setLoginData] = useState({ username: "", password: "" });
+  const [loginData, setLoginData] = useState({ username: ""});
 
   const handleUsername = (e) =>
     setLoginData((prev) => ({
@@ -351,11 +351,11 @@ function Login({ onLoginSuccess, sendFeedback, sendVisible, sendWhoIAm }) {
       username: e.target.value.toUpperCase(),
     }));
 
-  const handlePassword = (e) =>
-    setLoginData((prev) => ({
-      ...prev,
-      password: e.target.value.toUpperCase(),
-    }));
+  // const handlePassword = (e) =>
+  //   setLoginData((prev) => ({
+  //     ...prev,
+  //     password: e.target.value.toUpperCase(),
+  //   }));
 
   if (loginData.username?.startsWith("LEC")) sendWhoIAm("rep");
 
@@ -369,15 +369,9 @@ function Login({ onLoginSuccess, sendFeedback, sendVisible, sendWhoIAm }) {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (
-      (!loginData.username || !loginData.password || person === "") &&
-      !loginData.username?.startsWith("LECTURER")
-    ) {
+    if (!loginData.username) {
       alert("Please fill all fields");
       return;
-    }
-    if (loginData.username !== loginData.password){
-      alert("Incorrect username or password");      
     }
     setLoading(true);
     try {
@@ -401,7 +395,7 @@ function Login({ onLoginSuccess, sendFeedback, sendVisible, sendWhoIAm }) {
         setLoading(false);
       } else {
         alert(
-          (data.message || "Invalid Username or password") +
+          data.message +
             " Please try again.",
         );
         setLoading(false);
@@ -456,7 +450,7 @@ function Login({ onLoginSuccess, sendFeedback, sendVisible, sendWhoIAm }) {
               <i className="bx bxs-user" />
             </InputGroup>
 
-            <InputGroup>
+            {/* <InputGroup>
               <input
                 type="password"
                 placeholder="Password"
@@ -465,7 +459,7 @@ function Login({ onLoginSuccess, sendFeedback, sendVisible, sendWhoIAm }) {
                 required
               />
               <i className="bx bxs-lock" />
-            </InputGroup>
+            </InputGroup> */}
 
             <LoginButton type="submit" disabled={loading}>
               {loading ? (
