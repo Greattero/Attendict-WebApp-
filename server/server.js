@@ -479,36 +479,36 @@ app.post("/api/login-details", async (req, res) => {
       "unknown";
 
     // Validate credentials format
-    const usernameChecker = username.replace(/[.\s]/g, "");
-    const schoolCode =
-      usernameChecker[0] === "S"
-        ? usernameChecker.substring(0, 5)
-        : usernameChecker.substring(0, 3);
-    const departmentalCode = usernameChecker.substring(5, 8);
-    const departmentalCodesArray = [
-      "002",
-      "003",
-      "005",
-      "007",
-      "006",
-      "008",
-      "010",
-      "024",
-      "028",
-    ];
-    const isSpecialUser = schoolCode === "901" || schoolCode === "LEC";
+    // const usernameChecker = username.replace(/[.\s]/g, "");
+    // const schoolCode =
+    //   usernameChecker[0] === "S"
+    //     ? usernameChecker.substring(0, 5)
+    //     : usernameChecker.substring(0, 3);
+    // const departmentalCode = usernameChecker.substring(5, 8);
+    // const departmentalCodesArray = [
+    //   "002",
+    //   "003",
+    //   "005",
+    //   "007",
+    //   "006",
+    //   "008",
+    //   "010",
+    //   "024",
+    //   "028",
+    // ];
+    // const isSpecialUser = schoolCode === "901" || schoolCode === "LEC";
 
-    if (
-      !isSpecialUser &&
-      (schoolCode !== "SRI41" ||
-        !departmentalCodesArray.includes(departmentalCode) ||
-        usernameChecker.length !== 13)
-    ) {
-      console.log("Invalid credentials format");
-      return res
-        .status(401)
-        .json({ success: false, message: "Invalid username format" });
-    }
+    // if (
+    //   !isSpecialUser &&
+    //   (schoolCode !== "SRI41" ||
+    //     !departmentalCodesArray.includes(departmentalCode) ||
+    //     usernameChecker.length !== 13)
+    // ) {
+    //   console.log("Invalid credentials format");
+    //   return res
+    //     .status(401)
+    //     .json({ success: false, message: "Invalid username format" });
+    // }
 
     // Generate device fingerprint from client data
     const deviceFingerprint = generateDeviceFingerprint(
