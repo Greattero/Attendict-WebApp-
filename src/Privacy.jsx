@@ -1,4 +1,5 @@
 import styled, { createGlobalStyle } from "styled-components";
+import icon from "./assets/newPic.png";
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap');
@@ -24,6 +25,7 @@ const TopBar = styled.div`
   position: sticky;
   top: 0;
   z-index: 10;
+  
 `;
 
 const Brand = styled.div`
@@ -54,6 +56,14 @@ const Brand = styled.div`
     color: #1f2937;
     letter-spacing: -0.3px;
   }
+
+  img {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(46, 139, 87, 0.2);
+    }
 `;
 
 const BackLink = styled.a`
@@ -420,7 +430,8 @@ export default function Privacy() {
         <TopBar>
           <Brand>
             <div className="dot" />
-            <span>Attendict</span>
+              <img src={icon} alt="Attendict logo" />
+              <span>Attendict</span>
           </Brand>
           <BackLink href="/">← Back to app</BackLink>
         </TopBar>
