@@ -57,11 +57,11 @@ const Brand = styled.div`
   }
 
   img {
-      width: 55x;
-      height: 55px;
-      // border-radius: 50%;
-      // object-fit: cover;
-      // border: 2px solid rgba(46, 139, 87, 0.2);
+      width: 45x;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(46, 139, 87, 0.2);
     }
 `;
 
@@ -428,7 +428,7 @@ export default function Privacy() {
       <Page>
         <TopBar>
           <Brand>
-              <img className="dot" src={icon} alt="Attendict logo" />
+              <img src={icon} alt="Attendict logo" />
               <span>Attendict</span>
           </Brand>
           <BackLink href="/">← Back to app</BackLink>
