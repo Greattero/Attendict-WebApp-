@@ -34,8 +34,8 @@ const Brand = styled.div`
   gap: 10px;
 
   .dot {
-    width: 28px;
-    height: 28px;
+    width: 34px;
+    height: 34px;
     background: linear-gradient(135deg, #2e8b57, #3aab6a);
     border-radius: 8px;
     display: flex;
@@ -57,8 +57,8 @@ const Brand = styled.div`
   }
 
   img {
-      width: 42px;
-      height: 42px;
+      width: 45px;
+      height: 45px;
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid rgba(46, 139, 87, 0.2);
