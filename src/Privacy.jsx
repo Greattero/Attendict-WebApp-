@@ -44,7 +44,6 @@ const Brand = styled.div`
   }
 
   .dot::after {
-    content: "A";
     color: white;
     font-size: 13px;
     font-weight: 800;
@@ -429,8 +428,7 @@ export default function Privacy() {
       <Page>
         <TopBar>
           <Brand>
-            <div className="dot" />
-              <img src={icon} alt="Attendict logo" />
+              <img className="dot" src={icon} alt="Attendict logo" />
               <span>Attendict</span>
           </Brand>
           <BackLink href="/">← Back to app</BackLink>
