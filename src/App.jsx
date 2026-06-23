@@ -9,6 +9,9 @@ import LocationCoords from "./LocationCoords.jsx";
 import "./index.css";
 import "./myStyling.css";
 import { apiDelete } from "./apiClient";
+import { Routes, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
+import Privacy from "./Privacy.jsx";
 
 const Overlay = ({ isVisible }) =>
   isVisible ? (
@@ -165,178 +168,174 @@ function App() {
     setLogin(false);
   };
 
-  return login ? (
-    <div
-      style={{
-        display: "flex",
-        width: "100vw", // Use vw instead of % for full viewport width
-        height: "100vh",
-        flexDirection: "column",
-        overflow: "hidden"
-      }}
-    >
-      {/* <div style={{ // New wrapper div
-        flex: 1,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        // paddingBottom: "30px",
-      }}>
-          <LocationCoords/>
-      </div> */}
 
-      {/* <div>
-        <Sidebar/>
-      </div> */}
-
-      {visible && (
-        <div
-          className="toast"
-          style={{
-            transform: `translateY(${toastY}px)`,
-            transition: "transform 0.5s ease",
-          }}
-        >
-          {!isSuccess ? "❌" : "✅"}
-          <label
-            style={{
-              marginLeft: "15px",
-              marginTop: "2px",
-            }}
-          >
-            {feedback === "hostedSucessfully"
-              ? "Created session successfully"
-              : feedback === "correctLogs"
-                ? "Logged in successfully"
-                : feedback === "checkedinCorrectly"
-                  ? "Checked in successfully"
-                  : feedback === "sessionExists"
-                    ? "Session already exists"
-                    : feedback === "alreadyCheckedin"
-                      ? "You've already checked in"
-                      : feedback === "removeSession"
-                        ? "Session removed successfully"
-                        : feedback === "noSession"
-                          ? "Session doesn't exist"
-                          : feedback === "newGoogleSignUp"
-                            ? "Account created successfully"
-                            : feedback === "googleAlreadyExists"
-                              ? "Logged in successfully"
-                              : feedback === "passwordResetLinkSent"
-                                ? "Password reset not successful"
-                                : feedback === "emailAlreadyRegistered"
-                                  ? "Account already exists"
-                                  : null}
-          </label>
-        </div>
-      )}
-
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <LocationCoords locationValues={setMyLocation} />
-      </div>
-
-      <div
-        style={{
-          // New wrapper div
-          flex: 1,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          //paddingBottom: "50px",
-        }}
-      >
-        <Home
-          onButtonClick={(type) => handleButtonClick(type)}
-          disabled={disable}
-          getWhoIAm={person}
-        />{" "}
-        {/* Remove all styles from Home */}
-        {showPop && (
-          <>
-            <Overlay isVisible={showPop} />
-
-            {/* HostForm popup */}
-            {form === "host" && !disable && (
-              <HostForm
-                onClose={closeForm}
-                getLocation={myLocation}
+return (
+  <Routes>
+    <Route path="/privacy" element={<Privacy/>} />
+    <Route path="/" element={
+      login ? (
+        <div style={{ display: "flex", width: "100vw", height: "100vh", flexDirection: "column", overflow: "hidden" }}>
+            {/* <div style={{ // New wrapper div
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              // paddingBottom: "30px",
+            }}>
+                <LocationCoords/>
+            </div> */}
+      
+            {/* <div>
+              <Sidebar/>
+            </div> */}
+      
+            {visible && (
+              <div
+                className="toast"
+                style={{
+                  transform: `translateY(${toastY}px)`,
+                  transition: "transform 0.5s ease",
+                }}
+              >
+                {!isSuccess ? "❌" : "✅"}
+                <label
+                  style={{
+                    marginLeft: "15px",
+                    marginTop: "2px",
+                  }}
+                >
+                  {feedback === "hostedSucessfully"
+                    ? "Created session successfully"
+                    : feedback === "correctLogs"
+                      ? "Logged in successfully"
+                      : feedback === "checkedinCorrectly"
+                        ? "Checked in successfully"
+                        : feedback === "sessionExists"
+                          ? "Session already exists"
+                          : feedback === "alreadyCheckedin"
+                            ? "You've already checked in"
+                            : feedback === "removeSession"
+                              ? "Session removed successfully"
+                              : feedback === "noSession"
+                                ? "Session doesn't exist"
+                                : feedback === "newGoogleSignUp"
+                                  ? "Account created successfully"
+                                  : feedback === "googleAlreadyExists"
+                                    ? "Logged in successfully"
+                                    : feedback === "passwordResetLinkSent"
+                                      ? "Password reset not successful"
+                                      : feedback === "emailAlreadyRegistered"
+                                        ? "Account already exists"
+                                        : null}
+                </label>
+              </div>
+            )}
+      
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <LocationCoords locationValues={setMyLocation} />
+            </div>
+      
+            <div
+              style={{
+                // New wrapper div
+                flex: 1,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                //paddingBottom: "50px",
+              }}
+            >
+              <Home
+                onButtonClick={(type) => handleButtonClick(type)}
+                disabled={disable}
+                getWhoIAm={person}
+              />{" "}
+              {/* Remove all styles from Home */}
+              {showPop && (
+                <>
+                  <Overlay isVisible={showPop} />
+      
+                  {/* HostForm popup */}
+                  {form === "host" && !disable && (
+                    <HostForm
+                      onClose={closeForm}
+                      getLocation={myLocation}
+                      setHostTime={setHostTime}
+                      setProgramme={setProgramme}
+                      sendVisible={setVisible}
+                      sendFeedback={setFeedBack}
+                    />
+                  )}
+      
+                  {form === "remove" && !disable && (
+                    <RemoveForm
+                      onClose={closeForm}
+                      sendVisible={setVisible}
+                      sendFeedback={setFeedBack}
+                    />
+                  )}
+      
+                  {/* CheckInForm popup */}
+                  {form === "checkin" && (
+                    <CheckInForm
+                      getLocation={myLocation}
+                      sendVisible={setVisible}
+                      sendFeedback={setFeedBack}
+                      onClose={closeForm}
+                      disableLogout={setLogoutDisable}
+                    />
+                  )}
+                </>
+              )}
+            </div>
+            <div
+              style={{
+                position: "absolute",
+                width: "100%",
+                top: 0,
+              }}
+            >
+              <AppHeader
+                onLogout={() => handleLogoutSuccess()}
+                disableLogout={logoutDisable}
+                hostTime={hostTime}
                 setHostTime={setHostTime}
-                setProgramme={setProgramme}
-                sendVisible={setVisible}
-                sendFeedback={setFeedBack}
+                lockCheckin={() => handleLock()}
+                unLockCheckin={() => handleUnlock()}
+                programme={programme}
+                resetProgramme={setProgramme}
+                userRole={person}
               />
-            )}
 
-            {form === "remove" && !disable && (
-              <RemoveForm
-                onClose={closeForm}
-                sendVisible={setVisible}
-                sendFeedback={setFeedBack}
-              />
-            )}
-
-            {/* CheckInForm popup */}
-            {form === "checkin" && (
-              <CheckInForm
-                getLocation={myLocation}
-                sendVisible={setVisible}
-                sendFeedback={setFeedBack}
-                onClose={closeForm}
-                disableLogout={setLogoutDisable}
-              />
-            )}
-          </>
-        )}
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          width: "100%",
-          top: 0,
-        }}
-      >
-        <AppHeader
-          onLogout={() => handleLogoutSuccess()}
-          disableLogout={logoutDisable}
-          hostTime={hostTime}
-          setHostTime={setHostTime}
-          lockCheckin={() => handleLock()}
-          unLockCheckin={() => handleUnlock()}
-          programme={programme}
-          resetProgramme={setProgramme}
-          userRole={person}
-        />
-      </div>
+            </div>
 
       {/* Removed separate CountdownTimer div - now integrated in AppHeader */}
-    </div>
-  ) : (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "100vh",
-        boxShadow: "0px 0px 30px hsla(0, 41.9%, 42.5%, 0.87)",
-        borderRadius: "30px",
-      }}
-    >
-      <Login
-        sendVisible={setVisible}
-        sendFeedback={setFeedBack}
-        onLoginSuccess={() => handleLoginSuccess()}
-        sendWhoIAm={setPerson}
-      />
-    </div>
-  );
+        </div>
+      ) : (
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh", boxShadow: "0px 0px 30px hsla(0, 41.9%, 42.5%, 0.87)", borderRadius: "30px" }}>
+          <Login
+            sendVisible={setVisible}
+            sendFeedback={setFeedBack}
+            onLoginSuccess={() => handleLoginSuccess()}
+            sendWhoIAm={setPerson}
+          />
+        <Link to="/privacy" style={{ position: "absolute", bottom: 20, fontSize: 12, color: "#2e8b57" }}>
+            Privacy Policy
+        </Link>
+        </div>
+      )
+    } />
+  </Routes>
+);
 }
+
 
 export default App;
