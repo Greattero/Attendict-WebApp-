@@ -57,11 +57,11 @@ const Brand = styled.div`
   }
 
   img {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid rgba(46, 139, 87, 0.2);
+      width: 55x;
+      height: 55px;
+      // border-radius: 50%;
+      // object-fit: cover;
+      // border: 2px solid rgba(46, 139, 87, 0.2);
     }
 `;
 
