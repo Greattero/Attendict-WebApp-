@@ -474,7 +474,7 @@ export default function Privacy() {
                 If you have any questions about this Privacy Policy or how your
                 data is handled, we're happy to help.
               </p>
-              <a href="mailto:support@attendict.com">support@attendict.com</a>
+              <a href="mailto:support@attendict.com">teroxinc@gmail.com</a>
             </ContactCard>
           </Content>
         </Layout>
