@@ -480,7 +480,7 @@ export default function Privacy() {
         </Layout>
 
         <Footer>
-          © {new Date().getFullYear()} Terox Inc. All rights reserved.
+          © {new Date().getFullYear()} Terox. All rights reserved.
         </Footer>
       </Page>
     </>
