@@ -12,6 +12,7 @@ import { apiDelete } from "./apiClient";
 import { Routes, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Privacy from "./Privacy.jsx";
+import PaystackCheckout from "./PaystackCheckout.jsx";
 
 const Overlay = ({ isVisible }) =>
   isVisible ? (
@@ -172,6 +173,7 @@ function App() {
 return (
   <Routes>
     <Route path="/privacy" element={<Privacy/>} />
+    <Route path="/checkout" element={<PaystackCheckout/>} />
     <Route path="/" element={
       login ? (
         <div style={{ display: "flex", width: "100vw", height: "100vh", flexDirection: "column", overflow: "hidden" }}>
