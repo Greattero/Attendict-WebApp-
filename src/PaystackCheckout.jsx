@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
+import { usePaystackPayment } from "react-paystack";
 import { ShieldCheck, Mail, Smartphone, Lock, Shield } from "lucide-react";
 
 const C = {
@@ -14,30 +15,10 @@ const C = {
   border: "#e2e8f0",
 };
 
-// Paystack's web checkout is loaded via their Inline JS SDK.
-// Add this script tag once in your app's index.html:
-//   <script src="https://js.paystack.co/v1/inline.js"></script>
 const PAYSTACK_PUBLIC_KEY = "pk_live_527b08c7d322316a1727249881ebcb0657a4c9cd";
 
 export default function PaystackCheckout() {
   const [myEmail, setMyEmail] = useState("");
-  const [scriptReady, setScriptReady] = useState(false);
-
-  // Load the Paystack Inline JS SDK if it isn't already on the page.
-  useEffect(() => {
-    if (window.PaystackPop) {
-      setScriptReady(true);
-      return;
-    }
-    const script = document.createElement("script");
-    script.src = "https://js.paystack.co/v1/inline.js";
-    script.async = true;
-    script.onload = () => setScriptReady(true);
-    document.body.appendChild(script);
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
 
   // On web there's no AsyncStorage — swap this for however you persist
   // the lecturer's identity (localStorage, a cookie, your auth context, etc).
@@ -48,32 +29,27 @@ export default function PaystackCheckout() {
     }
   }, []);
 
-  const handlePaymentInit = useCallback(() => {
-    if (!scriptReady || !window.PaystackPop) {
-      alert("Payment gateway is still loading, please try again in a moment.");
-      return;
-    }
+  const paystackConfig = {
+    reference: new Date().getTime().toString(),
+    email: myEmail || "",
+    amount: 10 * 100, // Paystack expects the amount in kobo/pesewas
+    publicKey: PAYSTACK_PUBLIC_KEY,
+    currency: "GHS",
+    channels: ["mobile_money", "card", "bank"],
+  };
 
-    const handler = window.PaystackPop.setup({
-      key: PAYSTACK_PUBLIC_KEY,
-      email: myEmail || "",
-      amount: 10 * 100, // Paystack expects the amount in kobo/pesewas
-      currency: "GHS",
-      channels: ["mobile_money", "card", "bank"],
-      callback: () => {
+  const initializePayment = usePaystackPayment(paystackConfig);
+
+  const handlePaymentInit = useCallback(() => {
+    initializePayment({
+      onSuccess: () => {
         alert("Payment Successful! Go to settings to verify status");
       },
       onClose: () => {
         alert("Payment Cancelled");
       },
     });
-
-    try {
-      handler.openIframe();
-    } catch (err) {
-      alert("Payment Gateway Error");
-    }
-  }, [scriptReady, myEmail]);
+  }, [initializePayment]);
 
   return (
     <div style={s.screen}>
