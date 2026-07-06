@@ -41,14 +41,13 @@ export default function PaystackCheckout() {
   const initializePayment = usePaystackPayment(paystackConfig);
 
   const handlePaymentInit = useCallback(() => {
-    initializePayment({
-      onSuccess: () => {
-        alert("Payment Successful! Go to settings to verify status");
-      },
-      onClose: () => {
-        alert("Payment Cancelled");
-      },
-    });
+    const onSuccess = () => {
+      alert("Payment Successful! Go to settings to verify status");
+    };
+    const onClose = () => {
+      alert("Payment Cancelled");
+    };
+    initializePayment(onSuccess, onClose);
   }, [initializePayment]);
 
   return (
