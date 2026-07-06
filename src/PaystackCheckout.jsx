@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { usePaystackPayment } from "react-paystack";
+import { useSearchParams } from "react-router-dom";
 import { ShieldCheck, Mail, Smartphone, Lock, Shield } from "lucide-react";
 
 const C = {
@@ -18,16 +19,23 @@ const C = {
 const PAYSTACK_PUBLIC_KEY = "pk_live_527b08c7d322316a1727249881ebcb0657a4c9cd";
 
 export default function PaystackCheckout() {
+  const [searchParams] = useSearchParams();
   const [myEmail, setMyEmail] = useState("");
 
-  // On web there's no AsyncStorage — swap this for however you persist
-  // the lecturer's identity (localStorage, a cookie, your auth context, etc).
+  // Prefer an email passed via URL (e.g. ?email=user@example.com), which is how
+  // a native WebView or another page can hand off the logged-in user's email.
+  // Falls back to localStorage for direct web visits.
   useEffect(() => {
+    const fromUrl = searchParams.get("email");
+    if (fromUrl) {
+      setMyEmail(fromUrl);
+      return;
+    }
     const stored = window.localStorage?.getItem("lecturerId");
     if (stored) {
       setMyEmail(stored.replace(",", "."));
     }
-  }, []);
+  }, [searchParams]);
 
   const paystackConfig = {
     reference: new Date().getTime().toString(),
