@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import styled, { keyframes, createGlobalStyle } from "styled-components";
 import "boxicons/css/boxicons.min.css";
 import { hashRole } from "./utils";
+import AdBanner from "./AdBanner";
+
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&display=swap');
@@ -15,6 +17,16 @@ const fadeUp = keyframes`
 const pulse = keyframes`
   0%, 100% { box-shadow: 0 0 0 0 rgba(240, 209, 174, 0.5); }
   50%       { box-shadow: 0 0 0 8px rgba(240, 209, 174, 0); }
+`;
+
+const AdWrapper = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background: transparent;
 `;
 
 const HomePage = styled.div`
@@ -297,6 +309,9 @@ function Home({ onButtonClick, disabled, getWhoIAm }) {
           <span className="dot" />
           Make sure your location is turned on
         </Notice>
+        <AdWrapper>
+          <AdBanner slot="6076303819" />
+        </AdWrapper>
       </HomePage>
     </>
   );
