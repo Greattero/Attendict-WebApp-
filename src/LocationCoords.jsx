@@ -88,7 +88,11 @@ export default function LocationCoords({ locationValues }) {
             watchId = null;
             if (retryInterval) clearInterval(retryInterval);
           } else {
-            locationValues(coords);
+            const rawCoords = {
+              latitude: Number(latitude.toFixed(5)),
+              longitude: Number(longitude.toFixed(5)),
+            };
+            locationValues(rawCoords);
             startMessageRotation(); // 🔥 start rotating here
           }
         },
