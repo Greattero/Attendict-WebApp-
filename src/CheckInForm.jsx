@@ -419,6 +419,7 @@ function CheckInForm({
     const dataToSend = { ...formData, programme: `${formData.programme}${uniqueCode}`, distance };
     try {
       const response = await apiPost("/api/checkin-details", dataToSend);
+      if (response?.status === 429) return alert("Too many checkin attempts, try again later");
       const data = response.data;
       if (data.dbAvailable) {
         sendVisible(true); sendFeedback("noSession");
@@ -427,6 +428,13 @@ function CheckInForm({
       if (data.available) {
         sendVisible(true); sendFeedback("alreadyCheckedin");
         setLoading(false); resetForm(); onClose(); return;
+      }
+      if (data.error === "Session expired") {
+      resetForm();
+      alert("Session expired.");
+      setLoading(false);
+      onClose();
+      return;
       }
       if (data.impersonator === true) {
         alert("Checkin on this device can be done only once. Logging out...");
