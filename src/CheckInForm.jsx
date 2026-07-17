@@ -431,9 +431,9 @@ function CheckInForm({
       }
       if (data.error === "Session expired") {
       resetForm();
-      alert("Session expired.");
       setLoading(false);
       onClose();
+      alert("Session expired.");
       return;
       }
       if (data.impersonator === true) {
