@@ -89,8 +89,8 @@ export default function LocationCoords({ locationValues }) {
             if (retryInterval) clearInterval(retryInterval);
           } else {
               const rawCoords = {
-                latitude: Number(pos.coords.latitude.toFixed(5)),
-                longitude: Number(pos.coords.longitude.toFixed(5)),
+                lat: Number(pos.coords.latitude.toFixed(5)),
+                lon: Number(pos.coords.longitude.toFixed(5)),
               };
             console.log(rawCoords);
             
