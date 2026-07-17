@@ -88,12 +88,13 @@ export default function LocationCoords({ locationValues }) {
             watchId = null;
             if (retryInterval) clearInterval(retryInterval);
           } else {
-            const rawCoords = {
-              latitude: Number(latitude.toFixed(5)),
-              longitude: Number(longitude.toFixed(5)),
-            };
-            locationValues(rawCoords);
-            startMessageRotation(); // 🔥 start rotating here
+              const rawCoords = {
+                latitude: Number(pos.coords.latitude.toFixed(5)),
+                longitude: Number(pos.coords.longitude.toFixed(5)),
+              };
+            
+              locationValues(rawCoords);
+              startMessageRotation(); // 🔥 start rotating here
           }
         },
         (err) => {
