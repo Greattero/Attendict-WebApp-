@@ -334,7 +334,7 @@ function CheckInForm({
   const { lat: checkinLat, lon: checkinLon } = location || {};
   const { lat: hostLat, lon: hostLon } = hostCoords;
 
-   console.log(`${checkinLat} with ${checkinLon} and ${hostLat} by ${hostLon}`);  
+   //console.log(`${checkinLat} with ${checkinLon} and ${hostLat} by ${hostLon}`);  
   
   useEffect(() => {
     if (checkinLat != null && checkinLon != null && hostLat != null && hostLon != null) {
@@ -379,7 +379,7 @@ function CheckInForm({
       alert("Please fill all required fields.");
       return;
     }
-    if (!formData?.location?.lat || !formData?.location?.lon) {
+    if (!location?.lat || !location?.lon) {
       alert("Location still fetching 😬. Please wait.");
       return;
     }
