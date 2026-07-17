@@ -88,7 +88,7 @@ const studentSchema = new mongoose.Schema(
     doubtChecker: String,
 
     checkedTime: String,
-
+    duration: Number,
     location: {
       lat: Number,
 
@@ -255,7 +255,7 @@ const validateToken = async (req, res, next) => {
 
 app.post("/api/host-details", validateToken, async (req, res) => {
   try {
-    const { name, index_no, programme, level, myip, location } = req.body;
+    const { name, index_no, programme, level, myip, location, duration } = req.body;
 
     // Check if collection exists first
 
@@ -301,6 +301,7 @@ app.post("/api/host-details", validateToken, async (req, res) => {
         hour: "2-digit",
         minute: "2-digit",
       }),
+      duration,
     });
 
     const expiryTime = new Date(Date.now() + 10 * 60 * 1000);
