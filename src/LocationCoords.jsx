@@ -88,6 +88,7 @@ export default function LocationCoords({ locationValues }) {
             watchId = null;
             if (retryInterval) clearInterval(retryInterval);
           } else {
+            locationValues(coords);
             startMessageRotation(); // 🔥 start rotating here
           }
         },
