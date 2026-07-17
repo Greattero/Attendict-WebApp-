@@ -1,5 +1,5 @@
 import express from "express";
-
+import rateLimit from 'express-rate-limit';
 import mongoose from "mongoose";
 
 import cors from "cors";
@@ -33,6 +33,14 @@ const corsOptions = {
 
   optionsSuccessStatus: 200,
 };
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  keyGenerator: (req) => req.session?.username,
+  message: { success: false, message: "Too many requests, slow down" }
+});
+
 
 app.use(cors(corsOptions)); // ✅ Needed
 
@@ -308,7 +316,7 @@ app.post("/api/host-details", validateToken, async (req, res) => {
   }
 });
 
-app.post("/api/checkin-details", validateToken, async (req, res) => {
+app.post("/api/checkin-details", validateToken, limiter, async (req, res) => {
   try {
     const { name, index_no, programme, level, myip, distance } = req.body;
 
@@ -362,6 +370,25 @@ app.post("/api/checkin-details", validateToken, async (req, res) => {
     else if(distance > 0.056){
       inspect = "-1";
     }
+
+    let duration;
+    let firstDoc;
+    const secondsLeft = await client.ttl(`col_${programme}`).catch(() => null);
+
+    if (secondsLeft != null && secondsLeft > 0) {
+      duration = Math.ceil(secondsLeft / 60);
+      // TTL still positive means session hasn't expired — no need to check diffMins
+    } else {
+      firstDoc = await Student.findOne().sort({ _id: 1 });
+      if (!firstDoc) return res.json({ dbAvailable: false });
+      duration = firstDoc?.duration;
+
+      const diffMins = (Date.now() - firstDoc.createdAt.getTime()) / 60000;
+      if (diffMins > duration) {
+        return res.status(400).json({ error: "Session expired" });
+      }
+    }
+    
     // Save the new student
 
     const newStudent = await Student.create({
