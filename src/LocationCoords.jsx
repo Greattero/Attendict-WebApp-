@@ -91,9 +91,7 @@ export default function LocationCoords({ locationValues }) {
               const rawCoords = {
                 lat: Number(pos.coords.latitude.toFixed(5)),
                 lon: Number(pos.coords.longitude.toFixed(5)),
-              };
-            console.log(rawCoords);
-            
+              };            
               locationValues(rawCoords);
               startMessageRotation(); // 🔥 start rotating here
           }
