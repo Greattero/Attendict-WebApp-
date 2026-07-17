@@ -379,7 +379,7 @@ function CheckInForm({
       alert("Please fill all required fields.");
       return;
     }
-    if (!location?.lat || !location?.lon) {
+    if (!formData?.location?.lat || !formData?.location?.lon) {
       alert("Location still fetching 😬. Please wait.");
       return;
     }
