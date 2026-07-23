@@ -419,7 +419,11 @@ function CheckInForm({
     const dataToSend = { ...formData, programme: `${formData.programme}${uniqueCode}`, distance };
     try {
       const response = await apiPost("/api/checkin-details", dataToSend);
-      if (response?.status === 429) return {setLoading(false); alert("Too many checkin attempts, try again later");}
+      if (response?.status === 429) {
+        setLoading(false);
+        alert("Too many checkin attempts, try again later");
+        return;
+      }
       const data = response.data;
       if (data.dbAvailable) {
         sendVisible(true); sendFeedback("noSession");
