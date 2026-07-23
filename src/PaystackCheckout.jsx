@@ -40,7 +40,7 @@ export default function PaystackCheckout() {
   const paystackConfig = {
     reference: new Date().getTime().toString(),
     email: myEmail || "",
-    amount: 10 * 100, // Paystack expects the amount in kobo/pesewas
+    amount: 50 * 100, // Paystack expects the amount in kobo/pesewas
     publicKey: PAYSTACK_PUBLIC_KEY,
     currency: "GHS",
     channels: ["mobile_money", "card", "bank"],
@@ -74,7 +74,7 @@ export default function PaystackCheckout() {
         {/* Price rows */}
         <div style={s.priceRow}>
           <span style={s.priceLabel}>Subscription (1 month)</span>
-          <span style={s.priceValue}>GHS 10.00</span>
+          <span style={s.priceValue}>GHS 50.00</span>
         </div>
 
         <div style={s.priceRow}>
@@ -86,7 +86,7 @@ export default function PaystackCheckout() {
 
         <div style={s.priceRow}>
           <span style={s.totalLabel}>Total</span>
-          <span style={s.totalValue}>GHS 10.00</span>
+          <span style={s.totalValue}>GHS 50.00</span>
         </div>
 
         {/* Email display */}
