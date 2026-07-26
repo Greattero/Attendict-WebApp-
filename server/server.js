@@ -374,11 +374,13 @@ app.post("/api/checkin-details", validateToken, limiter, async (req, res) => {
 
     let duration;
     let firstDoc;
+    let expiryTime;
     const secondsLeft = await client.ttl(`col_${programme}`).catch(() => null);
 
     if (secondsLeft != null && secondsLeft > 0) {
       duration = Math.ceil(secondsLeft / 60);
       // TTL still positive means session hasn't expired — no need to check diffMins
+      expiryTime = new Date(Date.now() + secondsLeft * 1000);
     } else {
       firstDoc = await Student.findOne().sort({ _id: 1 });
       if (!firstDoc) return res.json({ dbAvailable: false });
@@ -388,6 +390,7 @@ app.post("/api/checkin-details", validateToken, limiter, async (req, res) => {
       if (diffMins > duration) {
         return res.status(400).json({ error: "Session expired" });
       }
+      expiryTime = new Date(firstDoc.createdAt.getTime() + duration * 60000);
     }
     
     // Save the new student
@@ -413,7 +416,6 @@ app.post("/api/checkin-details", validateToken, limiter, async (req, res) => {
       }),
     });
     
-    const expiryTime = new Date(Date.now() + 10 * 60 * 1000);
 
     await Session.updateOne(
          { _id: existingSession._id },
