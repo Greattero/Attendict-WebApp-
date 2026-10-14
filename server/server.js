@@ -23,7 +23,7 @@ const app = express();
 dotenv.config();
 
 const corsOptions = {
-  origin: ["http://localhost:5173", "https://attendict.vercel.app"],
+  origin: ["http://localhost:5173", "https://attendict.vercel.app", "https://attendict.com"],
 
   methods: ["GET", "POST", "DELETE", "OPTIONS"],
 
