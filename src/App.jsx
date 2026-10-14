@@ -13,6 +13,8 @@ import { Routes, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Privacy from "./Privacy.jsx";
 import PaystackCheckout from "./PaystackCheckout.jsx";
+import PermissionInfo from "./PermissionInfo.jsx";
+
 
 const Overlay = ({ isVisible }) =>
   isVisible ? (
@@ -56,6 +58,9 @@ function App() {
   const [myLocation, setMyLocation] = useState();
 
   const [person, setPerson] = useState("");
+
+  const [showNote, setShowNote] = useState(false);
+
 
   // console.log("DDD:", programme);
 
@@ -162,6 +167,7 @@ function App() {
   const handleLoginSuccess = () => {
     localStorage.setItem("isLoggedIn", "true");
     setLogin(true);
+    setShowNote(true);
   };
 
   const handleLogoutSuccess = () => {
@@ -242,7 +248,8 @@ return (
                 alignItems: "center",
               }}
             >
-              <LocationCoords locationValues={setMyLocation} />
+              <PermissionInfo visible={showNote} onClose={() => setShowNote(false)} />
+              {!showNote && <LocationCoords locationValues={setMyLocation} />}
             </div>
       
             <div
@@ -322,7 +329,7 @@ return (
       {/* Removed separate CountdownTimer div - now integrated in AppHeader */}
         </div>
       ) : (
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh", boxShadow: "0px 0px 30px hsla(0, 41.9%, 42.5%, 0.87)", borderRadius: "30px", height: "100vh", overflow:"hidden" }}>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh", boxShadow: "0px 0px 30px hsla(0, 41.9%, 42.5%, 0.87)", borderRadius: "30px", height: "100vh", overflow:"hidden" }}>               
           <Login
             sendVisible={setVisible}
             sendFeedback={setFeedBack}
