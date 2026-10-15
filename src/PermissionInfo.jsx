@@ -167,7 +167,7 @@ export default function PermissionInfo({ visible, onClose }) {
             onClick={onClose}
             disabled={disabled}
           >
-            {disabled ? `Okay (${secondsLeft})` : "Okay"}
+            {disabled ? `Okay, I understand (${secondsLeft})` : "Okay, I understand"}
           </button>
         </div>
       </div>
